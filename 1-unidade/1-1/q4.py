@@ -4,7 +4,6 @@ graph_order = None
 graph_order = int(input("Insira a ordem do grafo: "))
 
 adj_matrix = []
-arcs = []
 
 if graph_order:
     for i in range(graph_order):
@@ -28,12 +27,10 @@ while True:
         v2 = int(input("Insira o ID do vértice de destino: "))
         weight = int(input("Insira o peso do arco: "))
         if (v1 >= 1 and v2 < graph_order) or (v2 >= 1 and v1 < graph_order):
-            if weight:
-                adj_matrix[v1-1][v2-1] = 1
-                arc = WeightedEdge(v1, v2, weight=0)
-                arcs.append(arc)
+            if weight:  
+                adj_matrix[v1-1][v2-1] = weight    
             else:
-                print("Insira um valor válido para o arco.")
+                print("Insira um valor válido para o peso.")
         else:
             print(f"Insira um valor dentro dos limites da matriz (1 - {graph_order})")
 
@@ -44,14 +41,34 @@ while True:
             print()
     
     elif option == '3':
-        inc_matrix = [[0]*graph_order for _ in range(len(arcs))]
+        arcs = []
+        point = []
+        star = []
 
-        for idx, (v1, v2) in enumerate(arcs):
-            inc_matrix[idx][v1] = -1 
-            inc_matrix[idx][v2] = 1   
+        for i in range(graph_order):
+            for j in range(graph_order):
+                if adj_matrix[i][j] != 0:
+                    arc = WeightedEdge(i+1, j+1, adj_matrix[i][j])
+                    arcs.append(arc)
+        
+        point = [0] * (graph_order + 1)
+        idx = 0
+        for v in range(graph_order):
+            point[v] = idx
+            
+            while idx < len(arcs) and arcs[idx].start == v+1:
+                idx += 1
+        point[graph_order] = len(arcs)
 
-        for row in inc_matrix:
-            print(" ".join(map(str, row)))
+        star = []
+        for a_idx, arc in enumerate(arcs):
+            v = arc.start
+            star.append([arc.weight, (arc.start, arc.end), point[v]])
+        
+        print("Tabela final:")
+        for row in star:
+            print(row)
+
 
     elif option == '6':
         break

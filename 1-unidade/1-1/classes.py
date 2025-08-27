@@ -52,7 +52,7 @@ class AdjacencyList():
         return self.vertex
 
 class WeightedEdge(Edge):
-    def __init__(self, v1, v2, weight):
+    def __init__(self, v1=None, v2=None, weight = 0):
         self.start = v1
         self.end = v2
         self.weight = weight
