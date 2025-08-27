@@ -42,3 +42,11 @@ class Graph:
     
     def get_vertices(self):
         return [vertex.id for vertex in self.vertices]
+
+class AdjacencyList():
+    def __init__(self, vertex):
+        self.vertex = vertex
+        self.adjacencies = []
+    
+    def __str__(self):
+        return self.vertex

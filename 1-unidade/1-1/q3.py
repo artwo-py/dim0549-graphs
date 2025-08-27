@@ -2,7 +2,7 @@ graph_order = None
 graph_order = int(input("Insira a ordem do grafo: "))
 
 adj_matrix = []
-inc_matrix = []
+edges = []
 
 if graph_order:
     for i in range(graph_order):
@@ -26,15 +26,7 @@ while True:
 
         if (v1 >= 1 and v2 < graph_order) or (v2 >= 1 and v1 < graph_order):
             adj_matrix[v1-1][v2-1] = 1
-            row = []
-            
-            for j in range(graph_order):
-                row.append(0)
-            
-            row[v1-1] = -1
-            row[v2-1] = 1
-            
-            inc_matrix.append(row)
+            edges.append((v1-1, v2-1))
         else:
             print(f"Insira um valor dentro dos limites da matriz (1 - {graph_order})")
 
@@ -45,6 +37,15 @@ while True:
             print()
     
     elif option == '3':
-        for i in range(len(inc_matrix)):
-            for j in range(graph_order):
-                print(inc_matrix[i][j], end=' ')
+        inc_matrix = [[0]*graph_order for _ in range(len(edges))]
+
+        for idx, (v1, v2) in enumerate(edges):
+            inc_matrix[idx][v1] = -1 
+            inc_matrix[idx][v2] = 1   
+
+        for row in inc_matrix:
+            print(" ".join(map(str, row)))
+
+    elif option == '6':
+        break
+                    
