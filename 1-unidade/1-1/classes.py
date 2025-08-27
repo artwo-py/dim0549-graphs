@@ -50,3 +50,9 @@ class AdjacencyList():
     
     def __str__(self):
         return self.vertex
+
+class WeightedEdge(Edge):
+    def __init__(self, v1, v2, weight):
+        self.start = v1
+        self.end = v2
+        self.weight = weight

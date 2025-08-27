@@ -1,8 +1,10 @@
+from classes import WeightedEdge
+
 graph_order = None
 graph_order = int(input("Insira a ordem do grafo: "))
 
-adj_matrix = [[0] * graph_order for _ in range(graph_order)]
-edges = []
+adj_matrix = []
+arcs = []
 
 if graph_order:
     for i in range(graph_order):
@@ -16,17 +18,22 @@ while True:
     print("\n====Menu====")
     print("1. Adicionar uma aresta")
     print("2. Exibir matriz de adjacência")
-    print("3. Exibir matriz de incidência")
+    print("3. Exibir estrela direta")
     print("6. Sair")
     option = input("Escolha uma opção: ")
 
     if option == '1':
+        weight = None
         v1 = int(input("Insira o ID do vértice de origem: "))
         v2 = int(input("Insira o ID do vértice de destino: "))
-
+        weight = int(input("Insira o peso do arco: "))
         if (v1 >= 1 and v2 < graph_order) or (v2 >= 1 and v1 < graph_order):
-            adj_matrix[v1-1][v2-1] = 1
-            edges.append((v1-1, v2-1))
+            if weight:
+                adj_matrix[v1-1][v2-1] = 1
+                arc = WeightedEdge(v1, v2, weight=0)
+                arcs.append(arc)
+            else:
+                print("Insira um valor válido para o arco.")
         else:
             print(f"Insira um valor dentro dos limites da matriz (1 - {graph_order})")
 
@@ -37,21 +44,14 @@ while True:
             print()
     
     elif option == '3':
-        inc_matrix = []
+        inc_matrix = [[0]*graph_order for _ in range(len(arcs))]
 
-        for i in range(graph_order):
-            for j in range(graph_order):
-                if adj_matrix[i][j] == 1:
-                    row = [0] * graph_order
-                    row[i] = -1
-                    row[j] = 1  
-                    inc_matrix.append(row)
+        for idx, (v1, v2) in enumerate(arcs):
+            inc_matrix[idx][v1] = -1 
+            inc_matrix[idx][v2] = 1   
 
-        if not inc_matrix:
-            print("Nenhuma aresta adicionada.")
-        else:
-            for row in inc_matrix:
-                print(" ".join(map(str, row)))
+        for row in inc_matrix:
+            print(" ".join(map(str, row)))
 
     elif option == '6':
         break
