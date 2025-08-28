@@ -1,0 +1,7 @@
+services:
+  graph-cli:
+    build: .
+    container_name: graph_cli
+    environment:
+      - CLI_FILE=$CLI_FILE
+    command: ["${CLI_FILE}"]

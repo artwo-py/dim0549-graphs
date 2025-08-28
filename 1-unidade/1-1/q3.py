@@ -13,12 +13,12 @@ if graph_order:
         adj_matrix.append(row)        
 
 while True:
-    print("\n====Menu====")
+    print("\n====MENU GRAFOS-CLI====")
     print("1. Adicionar uma aresta")
     print("2. Exibir matriz de adjacência")
     print("3. Exibir matriz de incidência")
-    print("6. Sair")
-    option = input("Escolha uma opção: ")
+    print("4. Sair")
+    option = input("(Escolha uma opção): ")
 
     if option == '1':
         v1 = int(input("Insira o ID do vértice de origem: "))
