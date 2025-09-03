@@ -2,17 +2,20 @@ from classes import Vertex, Graph
 
 graph = Graph()
 
+CLI_LINE_LENGHT=25
+
 while True:
-    print("\nEscolha uma opção: ")
+    print("\n====MENU GRAFOS-CLI====")
     print("1. Adicionar um vértice")
     print("2. Adicionar uma aresta")
     print("3. Remover um vértice")
     print("4. Remover uma aresta")
     print("5. Listar vértices e arestas")
     print("6. Sair")
-    option = input("")
+    option = input("(Escolha uma opção): ")
 
     if option == '1':
+        print("-"*CLI_LINE_LENGHT)
         id = input("Digite o ID do vértice: ")
         unique = True
         
@@ -26,6 +29,7 @@ while True:
             graph.add_vertex(vertex)
     
     elif option == '2':
+        print("-"*CLI_LINE_LENGHT)
         if graph.vertices == []:
             print("Não há vértices no grafo.")
         else:
@@ -47,10 +51,12 @@ while True:
                     print("Vértice(s) não encontrado(s).")
     
     elif option == '3':
+        print("-"*CLI_LINE_LENGHT)
         vertex_id = input("Insira o ID do vértice a ser removido: ")
         graph.remove_vertex(vertex_id)
     
     elif option == '4':
+        print("-"*CLI_LINE_LENGHT)
         if graph.edges == []:
             print("Não há arestas no grafo.")
         else:
@@ -68,6 +74,7 @@ while True:
                         print("Vértice(s) não encontrado(s).")
 
     elif option == '5':
+        print("-"*CLI_LINE_LENGHT)
         print("Vértices: ", graph.get_vertices())
         print("Arestas: ", graph.get_edges())
     
