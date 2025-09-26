@@ -1,13 +1,13 @@
 import os
-from .matrixbuilder import build_adjacency_matrix
+from .matrixbuilder import build_adjacency_matrix, list_to_matrix
 from .classes import Vertex, Graph
 
 def read_graph(file_path, directed=False):
+        print(f"Arquivo: {file_path}\n")
         vertices = []
         file_name = file_path.replace('/', '-').replace('.', '-').split("-")[1]
         graph = Graph(directed, file_name)
         try:
-            print(f"\nArquivo: {file_path}")
             with open(file_path, 'r', encoding='utf-8') as f:
                 graph_order = int(f.readline())
                 adj_matrix = build_adjacency_matrix(graph_order)
@@ -39,10 +39,36 @@ def read_graph(file_path, directed=False):
                         if adj_matrix[i][j] == 1:
                             graph.add_edge(graph.vertices[i], graph.vertices[j], directed)
 
+            with open("results.txt", "a") as file:
+                file.write(f"Arquivo: {file_path}\n")
+                file.write("==== MATRIZ DE ADJACÊNCIA ==== \n")
+                file.write("   " + " ".join(vertices)+"\n")
+                for label, row in zip(vertices, adj_matrix):
+                        file.write(f"{label:>2} " + " ".join(map(str, row))+"\n")
 
-            print("   " + " ".join(vertices))
-            for label, row in zip(vertices, adj_matrix):
-                print(f"{label:>2} " + " ".join(map(str, row)))
+                adj_list = {}
+
+                for i in range(graph_order):
+                        adj_list[str(vertices[i])] = []
+                        for j in range(graph_order):
+                            if adj_matrix[i][j] == 1:
+                                adj_list[str(vertices[i])] += [str(graph.vertices[j])]
+
+                adjacencies = adj_list.items()
+
+                file.write("\n==== MATRIZ DE ADJACÊNCIA -> LISTA DE ADJACÊNCIA ====")
+                for adjacency in adjacencies:
+                    file.write(f"\n{adjacency[0]}: {adjacency[1]}")
+                file.write("\n")
+                
+                new_matrix, new_matrix_vertices = list_to_matrix(adj_list)
+                
+                file.write("\n==== LISTA DE ADJACÊNCIA -> MATRIZ DE ADJACÊNCIA  ==== \n")
+                file.write("   " + " ".join(new_matrix_vertices)+"\n")
+                
+                for v, row in zip(new_matrix_vertices, new_matrix):
+                    file.write(f"{v:>2} " + " ".join(map(str, row))+"\n")
+                file.write("\n")
 
             return graph
 
@@ -50,6 +76,8 @@ def read_graph(file_path, directed=False):
             print(f"Erro ao ler o arquivo {file_path}: {e}")
 
 def read_directory(directory):
+    with open("results.txt", "w") as file:
+        file.write("")
     try:
         files = os.listdir(directory)
     except FileNotFoundError:
