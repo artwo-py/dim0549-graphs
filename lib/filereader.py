@@ -63,12 +63,43 @@ def read_graph(file_path, directed=False):
                 
                 new_matrix, new_matrix_vertices = list_to_matrix(adj_list)
                 
-                file.write("\n==== LISTA DE ADJACÊNCIA -> MATRIZ DE ADJACÊNCIA  ==== \n")
+                file.write("\n==== LISTA DE ADJACÊNCIA -> MATRIZ DE ADJACÊNCIA ==== \n")
                 file.write("   " + " ".join(new_matrix_vertices)+"\n")
                 
                 for v, row in zip(new_matrix_vertices, new_matrix):
                     file.write(f"{v:>2} " + " ".join(map(str, row))+"\n")
-                file.write("\n")
+                
+                degrees = {}
+
+                for vertex in graph.vertices:
+                    if directed:
+                        degrees[str(vertex.id)] = [0, 0]
+                    else:
+                        degrees[str(vertex.id)] = 0
+                    
+                    for edge in graph.edges:
+                        if directed:
+                            if edge.v1.id == vertex.id:
+                                degrees[str(vertex.id)][0] -= 1
+                            
+                            if edge.v2.id == vertex.id:
+                                degrees[str(vertex.id)][1] += 1
+
+                        else:
+                            if edge.v1.id == vertex.id or edge.v2.id == vertex.id:
+                                degrees[str(vertex.id)] += 1
+                
+                file.write("\n==== GRAU DE CADA VÉRTICE NO GRAFO ==== \n")
+
+                if not graph.directed:
+                    for v, d in degrees.items():
+                        file.write(f"d({v}) = {d}\n")
+                    file.write("\n")
+                
+                else:
+                    for v, d in degrees.items():
+                        file.write(f"d-({v}) = {d[0]}, d+({v}) = {d[1]}\n")
+                    file.write("\n")
 
             return graph
 
