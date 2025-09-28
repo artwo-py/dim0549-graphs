@@ -3,7 +3,7 @@ from .matrixbuilder import build_adjacency_matrix, list_to_matrix
 from .classes import Vertex, Graph
 
 def read_graph(file_path, directed=False):
-        print(f"Arquivo: {file_path}\n")
+        print(f"Lendo arquivo: {file_path}")
         vertices = []
         file_name = file_path.replace('/', '-').replace('.', '-').split("-")[1]
         graph = Graph(directed, file_name)
