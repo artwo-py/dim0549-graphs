@@ -19,18 +19,15 @@ class Graph:
     def __init__(self, directed = False, file_name=""):
         self.vertices = []
         self.edges = []
+        self.vertex_index = {}
         self.directed = directed
         self.file_name = file_name
 
     def add_vertex(self, id):
-        unique = True
-        for vertex in self.vertices:
-            if vertex.id == id:
-                unique = False
-            
-        if unique:
+        if id not in self.vertex_index:
             v = Vertex(id)
             self.vertices.append(v)
+            self.vertex_index[id] = v
     
     def get_vertices(self):
         return self.vertices
@@ -50,3 +47,11 @@ class Graph:
     def get_edges(self):
         return self.edges
     
+class BFS_Tree:
+    def __init__(self, vertex):
+        self.root = vertex
+
+class BFS_Node:
+    def __init__(self, vertex):
+        self.vertex = vertex
+        self.children = []
