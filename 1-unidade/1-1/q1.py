@@ -1,4 +1,4 @@
-from classes import Vertex, Graph
+from classes import Vertice, Graph
 
 graph = Graph()
 
@@ -25,7 +25,7 @@ while True:
                 unique = False
             
         if unique:
-            vertex = Vertex(id)
+            vertex = Vertice(id)
             graph.add_vertex(vertex)
     
     elif option == '2':

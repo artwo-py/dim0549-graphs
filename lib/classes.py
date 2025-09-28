@@ -1,13 +1,11 @@
-from .quicksort import quicksort
-
-class Vertex:
+class Vertice:
     def __init__(self, id):
         self.id = id
     
     def __str__(self):
         return self.id
 
-class Edge:
+class Aresta:
     def __init__(self, v1, v2):
         self.v1 = v1
         self.v2 = v2
@@ -15,43 +13,35 @@ class Edge:
     def __str__(self):
         return f"({self.v1},{self.v2})"
 
-class Graph:
-    def __init__(self, directed = False, file_name=""):
+class Grafo:
+    def __init__(self, direcionado = False, nome_arquivo=""):
         self.vertices = []
-        self.edges = []
-        self.vertex_index = {}
-        self.directed = directed
-        self.file_name = file_name
+        self.arestas = []
+        self.indice_vertices = {}
+        self.direcionado = direcionado
+        self.nome_arquivo = nome_arquivo
 
-    def add_vertex(self, id):
-        if id not in self.vertex_index:
-            v = Vertex(id)
+    def adicionar_vertice(self, id):
+        if id not in self.indice_vertices:
+            v = Vertice(id)
             self.vertices.append(v)
-            self.vertex_index[id] = v
+            self.indice_vertices[id] = v
     
     def get_vertices(self):
         return self.vertices
 
-    def add_edge(self, v1, v2, directed=False):
-        for e in self.edges:
-            if not directed:
-                if {e.v1, e.v2} == {v1, v2}:
+    def adicionar_aresta(self, v1, v2, direcionado=False):
+        for a in self.arestas:
+            if not direcionado:
+                if {a.v1, a.v2} == {v1, v2}:
                     return "Aresta já existe"
             else:
-                if e.v1 == v1 and e.v2 == v2:
+                if a.v1 == v1 and a.v2 == v2:
                     return "Aresta já existe"
             
-        edge = Edge(v1, v2)
-        self.edges.append(edge)
+        aresta = Aresta(v1, v2)
+        self.arestas.append(aresta)
     
-    def get_edges(self):
-        return self.edges
-    
-class BFS_Tree:
-    def __init__(self, vertex):
-        self.root = vertex
+    def get_arestas(self):
+        return self.arestas
 
-class BFS_Node:
-    def __init__(self, vertex):
-        self.vertex = vertex
-        self.children = []

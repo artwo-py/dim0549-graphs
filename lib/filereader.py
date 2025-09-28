@@ -1,135 +1,135 @@
 import os
-from .matrixbuilder import build_adjacency_matrix, list_to_matrix
-from .classes import Vertex, Graph
+from .matrixbuilder import construir_matriz_adj, lista_para_matriz
+from .classes import Vertice, Grafo
 
-def read_graph(file_path, directed=False):
-        print(f"Lendo arquivo: {file_path}")
+def ler_grafo(caminho_arquivo, direcionado=False):
+        print(f"Lendo arquivo: {caminho_arquivo}")
         vertices = []
-        file_name = file_path.replace('/', '-').replace('.', '-').split("-")[1]
-        graph = Graph(directed, file_name)
+        nome_arquivo = caminho_arquivo.replace('/', '-').replace('.', '-').split("-")[1]
+        grafo = Grafo(direcionado, nome_arquivo)
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
-                graph_order = int(f.readline())
-                adj_matrix = build_adjacency_matrix(graph_order)
+            with open(caminho_arquivo, 'r', encoding='utf-8') as arquivo:
+                ordem_grafo = int(arquivo.readline())
+                matriz_adj = construir_matriz_adj(ordem_grafo)
 
-                for line in f:
-                    parts = [p.strip() for p in line.split(',')]
+                for linha in arquivo:
+                    partes = [p.strip() for p in linha.split(',')]
                     
-                    if len(parts) < 2 or not parts[0] or not parts[1]:
+                    if len(partes) < 2 or not partes[0] or not partes[1]:
                         continue
 
-                    v1, v2 = parts[0], parts[1]
+                    v1, v2 = partes[0], partes[1]
 
                     if v1 not in vertices:
                         vertices.append(v1)
-                        graph.add_vertex(v1)
+                        grafo.adicionar_vertice(v1)
                     if v2 not in vertices:
                         vertices.append(v2)
-                        graph.add_vertex(v2)
+                        grafo.adicionar_vertice(v2)
 
                     i = vertices.index(v1)
                     j = vertices.index(v2)
 
-                    adj_matrix[i][j] = 1
-                    if not directed:
-                        adj_matrix[j][i] = 1
+                    matriz_adj[i][j] = 1
+                    if not direcionado:
+                        matriz_adj[j][i] = 1
             
-                for i in range(graph_order):
-                    for j in range(graph_order):
-                        if adj_matrix[i][j] == 1:
-                            graph.add_edge(graph.vertices[i], graph.vertices[j], directed)
+                for i in range(ordem_grafo):
+                    for j in range(ordem_grafo):
+                        if matriz_adj[i][j] == 1:
+                            grafo.adicionar_aresta(grafo.vertices[i], grafo.vertices[j], direcionado)
 
-            with open("results.txt", "a") as file:
-                file.write(f"Arquivo: {file_path}\n")
-                file.write("==== MATRIZ DE ADJACÊNCIA ==== \n")
-                file.write("   " + " ".join(vertices)+"\n")
-                for label, row in zip(vertices, adj_matrix):
-                        file.write(f"{label:>2} " + " ".join(map(str, row))+"\n")
+            with open("resultados.txt", "a") as arquivo:
+                arquivo.write(f"Arquivo: {caminho_arquivo}\n")
+                arquivo.write("==== MATRIZ DE ADJACÊNCIA ==== \n")
+                arquivo.write("   " + " ".join(vertices)+"\n")
+                for rotulo, linha in zip(vertices, matriz_adj):
+                        arquivo.write(f"{rotulo:>2} " + " ".join(map(str, linha))+"\n")
 
-                adj_list = {}
+                lista_adj = {}
 
-                for i in range(graph_order):
-                        adj_list[str(vertices[i])] = []
-                        for j in range(graph_order):
-                            if adj_matrix[i][j] == 1:
-                                adj_list[str(vertices[i])] += [str(graph.vertices[j])]
+                for i in range(ordem_grafo):
+                        lista_adj[str(vertices[i])] = []
+                        for j in range(ordem_grafo):
+                            if matriz_adj[i][j] == 1:
+                                lista_adj[str(vertices[i])] += [str(grafo.vertices[j])]
 
-                adjacencies = adj_list.items()
+                adjacencias = lista_adj.items()
 
-                file.write("\n==== MATRIZ DE ADJACÊNCIA -> LISTA DE ADJACÊNCIA ====")
-                for adjacency in adjacencies:
-                    file.write(f"\n{adjacency[0]}: {adjacency[1]}")
-                file.write("\n")
+                arquivo.write("\n==== MATRIZ DE ADJACÊNCIA -> LISTA DE ADJACÊNCIA ====")
+                for adjacencias in adjacencias:
+                    arquivo.write(f"\n{adjacencias[0]}: {adjacencias[1]}")
+                arquivo.write("\n")
                 
-                new_matrix, new_matrix_vertices = list_to_matrix(adj_list)
+                matriz_reconstruida, vertices_matriz_rec = lista_para_matriz(lista_adj)
                 
-                file.write("\n==== LISTA DE ADJACÊNCIA -> MATRIZ DE ADJACÊNCIA ==== \n")
-                file.write("   " + " ".join(new_matrix_vertices)+"\n")
+                arquivo.write("\n==== LISTA DE ADJACÊNCIA -> MATRIZ DE ADJACÊNCIA ==== \n")
+                arquivo.write("   " + " ".join(vertices_matriz_rec)+"\n")
                 
-                for v, row in zip(new_matrix_vertices, new_matrix):
-                    file.write(f"{v:>2} " + " ".join(map(str, row))+"\n")
+                for v, row in zip(vertices_matriz_rec, matriz_reconstruida):
+                    arquivo.write(f"{v:>2} " + " ".join(map(str, row))+"\n")
                 
-                degrees = {}
+                graus = {}
 
-                for vertex in graph.vertices:
-                    if directed:
-                        degrees[str(vertex.id)] = [0, 0]
+                for vertice in grafo.vertices:
+                    if direcionado:
+                        graus[str(vertice.id)] = [0, 0]
                     else:
-                        degrees[str(vertex.id)] = 0
+                        graus[str(vertice.id)] = 0
                     
-                    for edge in graph.edges:
-                        if directed:
-                            if edge.v1.id == vertex.id:
-                                degrees[str(vertex.id)][0] -= 1
+                    for aresta in grafo.arestas:
+                        if direcionado:
+                            if aresta.v1.id == vertice.id:
+                                graus[str(vertice.id)][0] -= 1
                             
-                            if edge.v2.id == vertex.id:
-                                degrees[str(vertex.id)][1] += 1
+                            if aresta.v2.id == vertice.id:
+                                graus[str(vertice.id)][1] += 1
 
                         else:
-                            if edge.v1.id == vertex.id or edge.v2.id == vertex.id:
-                                degrees[str(vertex.id)] += 1
+                            if aresta.v1.id == vertice.id or aresta.v2.id == vertice.id:
+                                graus[str(vertice.id)] += 1
                 
-                file.write("\n==== GRAU DE CADA VÉRTICE NO GRAFO ==== \n")
+                arquivo.write("\n==== GRAU DE CADA VÉRTICE NO GRAFO ==== \n")
 
-                if not graph.directed:
-                    for v, d in degrees.items():
-                        file.write(f"d({v}) = {d}\n")
-                    file.write("\n")
+                if not grafo.direcionado:
+                    for v, d in graus.items():
+                        arquivo.write(f"d({v}) = {d}\n")
+                    arquivo.write("\n")
                 
                 else:
-                    for v, d in degrees.items():
-                        file.write(f"d-({v}) = {d[0]}, d+({v}) = {d[1]}\n")
-                    file.write("\n")
+                    for v, d in graus.items():
+                        arquivo.write(f"d-({v}) = {d[0]}, d+({v}) = {d[1]}\n")
+                    arquivo.write("\n")
 
-            return graph
+            return grafo
 
         except Exception as e:
-            print(f"Erro ao ler o arquivo {file_path}: {e}")
+            print(f"Erro ao ler o arquivo {caminho_arquivo}: {e}")
 
-def read_directory(directory):
-    with open("results.txt", "w") as file:
-        file.write("")
+def ler_diretorio(diretorio):
+    with open("results.txt", "w") as arquivo:
+        arquivo.write("")
     try:
-        files = os.listdir(directory)
+        arquivos = os.listdir(diretorio)
     except FileNotFoundError:
-        print(f"ERRO: A pasta '{directory}' não foi encontrada.")
+        print(f"ERRO: A pasta '{diretorio}' não foi encontrada.")
         return
 
-    graph_list = []
+    lista_grafos = []
 
-    for file_name in files:
+    for nome_arquivo in arquivos:
 
-        full_path = os.path.join(directory, file_name)
+        caminho = os.path.join(diretorio, nome_arquivo)
         
-        if os.path.isfile(full_path):
-            if file_name.lower().startswith('grafo') and file_name.lower().endswith('.txt'):
-                graph = read_graph(full_path)
-                graph_list.append(graph)
+        if os.path.isfile(caminho):
+            if nome_arquivo.lower().startswith('grafo') and nome_arquivo.lower().endswith('.txt'):
+                grafo = ler_grafo(caminho)
+                lista_grafos.append(grafo)
             
-            elif file_name.lower().startswith('digrafo') and file_name.lower().endswith('.txt'):
-                graph = read_graph(full_path, True)
-                graph_list.append(graph)
+            elif nome_arquivo.lower().startswith('digrafo') and nome_arquivo.lower().endswith('.txt'):
+                grafo = ler_grafo(caminho, True)
+                lista_grafos.append(grafo)
     
-    return graph_list
+    return lista_grafos
 
             

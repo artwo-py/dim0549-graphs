@@ -1,25 +1,25 @@
-def build_adjacency_matrix(order):
+def construir_matriz_adj(ordem):
     adj_matrix = []
-    for i in range(order):
-        row = []
-        for j in range(order):
-            row.append(0)
+    for i in range(ordem):
+        linha = []
+        for j in range(ordem):
+            linha.append(0)
         
-        adj_matrix.append(row)
+        adj_matrix.append(linha)
 
     return adj_matrix
 
-def list_to_matrix(adj_list):
-    vertices = list(adj_list.keys())
+def lista_para_matriz(lista_adj):
+    vertices = list(lista_adj.keys())
     n = len(vertices)
-    index = {v: i for i, v in enumerate(vertices)}
-    matrix = build_adjacency_matrix(n)
+    indice = {v: i for i, v in enumerate(vertices)}
+    matriz = construir_matriz_adj(n)
     
-    for v, adjacencies in adj_list.items():
-        i = index[v]
-        for w in adjacencies:
-            j = index[w]
-            matrix[i][j] = 1
+    for v, adjacencias in lista_adj.items():
+        i = indice[v]
+        for w in adjacencias:
+            j = indice[w]
+            matriz[i][j] = 1
 
-    return matrix, vertices
+    return matriz, vertices
 

@@ -1,57 +1,57 @@
 from collections import deque
-from .classes import Graph
+from .classes import Grafo
 
-def build_adj(graph: Graph):
+def lista_adj(grafo: Grafo):
     adj = {}
-    for vertex in graph.get_vertices():
-        adj[vertex.id] = []
+    for vertice in grafo.get_vertices():
+        adj[vertice.id] = []
 
-    for edge in graph.get_edges():
-        v1 = edge.v1.id if hasattr(edge.v1, "id") else edge.v1
-        v2 = edge.v2.id if hasattr(edge.v2, "id") else edge.v2
+    for aresta in grafo.get_arestas():
+        v1 = aresta.v1.id if hasattr(aresta.v1, "id") else aresta.v1
+        v2 = aresta.v2.id if hasattr(aresta.v2, "id") else aresta.v2
         
         adj.setdefault(v1, [])
         adj.setdefault(v2, [])
         
         adj[v1].append(v2)
         
-        if not graph.directed:
+        if not grafo.direcionado:
             adj[v2].append(v1)
     
     return adj
 
-def bfs(graph: Graph, start_id=None):
-    adj = build_adj(graph)
+def bfs(grafo: Grafo, id_inicio=None):
+    adj = lista_adj(grafo)
 
-    all_ids = graph.vertex_index.keys()
+    todos_ids = grafo.indice_vertices.keys()
     
-    if start_id is not None and start_id not in adj:
-        raise ValueError(f"start_id '{start_id}' não está no grafo")
+    if id_inicio is not None and id_inicio not in adj:
+        raise ValueError(f"id_inicio '{id_inicio}' não está no grafo")
 
-    vertices_order = ([start_id] + [i for i in all_ids if i != start_id]) if start_id else all_ids
+    ordem_vertices = ([id_inicio] + [i for i in todos_ids if i != id_inicio]) if id_inicio else todos_ids
 
-    visited = set()
+    visitados = set()
     pred = {}
-    order = []
-    return_edges = []
+    ordem = []
+    arestas_retorno = []
 
-    for start in vertices_order:
-        if start in visited:
+    for inicio in ordem_vertices:
+        if inicio in visitados:
             continue
         
-        pred[start] = "-"           
-        queue = deque([start])
-        visited.add(start)
-        while queue:
-            current = queue.popleft()
-            order.append((current, pred[current]))
-            for next in adj.get(current, []):
-                if next not in visited:
-                    visited.add(next)
-                    pred[next] = current
-                    queue.append(next)
+        pred[inicio] = "-"           
+        fila = deque([inicio])
+        visitados.add(inicio)
+        while fila:
+            atual = fila.popleft()
+            ordem.append((atual, pred[atual]))
+            for prox in adj.get(atual, []):
+                if prox not in visitados:
+                    visitados.add(prox)
+                    pred[prox] = atual
+                    fila.append(prox)
                 else:
-                    edge = (current, next)
-                    return_edges.append(edge)
+                    aresta = (atual, prox)
+                    arestas_retorno.append(aresta)
     
-    return order, return_edges
+    return ordem, arestas_retorno
