@@ -36,8 +36,13 @@ def ler_grafo(caminho_arquivo, direcionado=False):
             
                 for i in range(ordem_grafo):
                     for j in range(ordem_grafo):
-                        if matriz_adj[i][j] == 1:
-                            grafo.adicionar_aresta(grafo.vertices[i], grafo.vertices[j], direcionado)
+                        if direcionado:
+                            if matriz_adj[i][j] == 1:
+                                grafo.adicionar_aresta(grafo.vertices[i], grafo.vertices[j], direcionado)
+                        else:
+                            if j>=i:
+                                if matriz_adj[i][j] == 1:
+                                    grafo.adicionar_aresta(grafo.vertices[i], grafo.vertices[j], direcionado)
 
             with open("resultados.txt", "a") as arquivo:
                 arquivo.write(f"Arquivo: {caminho_arquivo}\n")
@@ -49,10 +54,22 @@ def ler_grafo(caminho_arquivo, direcionado=False):
                 lista_adj = {}
 
                 for i in range(ordem_grafo):
-                        lista_adj[str(vertices[i])] = []
                         for j in range(ordem_grafo):
-                            if matriz_adj[i][j] == 1:
-                                lista_adj[str(vertices[i])] += [str(grafo.vertices[j])]
+                            if direcionado:
+                                if matriz_adj[i][j] == 1:
+                                    lista_adj.setdefault(vertices[i], [])
+                                    lista_adj.setdefault(vertices[j], [])
+
+                                    lista_adj[vertices[i]].append(vertices[j])
+                                    
+                            else:
+                                if j >=i:
+                                    if matriz_adj[i][j] == 1:
+                                        lista_adj.setdefault(vertices[i], [])
+                                        lista_adj.setdefault(vertices[j], [])
+
+                                        lista_adj[vertices[i]].append(vertices[j])
+                                        lista_adj[vertices[j]].append(vertices[i])
 
                 adjacencias = lista_adj.items()
 
@@ -107,7 +124,7 @@ def ler_grafo(caminho_arquivo, direcionado=False):
             print(f"Erro ao ler o arquivo {caminho_arquivo}: {e}")
 
 def ler_diretorio(diretorio):
-    with open("results.txt", "w") as arquivo:
+    with open("resultados.txt", "w") as arquivo:
         arquivo.write("")
     try:
         arquivos = os.listdir(diretorio)
