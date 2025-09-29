@@ -45,11 +45,12 @@ def ler_grafo(caminho_arquivo, direcionado=False):
                                     grafo.adicionar_aresta(grafo.vertices[i], grafo.vertices[j], direcionado)
 
             with open("resultados.txt", "a") as arquivo:
-                arquivo.write(f"Arquivo: {caminho_arquivo}\n")
-                arquivo.write("==== MATRIZ DE ADJACÊNCIA ==== \n")
-                arquivo.write("   " + " ".join(vertices)+"\n")
+                out = []
+                out.append(f"Arquivo: {caminho_arquivo}")
+                out.append("==== MATRIZ DE ADJACÊNCIA ==== ")
+                out.append("   " + " ".join(vertices)+"")
                 for rotulo, linha in zip(vertices, matriz_adj):
-                        arquivo.write(f"{rotulo:>2} " + " ".join(map(str, linha))+"\n")
+                        out.append(f"{rotulo:>2} " + " ".join(map(str, linha))+"")
 
                 lista_adj = {}
 
@@ -73,18 +74,18 @@ def ler_grafo(caminho_arquivo, direcionado=False):
 
                 adjacencias = lista_adj.items()
 
-                arquivo.write("\n==== MATRIZ DE ADJACÊNCIA -> LISTA DE ADJACÊNCIA ====")
+                out.append("\n==== MATRIZ DE ADJACÊNCIA -> LISTA DE ADJACÊNCIA ====")
                 for adjacencias in adjacencias:
-                    arquivo.write(f"\n{adjacencias[0]}: {adjacencias[1]}")
-                arquivo.write("\n")
+                    out.append(f"{adjacencias[0]}: {adjacencias[1]}")
+                
                 
                 matriz_reconstruida, vertices_matriz_rec = lista_para_matriz(lista_adj)
                 
-                arquivo.write("\n==== LISTA DE ADJACÊNCIA -> MATRIZ DE ADJACÊNCIA ==== \n")
-                arquivo.write("   " + " ".join(vertices_matriz_rec)+"\n")
+                out.append("\n==== LISTA DE ADJACÊNCIA -> MATRIZ DE ADJACÊNCIA ==== ")
+                out.append("   " + " ".join(vertices_matriz_rec)+"")
                 
                 for v, row in zip(vertices_matriz_rec, matriz_reconstruida):
-                    arquivo.write(f"{v:>2} " + " ".join(map(str, row))+"\n")
+                    out.append(f"{v:>2} " + " ".join(map(str, row))+"")
                 
                 graus = {}
 
@@ -106,17 +107,19 @@ def ler_grafo(caminho_arquivo, direcionado=False):
                             if aresta.v1.id == vertice.id or aresta.v2.id == vertice.id:
                                 graus[str(vertice.id)] += 1
                 
-                arquivo.write("\n==== GRAU DE CADA VÉRTICE NO GRAFO ==== \n")
+                out.append("\n==== GRAU DE CADA VÉRTICE NO GRAFO ==== ")
 
                 if not grafo.direcionado:
                     for v, d in graus.items():
-                        arquivo.write(f"d({v}) = {d}\n")
-                    arquivo.write("\n")
+                        out.append(f"d({v}) = {d}")
+                    
                 
                 else:
                     for v, d in graus.items():
-                        arquivo.write(f"d-({v}) = {d[0]}, d+({v}) = {d[1]}\n")
-                    arquivo.write("\n")
+                        out.append(f"d-({v}) = {d[0]}, d+({v}) = {d[1]}")
+
+                out.append("\n")   
+                arquivo.write("\n".join(out))
 
             return grafo
 
