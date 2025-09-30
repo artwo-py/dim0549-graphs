@@ -2,4 +2,6 @@
 *.pyc
 .env
 venv
+.venv
+*.png
 **/render/
