@@ -11,9 +11,14 @@ Repositório destinado à implementação dos projetos práticos da disciplina D
 # Professor
 - MATHEUS DA SILVA MENEZES
 
+# Requisitos
+- Python 3.8 ou superior
+- [Graphviz](https://graphviz.org/download/)
+
 # Instruções de execução
 1. Clonar o repositório
-2. Navegar até o diretório do projeto 
-3. Executar o comando `.venv/bin/activate` para ativar o ambiente virtual Python
-4. Executar o comando `pip install -r requirements.txt` para instalar as dependências
-5. Executar o comando `python3 main.py` para iniciar o programa
+2. Navegar até o diretório do projeto
+3. Executar o comando `python3 -m venv .venv` para criar um ambiente virtual Python
+4. Executar o comando `.venv/bin/activate` para ativar a `venv`
+5. Executar o comando `pip install -r requirements.txt` para instalar as dependências
+6. Executar o comando `python3 main.py` para iniciar o programa
