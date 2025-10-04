@@ -2,5 +2,5 @@ services:
   graph-svc:
     build: .
     volumes:
-      - ./render:/app/render
+      - ./render-docker:/app/render
     container_name: graph-svc
