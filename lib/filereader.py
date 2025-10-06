@@ -5,9 +5,7 @@ from .classes import Vertice, Grafo
 def ler_grafo(caminho_arquivo, direcionado=False):
         print(f"Lendo arquivo: {caminho_arquivo}")
         vertices = []
-        caminho =  caminho_arquivo.replace('/', '-').replace('.', '-').replace('\\', '-').split("-")
         nome_arquivo = caminho_arquivo.replace('/', '-').replace('.', '-').replace('\\', '-').split("-")[1]
-        print(caminho)
         grafo = Grafo(direcionado, nome_arquivo)
         try:
             with open(caminho_arquivo, 'r', encoding='utf-8') as arquivo:
