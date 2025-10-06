@@ -44,3 +44,21 @@ def renderizar_bfs(ordem, arestas_retorno=None,
             dot.body.append("{rank=same; " + "; ".join(mesmo_rank) + "}")
 
     return dot
+
+def renderizar_dfs(ordem, arestas_retorno=None, nome_grafo="DFS"):
+    dot = Digraph(nome_grafo,
+                  graph_attr={"rankdir": "TB"},  
+                  format="png")
+
+    for v, _ in ordem:
+        dot.node(v)
+
+    for v, p in ordem:
+        if p != "-":
+            dot.edge(p, v, color="black")
+
+    if arestas_retorno:
+        for u, v in arestas_retorno:
+            dot.edge(u, v, color="red", style="dashed", constraint="false")
+
+    return dot

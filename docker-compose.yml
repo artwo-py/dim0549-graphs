@@ -1,7 +1,6 @@
 services:
-  graph-cli:
+  graph-svc:
     build: .
-    container_name: graph_cli
-    environment:
-      - CLI_FILE=$CLI_FILE
-    command: ["${CLI_FILE}"]
+    volumes:
+      - ./render-docker:/app/render
+    container_name: graph-svc
