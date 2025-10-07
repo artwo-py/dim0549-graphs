@@ -1,6 +1,20 @@
+"""
+Módulo:    Grafo, Vértices, Arestas+
+Descriçao: Define as classes para a representação e manipulação de grafos. Serve como a base para as outras 
+           operações do projeto, como algoritmos de busca, análise e renderização.
+           
+Classes:   - Vertice: Representa um único nó do grafo.
+           - Aresta: Representa a conexão entre dois vértices.
+           - Grafo: Classe principal que gerencia o grafo e suas operações.
+           
+Funções:   A classe Grafo inclui métodos para manipulação (adicionar vértice/
+           aresta), consulta (obter número de vértices/arestas) e
+           sincronização das estruturas de dados internas.
+"""
 import collections
 
 class Vertice:
+    """Info: Representa um vértice (ou nó) em um grafo."""
     def __init__(self, id):
         self.id = id
     
@@ -8,6 +22,7 @@ class Vertice:
         return str(self.id)
 
 class Aresta:
+    """Info: Representa uma aresta (ou arco) que conecta dois vértices."""
     def __init__(self, v1, v2):
         self.v1 = v1
         self.v2 = v2
@@ -17,6 +32,11 @@ class Aresta:
 
 class Grafo:
     def __init__(self, direcionado=False, nome_arquivo=""):
+        """
+        Info: Representa um grafo, gerenciando suas estruturas de dados e operações.
+        E: direcionado (bool), nome_arquivo (str)
+        S: None
+        """
         self.vertices = []
         self.arestas = []
         self.indice_vertices = {} 
@@ -26,6 +46,13 @@ class Grafo:
         self.matriz_adj = []
 
     def adicionar_vertice(self, id):
+        """
+        Tarefa: (9) Inclusão de um novo vértice.
+        Info: Adiciona um novo vértice ao grafo se ele ainda não existir,
+              atualizando todas as estruturas de dados internas.
+        E: id (str/int) - Identificador único do vértice.
+        S: Vertice - O objeto Vertice criado ou já existente.
+        """
         if id not in self.indice_vertices:
             v = Vertice(id)
             self.vertices.append(v)
@@ -41,6 +68,13 @@ class Grafo:
         return self.indice_vertices[id]
     
     def adicionar_aresta(self, v1_id, v2_id):
+        """
+        Tarefa: (1), (2), (16) Criação do Grafo a partir de arestas.
+        Info: Adiciona uma aresta entre dois vértices existentes, atualizando
+              a lista de arestas, a lista e a matriz de adjacência.
+        E: v1_id, v2_id (str/int) - IDs dos vértices a serem conectados.
+        S: None.
+        """
         v1 = self.indice_vertices.get(str(v1_id))
         v2 = self.indice_vertices.get(str(v2_id))
 
@@ -68,18 +102,47 @@ class Grafo:
             self.matriz_adj[idx2][idx1] = 1
 
     def get_vertices(self):
+        """
+        Info: Retorna a lista de todos os objetos Vertice do grafo.
+        E: None.
+        S: list[Vertice] - A lista de vértices.
+        """
         return self.vertices
     
     def get_arestas(self):
+        """
+        Info: Retorna a lista de todos os objetos Aresta do grafo.
+        E: None.
+        S: list[Aresta] - A lista de arestas.
+        """
         return self.arestas
 
     def num_vertices(self):
+        """
+        Tarefa: (7) Função que determina o número total de vértices.
+        Info: Calcula e retorna o número total de vértices no grafo.
+        E: None.
+        S: int - O número total de vértices.
+        """
         return len(self.vertices)
 
     def num_arestas(self):
+        """
+        Tarefa: (8) Função que determina o número total de arestas.
+        Info: Calcula e retorna o número total de arestas no grafo.
+        E: None.
+        S: int - O número total de arestas.
+        """
         return len(self.arestas)
 
     def reconstruir_lista_pelas_arestas(self):
+        """
+        Tarefa: (4) Conversão entre Matriz e Lista de Adjacências.
+        Info: (Função de utilidade) Limpa e recria a lista de adjacências
+              baseando-se na lista de arestas atual.
+        E: None.
+        S: None.
+        """
         nova_lista_adj = collections.defaultdict(list)
         for v in self.vertices:
             nova_lista_adj[v]
@@ -93,6 +156,13 @@ class Grafo:
         print("Lista de adjacências reconstruída a partir das arestas.")
 
     def sincronizar_matriz_pela_lista(self):
+        """
+        Tarefa: (4) Conversão entre Matriz e Lista de Adjacências.
+        Info: (Função de utilidade) Sincroniza o conteúdo da matriz de
+              adjacências para refletir o estado atual da lista.
+        E: None.
+        S: None.
+        """
         n = self.num_vertices()
         indice = {v: i for i, v in enumerate(self.vertices)}
         
@@ -108,6 +178,13 @@ class Grafo:
         print("Matriz de adjacências sincronizada a partir da lista.")
 
     def sincronizar_lista_pela_matriz(self):
+        """
+        Tarefa: (4) Conversão entre Matriz e Lista de Adjacências.
+        Info: (Função de utilidade) Sincroniza o conteúdo da lista de
+              adjacências para refletir o estado atual da matriz.
+        E: None.
+        S: None.
+        """
         nova_lista_adj = collections.defaultdict(list)
         ordem = self.num_vertices()
 
@@ -124,6 +201,12 @@ class Grafo:
         print("Lista de adjacências sincronizada a partir da matriz.")
 
     def imprimir_lista_adj(self):
+        """
+        Info: (Função de depuração) Imprime a lista de adjacências
+              no console de forma legível.
+        E: None.
+        S: None.
+        """
         print("\n--- Lista de Adjacências ---")
         if not self.lista_adj:
             print("Vazia.")
@@ -133,6 +216,12 @@ class Grafo:
             print(f"{vertice.id}: {vizinhos_ids}")
 
     def imprimir_matriz_adj(self):
+        """
+        Info: (Função de depuração) Imprime a matriz de adjacências
+              no console de forma legível.
+        E: None.
+        S: None.
+        """
         print("\n--- Matriz de Adjacências ---")
         if not self.matriz_adj:
             print("Vazia.")

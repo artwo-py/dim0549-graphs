@@ -1,5 +1,3 @@
-# lib/analysis.py
-
 from collections import defaultdict
 import math
 
@@ -7,7 +5,6 @@ def _calcular_graus_entrada(grafo):
     """Calcula o grau de entrada para cada vértice em um grafo direcionado."""
     graus_entrada = defaultdict(int)
     for vertice in grafo.vertices:
-        # Garante que todos os vértices estejam no dicionário, mesmo com grau de entrada zero
         graus_entrada[vertice] 
     
     for vizinhos in grafo.lista_adj.values():
@@ -24,19 +21,15 @@ def formatar_matriz_adj(grafo):
         output.append("Vazia.")
         return "\n".join(output)
 
-    # Calcula o espaçamento necessário com base no ID de vértice mais longo
     max_width = max(len(id) for id in ids) if ids else 1
 
-    # Formata o cabeçalho
     header = f"{' ' * max_width} |"
     for id in ids:
         header += f" {id:>{max_width}}"
     output.append(header)
     
-    # Adiciona a linha separadora
     output.append(f"{'-' * (max_width + 2)}{'-' * (len(ids) * (max_width + 1))}")
 
-    # Formata cada linha da matriz
     for i, linha in enumerate(grafo.matriz_adj):
         row_str = f"{ids[i]:>{max_width}} |"
         for val in linha:
@@ -49,7 +42,6 @@ def formatar_lista_adj(grafo):
     """Formata a lista de adjacência com vértices e vizinhos ordenados."""
     output = ["\n==== LISTA DE ADJACÊNCIA ===="]
     
-    # Ordena os vértices para uma exibição consistente
     sorted_vertices = sorted(grafo.lista_adj.keys(), key=lambda v: str(v.id))
 
     if not sorted_vertices:
@@ -57,7 +49,6 @@ def formatar_lista_adj(grafo):
         return "\n".join(output)
         
     for vertice in sorted_vertices:
-        # Ordena os vizinhos para uma exibição consistente
         vizinhos_ids = sorted([str(v.id) for v in grafo.lista_adj[vertice]])
         output.append(f"{vertice.id}: {vizinhos_ids}")
         
@@ -84,11 +75,9 @@ def formatar_graus(grafo):
             grau = len(grafo.lista_adj[v])
             degree_strings.append(f"d({v.id}) = {grau}")
 
-    # Formatação em colunas
     num_cols = 3
     max_len = max(len(s) for s in degree_strings) if degree_strings else 0
     
-    # Preenche as strings para que todas tenham o mesmo comprimento para alinhamento
     padded_strings = [s.ljust(max_len) for s in degree_strings]
     
     num_rows = math.ceil(len(padded_strings) / num_cols)
