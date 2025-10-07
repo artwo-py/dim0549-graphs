@@ -1,6 +1,22 @@
+"""
+Módulo:    BFS
+Objetivo:  Implementa o algoritmo de Busca em Largura (Breadth-First Search).
+Funções:   bfs(grafo, id_inicio)
+"""
 from collections import deque
 
 def bfs(grafo, id_inicio=None):
+    """
+    Tarefas: (13), (19).
+    Info: Percorre o grafo em largura a partir de um vértice, para grafo e dígrafo. 
+          Lida com grafos desconexos e
+          identifica arestas de (retorno/cruzamento).
+    E: - grafo (Grafo): O objeto grafo a ser percorrido.
+       - id_inicio (str/int, opcional): ID do vértice para iniciar a busca. Se omitido, começa pelo primeiro vértice do grafo.
+    S: (list, list) - Tupla contendo:
+    - A ordem de visita em formato [(v, pai), ...].
+    - A lista de arestas de encontradas.
+    """
     adj = grafo.lista_adj 
     vertice_inicial_obj = None
     if id_inicio:

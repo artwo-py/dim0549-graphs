@@ -1,4 +1,19 @@
+"""
+Módulo:    DFS
+Objetivo:  Implementa o algoritmo de Busca em Profundidade (Depth-First Search).
+Funções:   dfs(grafo, id_vertice_inicial)
+"""
 def dfs(grafo, id_vertice_inicial=None):
+    """
+    Tarefas: (14), (20).
+    Info:   Percorre o grafo em profundidade a partir de um vértice, para grafo
+            e dígrafo. Lida com grafos desconexos e identifica arestas de retorno.
+    E: - grafo (Grafo): O objeto grafo a ser percorrido.
+       - id_vertice_inicial (str/int, opcional): ID do vértice para iniciar a busca. Se omitido, começa pelo primeiro vértice do grafo.
+    S: (list, list) - Tupla contendo:
+       - A ordem de visita em formato [(v, pai), ...].
+       - A lista de arestas de retorno encontradas.
+    """
     adj = grafo.lista_adj
     vertice_inicial_obj = None
     if id_vertice_inicial:
