@@ -130,7 +130,9 @@ def ler_diretorio(diretorio):
     with open("resultados.txt", "w") as arquivo:
         arquivo.write("")
     try:
-        arquivos = os.listdir(diretorio)
+        todos_arquivos = os.listdir(diretorio)
+        #  filtra a lista para incluir somente arquivos que terminam com '.txt'
+        arquivos = [arq for arq in todos_arquivos if arq.endswith('.txt')]
     except FileNotFoundError:
         print(f"ERRO: A pasta '{diretorio}' não foi encontrada.")
         return
