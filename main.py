@@ -36,7 +36,7 @@ for grafo in grafos:
         base_name = os.path.splitext(grafo.nome_arquivo)[0]
         vertice_inicial = str(grafo.vertices[0].id)
         order, back_edges = bfs(grafo, vertice_inicial)
-        dot = renderizar_bfs(order, back_edges, ranksep=1.2, nodesep=0.8)
+        dot = renderizar_bfs(order, back_edges, ranksep=1.6, nodesep=1.2)
         dot.render(f'render/bfs/BFS_{base_name}', view=False, cleanup=True)
 
 print("\n--- Executando e Renderizando DFS ---")
