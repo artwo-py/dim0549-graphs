@@ -101,6 +101,60 @@ class Grafo:
         if not self.direcionado:
             self.matriz_adj[idx2][idx1] = 1
 
+    def remover_vertice(self, id):
+        """
+        Info: Remove um vértice do grafo junto com todas as arestas associadas,
+              atualizando todas as estruturas de dados internas (vertices,
+              indice_vertices, arestas, lista_adj e matriz_adj).
+        E: id (str/int) - Identificador único do vértice a ser removido.
+        S: bool - True se o vértice foi removido, False caso contrário.
+        """
+        id = str(id)
+        
+        vertice_a_remover = self.indice_vertices.get(id)
+        if not vertice_a_remover:
+            print(f"Alerta: Vértice com ID '{id}' não encontrado para remoção.")
+            return False
+
+        indice_na_lista = self.vertices.index(vertice_a_remover)
+
+        if self.direcionado:
+            self.arestas = [
+                aresta for aresta in self.arestas 
+                if aresta.v1 != vertice_a_remover and aresta.v2 != vertice_a_remover
+            ]
+        else:
+            self.arestas = [
+                aresta for aresta in self.arestas 
+                if (aresta.v1 != vertice_a_remover and aresta.v2 != vertice_a_remover)
+            ]
+            
+        if vertice_a_remover in self.lista_adj:
+            del self.lista_adj[vertice_a_remover]
+            
+        nova_lista_adj = collections.defaultdict(list)
+        for vertice, vizinhos in self.lista_adj.items():
+            vizinhos_restantes = [v for v in vizinhos if v != vertice_a_remover]
+            if vertice != vertice_a_remover:
+                nova_lista_adj[vertice] = vizinhos_restantes
+        
+        self.lista_adj = nova_lista_adj
+
+        del self.indice_vertices[id]
+        self.vertices.pop(indice_na_lista)
+        
+        n_atual = self.num_vertices()
+
+        if self.matriz_adj: # Verifica se a matriz não está vazia
+            self.matriz_adj.pop(indice_na_lista)
+            
+        for i in range(n_atual):
+            if self.matriz_adj and len(self.matriz_adj[i]) > indice_na_lista:
+                 self.matriz_adj[i].pop(indice_na_lista)
+            
+        # print(f"Vértice '{id}' removido com sucesso.")
+        return True
+
     def get_vertices(self):
         """
         Info: Retorna a lista de todos os objetos Vertice do grafo.
