@@ -93,3 +93,36 @@ def renderizar_dfs(ordem, arestas_retorno=None, nome_grafo="DFS"):
                 dot.edge(u, v, style="dashed", penwidth='1.5', color="gray50", constraint='false')
 
     return dot
+
+
+def aresta_para_tupla(aresta):
+    return (aresta.v1.id, aresta.v2.id)
+
+def renderizar_dfs_classificada(ordem_visita, arestas_arvore, arestas_retorno, 
+                                arestas_avanco, arestas_cruzamento, nome_grafo="DFS_Classificada"
+):
+    dot = Digraph(nome_grafo,
+                  graph_attr={"rankdir": "TB"},
+                  format="png")
+    
+    for v_id, _ in ordem_visita:
+        label = f"{v_id}"
+        dot.node(str(v_id), label=label)
+
+    for aresta in arestas_arvore:
+        u_id, v_id = aresta_para_tupla(aresta)
+        dot.edge(str(u_id), str(v_id), color="black")
+
+    for aresta in arestas_retorno:
+        u_id, v_id = aresta_para_tupla(aresta)
+        dot.edge(str(u_id), str(v_id), color="green4", style="dashed", constraint="false")
+
+    for aresta in arestas_avanco:
+        u_id, v_id = aresta_para_tupla(aresta)
+        dot.edge(str(u_id), str(v_id), color="deeppink", style="dashed")
+
+    for aresta in arestas_cruzamento:
+        u_id, v_id = aresta_para_tupla(aresta)
+        dot.edge(str(u_id), str(v_id), color="purple", style="dashed", constraint="false")
+        
+    return dot
