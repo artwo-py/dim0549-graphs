@@ -5,4 +5,5 @@ venv
 .venv
 *.png
 **/render/
+.idea/**
 resultados.txt
