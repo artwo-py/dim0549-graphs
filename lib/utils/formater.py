@@ -54,6 +54,13 @@ def formatar_lista_adj(grafo):
         
     return "\n".join(output)
 
+def formatar_bipartido(grafo):
+    """Verifica se o grafo é bipartido e formata a saída."""
+    resultado = "Sim" if grafo.e_bipartido() else "Não"
+    if grafo.direcionado:
+        resultado += " (Verificação feita no grafo não-direcionado subjacente)"
+    return f"\nBipartido: {resultado}"
+
 def formatar_graus(grafo):
     """Formata os graus dos vértices em múltiplas colunas."""
     output = ["\n==== GRAU DE CADA VÉRTICE NO GRAFO ===="]
@@ -92,11 +99,66 @@ def formatar_graus(grafo):
         
     return "\n".join(output)
 
+def _calcular_antecessores(grafo):
+    """Helper para calcular os antecessores de todos os vértices em um dígrafo."""
+    antecessores = {v: [] for v in grafo.vertices}
+    for u, vizinhos in grafo.lista_adj.items():
+        for v in vizinhos:
+            antecessores[v].append(u)
+    return antecessores
+
+def formatar_adjacencias_por_vertice(grafo):
+    """Formata os adjacentes (ou sucessores/antecessores) de cada vértice."""
+    output = ["\n==== ADJACÊNCIAS DE CADA VÉRTICE ===="]
+    sorted_vertices = sorted(grafo.vertices, key=lambda v: str(v.id))
+
+    if not sorted_vertices:
+        output.append("Vazio.")
+        return "\n".join(output)
+
+    if grafo.direcionado:
+        antecessores = _calcular_antecessores(grafo)
+        for v in sorted_vertices:
+            sucessores_ids = sorted([str(s.id) for s in grafo.lista_adj[v]])
+            antecessores_ids = sorted([str(a.id) for a in antecessores[v]])
+            output.append(f"{v.id}: Sucessores: {sucessores_ids}, Antecessores: {antecessores_ids}")
+    else:
+        for v in sorted_vertices:
+            adjacentes_ids = sorted([str(adj.id) for adj in grafo.lista_adj[v]])
+            output.append(f"Adjacentes de {v.id}: {adjacentes_ids}")
+            
+    return "\n".join(output)
+
+def formatar_conversoes(grafo):
+    """Formata a demonstração de conversão entre matriz e lista."""
+    output = ["\n==== DEMONSTRAÇÃO DE CONVERSÃO ===="]
+
+    lista_adj_original = grafo.lista_adj
+    matriz_adj_original = grafo.matriz_adj
+
+    output.append("\n--- 1. Matriz de Adjacências -> Lista de Adjacências ---")
+    grafo.sincronizar_lista_pela_matriz()
+    output.append(formatar_lista_adj(grafo))
+
+    grafo.lista_adj = lista_adj_original
+
+    output.append("\n--- 2. Lista de Adjacências -> Matriz de Adjacências ---\n")
+    grafo.sincronizar_matriz_pela_lista()
+    output.append(formatar_matriz_adj(grafo))
+
+    grafo.lista_adj = lista_adj_original
+    grafo.matriz_adj = matriz_adj_original
+    
+    return "\n".join(output)
+
 def gerar_relatorio_completo(grafo):
     """Gera um relatório completo e formatado para um único grafo."""
     report = []
-    report.append(f"Arquivo: {grafo.nome_arquivo}")
+    report.append(f"\nArquivo: {grafo.nome_arquivo}\n")
     report.append(formatar_matriz_adj(grafo))
     report.append(formatar_lista_adj(grafo))
+    report.append(formatar_conversoes(grafo))
     report.append(formatar_graus(grafo))
+    report.append(formatar_adjacencias_por_vertice(grafo))
+    report.append(formatar_bipartido(grafo))
     return "\n".join(report)
