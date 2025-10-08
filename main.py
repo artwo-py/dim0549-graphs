@@ -4,7 +4,7 @@ from lib.utils.filereader import ler_diretorio
 from lib.utils.formater import gerar_relatorio_completo
 from lib.algorithms.bfs import bfs
 from lib.algorithms.dfs import dfs
-from lib.utils.rendering import renderizar_bfs, renderizar_dfs, renderizar_grafo
+from lib.utils.renderer import renderizar_bfs, renderizar_dfs, renderizar_grafo
 
 inicio_timer = time.time()
 directory = 'data'
