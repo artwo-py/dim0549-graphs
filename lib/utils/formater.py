@@ -92,10 +92,17 @@ def formatar_graus(grafo):
         
     return "\n".join(output)
 
+def formatar_eh_conexo(grafo):
+    """Formata a resposta do grafo ser conexo ou não"""
+    resultado = "Sim" if grafo.eh_conexo() else "Não"
+    obs = "(fortemente conexo)" if grafo.direcionado else ""
+    return f"\nCONEXO?  {resultado} {obs}\n"
+
 def gerar_relatorio_completo(grafo):
     """Gera um relatório completo e formatado para um único grafo."""
     report = []
     report.append(f"Arquivo: {grafo.nome_arquivo}")
+    report.append(formatar_eh_conexo(grafo))
     report.append(formatar_matriz_adj(grafo))
     report.append(formatar_lista_adj(grafo))
     report.append(formatar_graus(grafo))
