@@ -53,7 +53,6 @@ def renderizar_bfs(ordem, arestas_retorno=None,
         nivel[v] = 0 if p == "-" else nivel[p] + 1
     dot = Digraph(nome_grafo,
                   graph_attr={
-                    "layout": "neato",
                     "rankdir": "TB",
                               "ranksep": str(ranksep),
                               "nodesep": str(nodesep)}, format="png")
@@ -80,9 +79,13 @@ def renderizar_bfs(ordem, arestas_retorno=None,
 
 def renderizar_dfs(ordem, arestas_retorno=None, nome_grafo="DFS"):
     dot = Digraph(nome_grafo,
+                  # Utilizamos splines ortho para melhor visualização para grafos hierarquizados muito grandes
                   graph_attr={
-                      "layout": "neato",
-                      "rankdir": "TB"
+                      "layout": "dot",
+                        "rankdir": "TB",
+                        "overlap": "false",
+                        "splines": "ortho",
+                        "nodesep": "1.5" 
                       },
                   format="png")
     for v, _ in ordem:
@@ -133,3 +136,4 @@ def renderizar_dfs_classificada(ordem_visita, arestas_arvore, arestas_retorno,
         dot.edge(str(u_id), str(v_id), color="purple", style="dashed", constraint="false")
         
     return dot
+

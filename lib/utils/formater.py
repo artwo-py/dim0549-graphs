@@ -137,13 +137,13 @@ def formatar_conversoes(grafo):
     matriz_adj_original = grafo.matriz_adj
 
     output.append("\n--- 1. Matriz de Adjacências -> Lista de Adjacências ---")
-    grafo.sincronizar_lista_pela_matriz()
+    grafo.construir_lista_pela_matriz()
     output.append(formatar_lista_adj(grafo))
 
     grafo.lista_adj = lista_adj_original
 
     output.append("\n--- 2. Lista de Adjacências -> Matriz de Adjacências ---\n")
-    grafo.sincronizar_matriz_pela_lista()
+    grafo.construir_matriz_pela_lista()
     output.append(formatar_matriz_adj(grafo))
 
     grafo.lista_adj = lista_adj_original
