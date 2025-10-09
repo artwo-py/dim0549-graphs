@@ -6,6 +6,10 @@ Descriçao: Define as classes para a representação e manipulação de grafos. 
 Classes:   - Vertice: Representa um único nó do grafo.
            - Aresta: Representa a conexão entre dois vértices.
            - Grafo: Classe principal que gerencia o grafo e suas operações.
+           
+Funções:   A classe Grafo inclui métodos para manipulação (adicionar vértice/
+           aresta), consulta (obter número de vértices/arestas) e
+           sincronização das estruturas de dados internas.
 """
 import collections
 
@@ -63,17 +67,20 @@ class Grafo:
         self._adicionar_vertice_lista_adj(v)
         self._adicionar_vertice_matriz_adj()
         self._adicionar_vertice_matriz_inc()
+
         return v
     
     def adicionar_aresta(self, v1_id, v2_id):
         """
         Tarefa: (1), (2), (16) Criação do Grafo a partir de arestas.
-        Info: Orquestra a adição de uma aresta entre dois vértices existentes.
+        Info: Orquestra a adição de uma aresta entre dois vértices existentes, atualizando
+              a lista de arestas, a lista e a matriz de adjacência.
         E: v1_id, v2_id (str/int) - IDs dos vértices a serem conectados.
         S: None.
         """
         v1 = self.indice_vertices.get(str(v1_id))
         v2 = self.indice_vertices.get(str(v2_id))
+
         if not v1 or not v2:
             print(f"Alerta: Vértice não encontrado ao criar aresta ({v1_id}, {v2_id}).")
             return
@@ -84,14 +91,17 @@ class Grafo:
             else:
                 if a.v1 == v1 and a.v2 == v2: return
 
-        self.arestas.append(Aresta(v1, v2))
+        nova_aresta = Aresta(v1, v2)
+        self.arestas.append(nova_aresta)
+
         self._adicionar_aresta_lista_adj(v1, v2)
         self._adicionar_aresta_matriz_adj(v1, v2)
         self._adicionar_aresta_matriz_inc(v1, v2)
 
     def remover_vertice(self, id):
         """
-        Info: Orquestra a remoção de um vértice do grafo e suas arestas.
+        Info: Orquestra a remoção de um vértice do grafo junto com todas as arestas associadas,
+              atualizando todas as estruturas de dados internas.
         E: id (str/int) - Identificador único do vértice a ser removido.
         S: bool - True se o vértice foi removido, False caso contrário.
         """
@@ -101,14 +111,15 @@ class Grafo:
             return False
 
         indice_na_lista = self.vertices.index(vertice_a_remover)
-        arestas_antigas = self.arestas[:]
         self.arestas = [a for a in self.arestas if vertice_a_remover not in (a.v1, a.v2)]
+
         self._remover_vertice_lista_adj(vertice_a_remover)
         self._remover_vertice_matriz_adj(indice_na_lista)
-        self._remover_vertice_matriz_inc(indice_na_lista, arestas_antigas)
+        self._remover_vertice_matriz_inc(indice_na_lista)
         
         del self.indice_vertices[str(id)]
         self.vertices.pop(indice_na_lista)
+        
         return True
 
     # --------------------------------------------------------------------------
@@ -175,8 +186,8 @@ class Grafo:
         idx2 = self.vertices.index(v2)
         for i, linha in enumerate(self.matriz_incidencia):
             if self.direcionado:
-                if i == idx1: linha.append(1)
-                elif i == idx2: linha.append(-1)
+                if i == idx1: linha.append(1)   
+                elif i == idx2: linha.append(-1) 
                 else: linha.append(0)
             else:
                 if i == idx1 or i == idx2: linha.append(1)
@@ -190,6 +201,7 @@ class Grafo:
         """
         if vertice in self.lista_adj:
             del self.lista_adj[vertice]
+        
         for v_qualquer in self.lista_adj:
             self.lista_adj[v_qualquer] = [v for v in self.lista_adj[v_qualquer] if v != vertice]
 
@@ -203,10 +215,10 @@ class Grafo:
         for linha in self.matriz_adj:
             linha.pop(indice)
 
-    def _remover_vertice_matriz_inc(self, indice_vertice, arestas_antes_remocao):
+    def _remover_vertice_matriz_inc(self, indice_vertice):
         """
         Info: Remove a linha do vértice e as colunas das arestas associadas.
-        E: indice_vertice (int), arestas_antes_remocao (list)
+        E: indice_vertice (int)
         S: None
         """
         self.matriz_incidencia.pop(indice_vertice)
@@ -232,72 +244,3 @@ class Grafo:
         S: int - O número total de arestas.
         """
         return len(self.arestas)
-
-    def sao_adjacentes(self, v1_id, v2_id):
-        """
-        Info: Verifica se existe uma aresta entre v1 e v2.
-        E: v1_id, v2_id (str/int) - IDs dos vértices.
-        S: bool - True se forem adjacentes, False caso contrário.
-        """
-        try:
-            idx1 = self.vertices.index(self.indice_vertices[v1_id])
-            idx2 = self.vertices.index(self.indice_vertices[v2_id])
-            return self.matriz_adj[idx1][idx2] == 1 or \
-                  (not self.direcionado and self.matriz_adj[idx2][idx1] == 1)
-        except (KeyError, ValueError, IndexError):
-            return False
-
-    # --------------------------------------------------------------------------
-    # Conversores de Representação
-    # --------------------------------------------------------------------------
-    def matriz_para_lista_adj(self):
-        """
-        Tarefa: (4) Conversão entre Matriz e Lista de Adjacências.
-        Info: (Função de utilidade) Sincroniza o conteúdo da lista de
-              adjacências para refletir o estado atual da matriz.
-        E: None.
-        S: None.
-        """
-        nova_lista_adj = collections.defaultdict(list)
-        for i, vertice_i in enumerate(self.vertices):
-            for j, vertice_j in enumerate(self.vertices):
-                if self.matriz_adj[i][j] == 1:
-                    nova_lista_adj[vertice_i].append(vertice_j)
-        self.lista_adj = nova_lista_adj
-
-    def lista_para_matriz_adj(self):
-        """
-        Tarefa: (4) Conversão entre Matriz e Lista de Adjacências.
-        Info: (Função de utilidade) Sincroniza o conteúdo da matriz de
-              adjacências para refletir o estado atual da lista.
-        E: None.
-        S: None.
-        """
-        n = self.num_vertices()
-        self.matriz_adj = [[0] * n for _ in range(n)]
-        for vertice, vizinhos in self.lista_adj.items():
-            i = self.vertices.index(vertice)
-            for vizinho in vizinhos:
-                j = self.vertices.index(vizinho)
-                self.matriz_adj[i][j] = 1
-
-    def sincronizar_matriz_inc_pelas_arestas(self):
-        """
-        Info: (Função de utilidade) Reconstrói a matriz de incidência com base
-              na lista de vértices e arestas atual.
-        E: None
-        S: None
-        """
-        num_v = self.num_vertices()
-        num_a = self.num_arestas()
-        self.matriz_incidencia = [[0] * num_a for _ in range(num_v)]
-        for indice_aresta, aresta in enumerate(self.arestas):
-            idx1 = self.vertices.index(aresta.v1)
-            idx2 = self.vertices.index(aresta.v2)
-            if self.direcionado:
-                self.matriz_incidencia[idx1][indice_aresta] = 1
-                self.matriz_incidencia[idx2][indice_aresta] = -1
-            else:
-                self.matriz_incidencia[idx1][indice_aresta] = 1
-                self.matriz_incidencia[idx2][indice_aresta] = 1
-    
