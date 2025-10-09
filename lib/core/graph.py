@@ -31,6 +31,9 @@ class Aresta:
         return f"({self.v1},{self.v2})"
 
 class Grafo:
+    # --------------------------------------------------------------------------
+    # Construtor
+    # --------------------------------------------------------------------------
     def __init__(self, direcionado=False, nome_arquivo=""):
         """
         Info: Representa um grafo, gerenciando suas estruturas de dados e operações.
@@ -45,6 +48,9 @@ class Grafo:
         self.lista_adj = collections.defaultdict(list)
         self.matriz_adj = []
 
+    # --------------------------------------------------------------------------
+    # Manipulação do Grafo
+    # --------------------------------------------------------------------------
     def adicionar_vertice(self, id):
         """
         Tarefa: (9) Inclusão de um novo vértice.
@@ -145,16 +151,18 @@ class Grafo:
         
         n_atual = self.num_vertices()
 
-        if self.matriz_adj: # Verifica se a matriz não está vazia
+        if self.matriz_adj:
             self.matriz_adj.pop(indice_na_lista)
             
         for i in range(n_atual):
             if self.matriz_adj and len(self.matriz_adj[i]) > indice_na_lista:
                  self.matriz_adj[i].pop(indice_na_lista)
             
-        # print(f"Vértice '{id}' removido com sucesso.")
         return True
 
+    # --------------------------------------------------------------------------
+    # Consultas e Propriedades
+    # --------------------------------------------------------------------------
     def get_vertices(self):
         """
         Info: Retorna a lista de todos os objetos Vertice do grafo.
@@ -209,6 +217,9 @@ class Grafo:
             
         return False
 
+    # --------------------------------------------------------------------------
+    # Análise e Algoritmos
+    # --------------------------------------------------------------------------
     def e_bipartido(self):
         """
         Tarefa: (extra) Determina se o grafo é bipartido.
@@ -240,8 +251,11 @@ class Grafo:
                         elif cores[v] == cores[u]:
                             return False
         return True
-
-    def reconstruir_lista_pelas_arestas(self):
+    
+    # --------------------------------------------------------------------------
+    # Construção e Conversão de Representações
+    # --------------------------------------------------------------------------
+    def construir_lista_pela_arestas(self):
         """
         Tarefa: (4) Conversão entre Matriz e Lista de Adjacências.
         Info: (Função de utilidade) Limpa e recria a lista de adjacências
@@ -261,29 +275,7 @@ class Grafo:
         self.lista_adj = nova_lista_adj
         print("Lista de adjacências reconstruída a partir das arestas.")
 
-    def sincronizar_matriz_pela_lista(self):
-        """
-        Tarefa: (4) Conversão entre Matriz e Lista de Adjacências.
-        Info: (Função de utilidade) Sincroniza o conteúdo da matriz de
-              adjacências para refletir o estado atual da lista.
-        E: None.
-        S: None.
-        """
-        n = self.num_vertices()
-        indice = {v: i for i, v in enumerate(self.vertices)}
-        
-        nova_matriz = [[0] * n for _ in range(n)]
-        
-        for vertice, vizinhos in self.lista_adj.items():
-            i = indice[vertice]
-            for vizinho in vizinhos:
-                j = indice[vizinho]
-                nova_matriz[i][j] = 1
-
-        self.matriz_adj = nova_matriz
-        print("Matriz de adjacências sincronizada a partir da lista.")
-
-    def sincronizar_lista_pela_matriz(self):
+    def construir_lista_pela_matriz(self):
         """
         Tarefa: (4) Conversão entre Matriz e Lista de Adjacências.
         Info: (Função de utilidade) Sincroniza o conteúdo da lista de
@@ -306,9 +298,34 @@ class Grafo:
         self.lista_adj = nova_lista_adj
         print("Lista de adjacências sincronizada a partir da matriz.")
 
+    def construir_matriz_pela_lista(self):
+        """
+        Tarefa: (4) Conversão entre Matriz e Lista de Adjacências.
+        Info: (Função de utilidade) Sincroniza o conteúdo da matriz de
+              adjacências para refletir o estado atual da lista.
+        E: None.
+        S: None.
+        """
+        n = self.num_vertices()
+        indice = {v: i for i, v in enumerate(self.vertices)}
+        
+        nova_matriz = [[0] * n for _ in range(n)]
+        
+        for vertice, vizinhos in self.lista_adj.items():
+            i = indice[vertice]
+            for vizinho in vizinhos:
+                j = indice[vizinho]
+                nova_matriz[i][j] = 1
+
+        self.matriz_adj = nova_matriz
+        print("Matriz de adjacências sincronizada a partir da lista.")
+
+    # --------------------------------------------------------------------------
+    # Impressão de Resultados
+    # --------------------------------------------------------------------------
     def imprimir_lista_adj(self):
         """
-        Info: (Função de depuração) Imprime a lista de adjacências
+        Info: (Função de relatórios) Imprime a lista de adjacências
               no console de forma legível.
         E: None.
         S: None.
@@ -323,7 +340,7 @@ class Grafo:
 
     def imprimir_matriz_adj(self):
         """
-        Info: (Função de depuração) Imprime a matriz de adjacências
+        Info: (Função de relatórios) Imprime a matriz de adjacências
               no console de forma legível.
         E: None.
         S: None.
