@@ -189,6 +189,58 @@ class Grafo:
         """
         return len(self.arestas)
 
+    def sao_adjacentes(self, v1_id, v2_id):
+        """
+        Info: Verifica se existe uma aresta entre v1 e v2.
+        E: v1_id, v2_id (str/int) - IDs dos vértices.
+        S: bool - True se forem adjacentes, False caso contrário.
+        """
+        try:
+            idx1 = self.vertices.index(self.indice_vertices[v1_id])
+            idx2 = self.vertices.index(self.indice_vertices[v2_id])
+            
+            if self.matriz_adj[idx1][idx2] == 1:
+                return True
+            if not self.direcionado and self.matriz_adj[idx2][idx1] == 1:
+                return True
+                
+        except (KeyError, ValueError):
+            return False
+            
+        return False
+
+    def e_bipartido(self):
+        """
+        Tarefa: (extra) Determina se o grafo é bipartido.
+        Info: Usa um algoritmo de coloração com BFS. Um grafo é bipartido se puder ser
+              dividido em dois conjuntos de vértices disjuntos, U e V, tal que toda
+              aresta conecta um vértice em U a um em V.
+        E: None.
+        S: bool - True se o grafo for bipartido, False caso contrário.
+        """
+        if not self.vertices:
+            return True
+
+        cores = {}
+        for v in self.vertices:
+            cores[v] = 0
+
+        for vertice_inicial in self.vertices:
+            if cores[vertice_inicial] == 0:
+                cores[vertice_inicial] = 1
+                fila = collections.deque([vertice_inicial])
+
+                while fila:
+                    u = fila.popleft()
+
+                    for v in self.lista_adj[u]:
+                        if cores[v] == 0:
+                            cores[v] = -cores[u]
+                            fila.append(v)
+                        elif cores[v] == cores[u]:
+                            return False
+        return True
+
     def reconstruir_lista_pelas_arestas(self):
         """
         Tarefa: (4) Conversão entre Matriz e Lista de Adjacências.
