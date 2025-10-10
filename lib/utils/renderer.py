@@ -58,7 +58,11 @@ def renderizar_bfs(ordem, arestas_retorno=None,
                               "ranksep": str(ranksep),
                               "nodesep": str(nodesep)}, format="png")
     for v, _ in ordem:
-        dot.node(v, style="solid", penwidth='2.0')
+        if v == ordem[0][0]:
+            dot.node(v, style="filled", fillcolor="lightgreen", penwidth="2.5")
+        else:
+            dot.node(v, style="solid", penwidth="2.0")
+       
     arestas_percurso = {(p, v) for v, p in ordem if p != "-"}
     for v, p in ordem:
         if p != "-":
@@ -82,7 +86,10 @@ def renderizar_dfs(ordem, arestas_retorno=None, nome_grafo="DFS"):
                       },
                   format="png")
     for v, _ in ordem:
-        dot.node(v, style="solid", penwidth='2.0')
+        if v == ordem[0][0]:
+            dot.node(v, style="filled", fillcolor="lightgreen", penwidth="2.5")
+        else:
+            dot.node(v, style="solid", penwidth="2.0")
     arestas_percurso = {(p, v) for v, p in ordem if p != "-"}
     for v, p in ordem:
         if p != "-":
