@@ -66,7 +66,7 @@ for grafo in grafos:
         vertice_inicial = str(grafo.vertices[0].id)
         ordem, arestas_arvore, arestas_retorno, arestas_avanco, arestas_cruzamento, pe_ids, ps_ids = busca_profundidade_com_classificacao(grafo, vertice_inicial)
         dot_dfs = renderizar_dfs_classificada(ordem, arestas_arvore, arestas_retorno, arestas_avanco, arestas_cruzamento)
-        dot_dfs.render(f'render/dfs/Busca_Classificacao', view=False, cleanup=True)
+        dot_dfs.render(f'render/dfs/busca_classificacao/DFS_{base_name}', view=False, cleanup=True)
 
 print("\n--- Executando e Renderizando Grafos Subjacentes ---")
 for grafo in grafos:

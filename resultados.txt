@@ -68,6 +68,17 @@ h: Sucessores: [], Antecessores: ['g']
 
 Bipartido: Não (Verificação feita no grafo não-direcionado subjacente)
 
+==== BUSCA EM PROFUNDIDADE ====
+--- Resultado da Busca em Profundidade (DFS) a partir de 'a' ---
+Classificação das Arestas:
+1. Arestas de Árvore (7): ['(a,b)', '(b,c)', '(c,f)', '(f,g)', '(g,h)', '(b,e)', '(a,d)']
+2. Arestas de Retorno (1): ['(c,a)']
+3. Arestas de Avanço (0): []
+4. Arestas de Cruzamento (2): ['(e,f)', '(d,e)']
+Resultados de PE e PS: 
+PE: {'a': 1, 'b': 2, 'd': 8, 'c': 3, 'e': 7, 'f': 4, 'g': 5, 'h': 6}
+PS: {'a': 8, 'b': 6, 'd': 7, 'c': 4, 'e': 5, 'f': 3, 'g': 2, 'h': 1}
+
 
 *********************************************************************
 Arquivo: DIGRAFO_1.txt
@@ -166,6 +177,17 @@ d+(13)=1, d-(13)=1   d+(6)=1, d-(6)=2
 
 Bipartido: Não (Verificação feita no grafo não-direcionado subjacente)
 
+==== BUSCA EM PROFUNDIDADE ====
+--- Resultado da Busca em Profundidade (DFS) a partir de '1' ---
+Classificação das Arestas:
+1. Arestas de Árvore (11): ['(1,2)', '(2,3)', '(3,4)', '(4,5)', '(5,6)', '(6,7)', '(7,9)', '(9,8)', '(8,10)', '(11,12)', '(12,13)']
+2. Arestas de Retorno (4): ['(3,1)', '(7,6)', '(8,4)', '(13,12)']
+3. Arestas de Avanço (1): ['(5,8)']
+4. Arestas de Cruzamento (0): []
+Resultados de PE e PS: 
+PE: {'1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '8': 9, '7': 7, '9': 8, '10': 10, '11': 11, '12': 12, '13': 13}
+PS: {'1': 10, '2': 9, '3': 8, '4': 7, '5': 6, '6': 5, '8': 2, '7': 4, '9': 3, '10': 1, '11': 13, '12': 12, '13': 11}
+
 
 *********************************************************************
 Arquivo: DIGRAFO_2.txt
@@ -263,6 +285,17 @@ d+(13)=1, d-(13)=1   d+(6)=1, d-(6)=2
 9: Sucessores: ['8'], Antecessores: ['7']
 
 Bipartido: Não (Verificação feita no grafo não-direcionado subjacente)
+
+==== BUSCA EM PROFUNDIDADE ====
+--- Resultado da Busca em Profundidade (DFS) a partir de '1' ---
+Classificação das Arestas:
+1. Arestas de Árvore (11): ['(1,2)', '(2,3)', '(3,4)', '(4,5)', '(5,6)', '(6,7)', '(7,9)', '(9,8)', '(8,10)', '(10,12)', '(12,13)']
+2. Arestas de Retorno (4): ['(3,1)', '(7,6)', '(8,4)', '(13,12)']
+3. Arestas de Avanço (1): ['(5,8)']
+4. Arestas de Cruzamento (1): ['(11,12)']
+Resultados de PE e PS: 
+PE: {'1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '8': 9, '7': 7, '9': 8, '10': 10, '12': 11, '11': 13, '13': 12}
+PS: {'1': 12, '2': 11, '3': 10, '4': 9, '5': 8, '6': 7, '8': 4, '7': 6, '9': 5, '10': 3, '12': 2, '11': 13, '13': 1}
 
 
 *********************************************************************
@@ -383,6 +416,17 @@ q: Sucessores: ['n'], Antecessores: ['n', 'p']
 
 Bipartido: Não (Verificação feita no grafo não-direcionado subjacente)
 
+==== BUSCA EM PROFUNDIDADE ====
+--- Resultado da Busca em Profundidade (DFS) a partir de 'a' ---
+Classificação das Arestas:
+1. Arestas de Árvore (14): ['(a,b)', '(b,c)', '(a,e)', '(a,f)', '(f,g)', '(g,d)', '(h,i)', '(i,j)', '(j,k)', '(h,l)', '(l,m)', '(n,o)', '(n,p)', '(p,q)']
+2. Arestas de Retorno (4): ['(c,a)', '(k,i)', '(m,h)', '(q,n)']
+3. Arestas de Avanço (1): ['(n,q)']
+4. Arestas de Cruzamento (5): ['(f,e)', '(d,c)', '(j,g)', '(l,k)', '(o,m)']
+Resultados de PE e PS: 
+PE: {'a': 1, 'b': 2, 'e': 4, 'f': 5, 'c': 3, 'd': 7, 'g': 6, 'h': 8, 'i': 9, 'l': 12, 'j': 10, 'k': 11, 'm': 13, 'n': 14, 'o': 15, 'p': 16, 'q': 17}
+PS: {'a': 7, 'b': 2, 'e': 3, 'f': 6, 'c': 1, 'd': 4, 'g': 5, 'h': 13, 'i': 10, 'l': 12, 'j': 9, 'k': 8, 'm': 11, 'n': 17, 'o': 14, 'p': 16, 'q': 15}
+
 
 *********************************************************************
 Arquivo: DIGRAFO_4.txt
@@ -465,6 +509,17 @@ s: Sucessores: ['a', 'b', 'g'], Antecessores: []
 
 Bipartido: Não (Verificação feita no grafo não-direcionado subjacente)
 
+==== BUSCA EM PROFUNDIDADE ====
+--- Resultado da Busca em Profundidade (DFS) a partir de 's' ---
+Classificação das Arestas:
+1. Arestas de Árvore (8): ['(s,a)', '(a,c)', '(c,b)', '(c,d)', '(d,e)', '(s,g)', '(g,f)', '(h,i)']
+2. Arestas de Retorno (3): ['(d,a)', '(e,c)', '(f,g)']
+3. Arestas de Avanço (1): ['(s,b)']
+4. Arestas de Cruzamento (2): ['(f,e)', '(h,d)']
+Resultados de PE e PS: 
+PE: {'s': 1, 'a': 2, 'b': 4, 'g': 7, 'c': 3, 'd': 5, 'e': 6, 'f': 8, 'h': 9, 'i': 10}
+PS: {'s': 8, 'a': 5, 'b': 1, 'g': 7, 'c': 4, 'd': 3, 'e': 2, 'f': 6, 'h': 10, 'i': 9}
+
 
 *********************************************************************
 Arquivo: DIGRAFO_5_POR_MATRIZ_INCIDENCIA.txt
@@ -525,6 +580,17 @@ d+(2)=2, d-(2)=1   d+(4)=3, d-(4)=2   d+(6)=2, d-(6)=1
 
 Bipartido: Não (Verificação feita no grafo não-direcionado subjacente)
 
+==== BUSCA EM PROFUNDIDADE ====
+--- Resultado da Busca em Profundidade (DFS) a partir de '2' ---
+Classificação das Arestas:
+1. Arestas de Árvore (5): ['(2,3)', '(2,4)', '(4,1)', '(4,5)', '(5,6)']
+2. Arestas de Retorno (2): ['(4,2)', '(6,4)']
+3. Arestas de Avanço (0): []
+4. Arestas de Cruzamento (1): ['(6,3)']
+Resultados de PE e PS: 
+PE: {'2': 1, '3': 2, '4': 3, '1': 4, '5': 5, '6': 6}
+PS: {'2': 6, '3': 1, '4': 5, '1': 2, '5': 4, '6': 3}
+
 
 *********************************************************************
 Arquivo: DIGRAFO_5_via_matriz.txt
@@ -584,6 +650,17 @@ d+(2)=2, d-(2)=1   d+(4)=3, d-(4)=2   d+(6)=2, d-(6)=1
 6: Sucessores: ['3', '4'], Antecessores: ['5']
 
 Bipartido: Não (Verificação feita no grafo não-direcionado subjacente)
+
+==== BUSCA EM PROFUNDIDADE ====
+--- Resultado da Busca em Profundidade (DFS) a partir de '2' ---
+Classificação das Arestas:
+1. Arestas de Árvore (5): ['(2,3)', '(2,4)', '(4,1)', '(4,5)', '(5,6)']
+2. Arestas de Retorno (2): ['(4,2)', '(6,4)']
+3. Arestas de Avanço (0): []
+4. Arestas de Cruzamento (1): ['(6,3)']
+Resultados de PE e PS: 
+PE: {'2': 1, '3': 2, '4': 3, '1': 4, '5': 5, '6': 6}
+PS: {'2': 6, '3': 1, '4': 5, '1': 2, '5': 4, '6': 3}
 
 
 *********************************************************************
@@ -656,6 +733,17 @@ Adjacentes de h: ['f', 'g']
 
 Bipartido: Não
 
+==== BICONECTIVIDADE ====
+Articulações encontradas:
+{ b, c, e, f }
+Componentes biconectados (blocos):
+Bloco 1 (Arestas): ['(h,f)', '(g,h)', '(f,g)']
+Bloco 2 (Arestas): ['(e,f)']
+Bloco 3 (Arestas): ['(c,e)']
+Bloco 4 (Arestas): ['(d,b)', '(c,d)', '(b,c)']
+Bloco 5 (Arestas): ['(a,b)']
+
+
 
 *********************************************************************
 Arquivo: GRAFO_1.txt
@@ -726,6 +814,17 @@ Adjacentes de h: ['d']
 Adjacentes de i: ['c']
 
 Bipartido: Não
+
+==== BICONECTIVIDADE ====
+Articulações encontradas:
+{ b, c, d }
+Componentes biconectados (blocos):
+Bloco 1 (Arestas): ['(d,h)']
+Bloco 2 (Arestas): ['(c,i)']
+Bloco 3 (Arestas): ['(e,b)', '(c,e)', '(d,b)', '(c,d)', '(b,c)']
+Bloco 4 (Arestas): ['(b,f)']
+Bloco 5 (Arestas): ['(a,b)']
+
 
 
 *********************************************************************
@@ -813,6 +912,15 @@ Adjacentes de 8: ['10', '11', '9']
 Adjacentes de 9: ['10', '8']
 
 Bipartido: Não
+
+==== BICONECTIVIDADE ====
+Articulações encontradas:
+{ 6, 8 }
+Componentes biconectados (blocos):
+Bloco 1 (Arestas): ['(6,7)']
+Bloco 2 (Arestas): ['(8,11)']
+Bloco 3 (Arestas): ['(1,2)', '(2,3)', '(3,1)', '(3,4)', '(4,5)', '(5,2)', '(2,6)', '(6,1)', '(8,9)', '(9,10)', '(10,8)']
+
 
 
 *********************************************************************
@@ -933,6 +1041,14 @@ Adjacentes de q: ['d', 'n', 'p']
 
 Bipartido: Não
 
+==== BICONECTIVIDADE ====
+Articulações encontradas:
+{ a }
+Componentes biconectados (blocos):
+Bloco 1 (Arestas): ['(q,n)', '(q,d)', '(p,q)', '(n,p)', '(o,n)', '(m,o)', '(m,h)', '(l,m)', '(k,j)', '(k,i)', '(l,k)', '(h,l)', '(i,h)', '(j,i)', '(g,j)', '(g,d)', '(f,g)', '(e,a)', '(f,e)', '(f,a)', '(d,f)', '(c,d)', '(a,c)']
+Bloco 2 (Arestas): ['(a,b)']
+
+
 
 *********************************************************************
 Arquivo: GRAFO_4.txt
@@ -1009,6 +1125,16 @@ Adjacentes de 9: ['7', '8']
 
 Bipartido: Não
 
+==== BICONECTIVIDADE ====
+Articulações encontradas:
+{ 3, 5 }
+Componentes biconectados (blocos):
+Bloco 1 (Arestas): ['(6,3)', '(4,6)', '(3,4)']
+Bloco 2 (Arestas): ['(9,7)', '(8,9)', '(8,5)', '(7,8)', '(5,7)']
+Bloco 3 (Arestas): ['(3,5)']
+Bloco 4 (Arestas): ['(1,3)', '(3,2)', '(2,1)']
+
+
 
 *********************************************************************
 Arquivo: GRAFO_5_POR_MATRIZ_INCIDENCIA.txt
@@ -1069,6 +1195,14 @@ Adjacentes de 6: ['3', '5']
 
 Bipartido: Não
 
+==== BICONECTIVIDADE ====
+Articulações encontradas:
+{ 4 }
+Componentes biconectados (blocos):
+Bloco 1 (Arestas): ['(4,1)']
+Bloco 2 (Arestas): ['(2,3)', '(3,6)', '(6,5)', '(5,4)', '(4,2)']
+
+
 
 *********************************************************************
 Arquivo: GRAFO_5_via_matriz.txt
@@ -1128,3 +1262,10 @@ Adjacentes de 5: ['4', '6']
 Adjacentes de 6: ['3', '5']
 
 Bipartido: Não
+
+==== BICONECTIVIDADE ====
+Articulações encontradas:
+{ 4 }
+Componentes biconectados (blocos):
+Bloco 1 (Arestas): ['(4,1)']
+Bloco 2 (Arestas): ['(2,3)', '(3,6)', '(6,5)', '(5,4)', '(4,2)']
