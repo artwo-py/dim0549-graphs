@@ -1,5 +1,6 @@
 import os
 import time
+from lib.build_from_matrix import escrever_digrafo_grafo_em_arquivo_a_partir_de_matriz
 from lib.utils.filereader import ler_diretorio
 from lib.utils.formater import gerar_relatorio_completo
 from lib.algorithms.bfs import bfs
@@ -8,9 +9,15 @@ from lib.utils.renderer import renderizar_bfs, renderizar_dfs, renderizar_grafo
 
 inicio_timer = time.time()
 directory = 'data'
+subdirectory = 'matrix_incidencia'
+
+print("--- Escrevendo Arquivos de Grafos com Base na Matriz ---")
+escrever_digrafo_grafo_em_arquivo_a_partir_de_matriz(directory, subdirectory)
+
+print("\n--------------------------------------------------\n")
 grafos = ler_diretorio(directory)
 
-print("--- Gerando Relatório de Análise (resultados.txt) ---")
+print("\n--- Gerando Relatório de Análise (resultados.txt) ---")
 output_filename = 'resultados.txt'
 with open(output_filename, 'w', encoding='utf-8') as f:
     grafos_ordenados = sorted(grafos, key=lambda g: g.nome_arquivo)

@@ -1,5 +1,6 @@
 from collections import defaultdict
 import math
+import os
 
 def _calcular_graus_entrada(grafo):
     """Calcula o grau de entrada para cada vértice em um grafo direcionado."""
@@ -107,3 +108,91 @@ def gerar_relatorio_completo(grafo):
     report.append(formatar_lista_adj(grafo))
     report.append(formatar_graus(grafo))
     return "\n".join(report)
+
+
+def gerar_arquivos_grafos_por_matriz(directory, subdirectory):
+    """
+    Lê os arquivos de matriz de incidencia no diretório 'data/matrix_incidencia/' e 
+    gera os arquivos de lista de incidencia (formatado como DIGRAFO_X_POR_MATRIZ.TXT 
+    ou GRAFO_X_POR_MATRIZ.TXT) na pasta 'data/matrix_incidencia'.
+    """
+    matrix_dir = os.path.join(directory, subdirectory)
+    if not os.path.exists(matrix_dir):
+        print(f"Erro: o diretório '{matrix_dir}' não foi encontrado.")
+        return
+
+    arquivos = sorted([f for f in os.listdir(matrix_dir) if f.lower().endswith('.txt')])
+
+    for arquivo in arquivos:
+        caminho = os.path.join(matrix_dir, arquivo)
+        base_name = os.path.splitext(arquivo)[0]
+        nome_saida = f"{base_name}_POR_MATRIZ_INCIDENCIA.TXT"
+
+        try:
+            with open(caminho, 'r', encoding='utf-8') as f:
+                linhas = [linha.strip() for linha in f if linha.strip()]
+
+            if not linhas:
+                print(f"Aviso: '{arquivo}' está vazio. Pulando.")
+                continue
+
+            primeira_linha = linhas[0].replace(',', ' ').split()
+            cabecalho_tem_numeros = all(valor.lstrip('-').isdigit() for valor in primeira_linha)
+
+            if cabecalho_tem_numeros:
+                quant_vertices = len(primeira_linha)
+                dados = linhas[1:]
+            else:
+                dados = linhas
+                # Descobrindo o número de colunas (vértices)
+                exemplo = dados[0].replace(',', ' ').split()
+                if exemplo[0][0].isalpha():
+                    quant_vertices = len(exemplo) - 1
+                else:
+                    quant_vertices = len(exemplo)
+
+            arestas = []
+
+            for index, linha in enumerate(dados, start=1):
+                partes = linha.replace(',', ' ').split()
+
+                # Verifica se o primeiro valor é rótulo (ex: "a_1")
+                if partes[0][0].isalpha():
+                    valores = partes[1:]
+                else:
+                    valores = partes
+
+                if len(valores) != quant_vertices:
+                    print(f"Aviso: linha {index} de '{arquivo}' com número incorreto de colunas. Pulando...")
+                    continue
+
+                try:
+                    nums = [int(v) for v in valores]
+                except ValueError:
+                    print(f"Aviso: linha {index} contém valor não numérico. Pulando...")
+                    continue
+
+                origem = None
+                destino = None
+                for j, v in enumerate(nums, start=1):
+                    if v == -1:
+                        origem = j
+                    elif v == 1:
+                        destino = j
+
+                if origem is not None and destino is not None:
+                    arestas.append((origem, destino))
+                else:
+                    print(f"Aviso: linha {index} sem -1 e 1 válidos. Pulando.")
+
+            # Gerando arquivo de saída
+            caminho_saida = os.path.join(directory, nome_saida)
+            with open(caminho_saida, 'w', encoding='utf-8') as f:
+                f.write(f"{quant_vertices}\n")
+                for origem, destino in arestas:
+                    f.write(f"{origem},{destino}\n")
+
+            print(f"Gerado: {caminho_saida}")
+
+        except Exception as e:
+            print(f"Erro ao processar '{arquivo}': {e}")
