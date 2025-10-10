@@ -1,56 +1,109 @@
 """
 Módulo:    DFS
-Objetivo:  Implementa o algoritmo de Busca em Profundidade (Depth-First Search).
-Funções:   dfs(grafo, id_vertice_inicial)
+Objetivo:  Implementa o algoritmo de Busca em Profundidade (Depth-First Search)
+           de forma modular, com funcionalidades básicas e avançadas.
+Funções:   dfs(grafo, id_vertice_inicial, classificar_arestas, retornar_tempos)
 """
-def dfs(grafo, id_vertice_inicial=None):
+from lib.core.graph import Grafo, Aresta
+
+def dfs(grafo: Grafo, id_vertice_inicial=None, classificar_arestas=False, retornar_tempos=False):
     """
-    Tarefas: (14), (20).
-    Info:   Percorre o grafo em profundidade a partir de um vértice, para grafo
-            e dígrafo. Lida com grafos desconexos e identifica arestas de retorno.
-    E: - grafo (Grafo): O objeto grafo a ser percorrido.
-       - id_vertice_inicial (str/int, opcional): ID do vértice para iniciar a busca. Se omitido, começa pelo primeiro vértice do grafo.
-    S: (list, list) - Tupla contendo:
-       - A ordem de visita em formato [(v, pai), ...].
-       - A lista de arestas de retorno encontradas.
+    Info: Executa a Busca em Profundidade (DFS). Opera em modo simples (retornando a 
+        ordem de visita e arestas de retorno) ou em modo avançado, que pode 
+        classificar todos os tipos de arestas e calcular tempos de entrada/saída.
+        
+    Args:
+       - grafo (Grafo): O objeto grafo a ser percorrido.
+       - id_vertice_inicial (str/int, opcional): Vértice de início da busca. Se omitido, usa o primeiro do grafo.
+       - classificar_arestas (bool, opcional): Se True, ativa a classificação arestas (árvore, avanço, etc.).
+       - retornar_tempos (bool, opcional): Se True, retorna os tempos de entrada (PE) e saída (PS) dos vértices.
+
+    Returns:
+       - Modo Padrão: (list, list) - Tupla com (ordem_visita, arestas_retorno).
+       - Modo Avançado: dict - Dicionário com os resultados solicitados.
     """
     adj = grafo.lista_adj
+    # CORREÇÃO: Trocado grafo.get_vertices() pelo acesso direto ao atributo grafo.vertices
+    todos_vertices = grafo.vertices
+
     vertice_inicial_obj = None
     if id_vertice_inicial:
-        vertice_inicial_obj = grafo.indice_vertices.get(id_vertice_inicial)
+        vertice_inicial_obj = grafo.indice_vertices.get(str(id_vertice_inicial))
         if not vertice_inicial_obj:
-            raise ValueError(f"Vértice inicial '{id_vertice_inicial}' não está no grafo.")
-    elif grafo.vertices:
-        vertice_inicial_obj = grafo.vertices[0]
+            print(f"Alerta: Vértice inicial '{id_vertice_inicial}' não encontrado no grafo '{grafo.nome_arquivo}'.")
+            return ([], []) if not classificar_arestas and not retornar_tempos else {}
+    elif todos_vertices:
+        vertice_inicial_obj = todos_vertices[0]
     else:
-        return [], [] 
-    todos_vertices = grafo.get_vertices()
-    ordem_de_busca = ([vertice_inicial_obj] + 
+        return ([], []) if not classificar_arestas and not retornar_tempos else {}
+
+    # Garante que a busca comece pelo vértice especificado
+    ordem_de_busca = ([vertice_inicial_obj] +
                       [v for v in todos_vertices if v != vertice_inicial_obj])
-    visitados = set()
-    visitando = set() 
-    pred = {}
-    ordem = []
-    arestas_retorno = []
+
+    cor = {v: 'branco' for v in todos_vertices}
+    parent = {v: None for v in todos_vertices}
+    ordem_visita = []
     
-    def dfs_visit(vertice_obj, predecessor_obj):
-        visitados.add(vertice_obj)
-        visitando.add(vertice_obj)
-        pred[vertice_obj] = predecessor_obj
-        pred_id = str(predecessor_obj.id) if predecessor_obj else "-"
-        ordem.append((str(vertice_obj.id), pred_id))
-        for vizinho_obj in adj.get(vertice_obj, []):
-            if vizinho_obj in visitando:
-                aresta = (str(vertice_obj.id), str(vizinho_obj.id))
-                arestas_retorno.append(aresta)
-            elif vizinho_obj not in visitados:
-                dfs_visit(vizinho_obj, vertice_obj)
-        visitando.remove(vertice_obj)
+    tempo = 0
+    pe = {v: 0 for v in todos_vertices}  
+    ps = {v: 0 for v in todos_vertices}  
+    arestas_arvore = []
+    arestas_retorno = []
+    arestas_avanco = []
+    arestas_cruzamento = []
+
+    def dfs_visit(u):
+        nonlocal tempo
         
-    for inicio_obj in ordem_de_busca:
-        if inicio_obj not in visitados:
-            dfs_visit(inicio_obj, None)
-    if ordem and ordem[0][1] is None:
-        primeiro_v, _ = ordem[0]
-        ordem[0] = (primeiro_v, "-")
-    return ordem, arestas_retorno
+        cor[u] = 'cinza'
+        tempo += 1
+        pe[u] = tempo
+        
+        pai_obj = parent.get(u)
+        pai_id = str(pai_obj.id) if pai_obj else "-"
+        ordem_visita.append((str(u.id), pai_id))
+
+        # Adicionado sorted para garantir uma ordem de visita determinística
+        for v in sorted(adj.get(u, []), key=lambda vertice: str(vertice.id)):
+            if cor[v] == 'branco':
+                parent[v] = u
+                if classificar_arestas:
+                    arestas_arvore.append(Aresta(u, v))
+                dfs_visit(v)
+            
+            elif cor[v] == 'cinza':
+                arestas_retorno.append(Aresta(u, v))
+            
+            elif cor[v] == 'preto' and classificar_arestas:
+                if pe[u] < pe[v]:
+                    arestas_avanco.append(Aresta(u, v))
+                else:
+                    arestas_cruzamento.append(Aresta(u, v))
+
+        cor[u] = 'preto'
+        tempo += 1
+        ps[u] = tempo
+
+    for v_inicio in ordem_de_busca:
+        if cor[v_inicio] == 'branco':
+            dfs_visit(v_inicio)
+
+    if classificar_arestas or retornar_tempos:
+        resultados = {
+            'ordem_visita': ordem_visita,
+            'arestas_retorno': arestas_retorno
+        }
+        if classificar_arestas:
+            resultados['arestas_arvore'] = arestas_arvore
+            resultados['arestas_avanco'] = arestas_avanco
+            resultados['arestas_cruzamento'] = arestas_cruzamento
+        if retornar_tempos:
+            resultados['tempos_entrada'] = {str(v.id): pe[v] for v in pe}
+            resultados['tempos_saida'] = {str(v.id): ps[v] for v in ps}
+        return resultados
+    
+    else:
+        # No modo simples, converte arestas para tuplas de IDs para consistência
+        arestas_retorno_tuplas = [(str(a.v1.id), str(a.v2.id)) for a in arestas_retorno]
+        return ordem_visita, arestas_retorno_tuplas
