@@ -102,6 +102,32 @@ def renderizar_dfs(ordem, arestas_retorno=None, nome_grafo="DFS"):
     return dot
 
 
+def renderizar_grafo_subjacente(digrafo):
+    dot = Graph(comment='My Undirected Graph', format="png")
+    dot.graph_attr.update({
+        "layout": "neato",
+        "rankdir": "LR",
+        "splines": "true",
+        "overlap": "false",
+    })
+    for vertice in digrafo.vertices:
+        dot.node(str(vertice.id), style="solid", penwidth='2.0')
+
+    # Adiciona arestas sem duplicar
+    arestas_adicionadas = set()
+    for aresta in digrafo.arestas:
+        v1_id = str(aresta.v1.id)
+        v2_id = str(aresta.v2.id)
+
+        # Cria uma tupla ordenada para evitar duplicatas (A,B) == (B,A)
+        aresta_ordenada = tuple(sorted([v1_id, v2_id]))
+
+        if aresta_ordenada not in arestas_adicionadas:
+            dot.edge(v1_id, v2_id, style="solid", penwidth='2.0', constraint='true')
+            arestas_adicionadas.add(aresta_ordenada)
+    return dot
+
+
 def aresta_para_tupla(aresta):
     return (aresta.v1.id, aresta.v2.id)
 

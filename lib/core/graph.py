@@ -13,6 +13,8 @@ Funções:   A classe Grafo inclui métodos para manipulação (adicionar vérti
 """
 import collections
 
+from lib.algorithms.bfs import bfs
+
 class Vertice:
     """Info: Representa um vértice (ou nó) em um grafo."""
     def __init__(self, id):
@@ -340,3 +342,27 @@ class Grafo:
 
         for i, linha in enumerate(self.matriz_adj):
             print(f"{ids[i]}|", *linha)
+
+    def eh_conexo(self):
+        """
+        Info: Para grafos não-direcionados, verifica se há um único componente conexo
+            (grafo conexo) utilizando a ordem de visita retornada pela BFS. 
+            Para grafos direcionados, verifica se o grafo subjacente não-direcionado 
+            é conexo (conectividade fraca).
+        E: None
+        S: bool - True se o grafo for conexo (ou fraca conectividade para dígrafos), False caso contrário.
+        """
+        if self.num_vertices() <= 1: 
+            return True
+
+        ordem_visita, _ = bfs(self)
+
+        num_componentes = 0
+        for _, pai_id in ordem_visita:
+            if pai_id == '-':
+                num_componentes += 1
+                
+        if num_componentes == 1:
+            return True
+        else:
+            return False

@@ -1,16 +1,23 @@
 import os
 import time
+from lib.build_from_matrix import escrever_digrafo_grafo_em_arquivo_a_partir_de_matriz
 from lib.utils.filereader import ler_diretorio
 from lib.utils.formater import gerar_relatorio_completo
 from lib.algorithms.bfs import bfs
 from lib.algorithms.dfs import dfs
-from lib.utils.renderer import renderizar_bfs, renderizar_dfs, renderizar_grafo
+from lib.utils.renderer import renderizar_bfs, renderizar_dfs, renderizar_grafo, renderizar_grafo_subjacente
 
 inicio_timer = time.time()
 directory = 'data'
+subdirectory = 'matrix_incidencia'
+
+print("--- Escrevendo Arquivos de Grafos com Base na Matriz ---")
+escrever_digrafo_grafo_em_arquivo_a_partir_de_matriz(directory, subdirectory)
+
+print("\n--------------------------------------------------\n")
 grafos = ler_diretorio(directory)
 
-print("--- Gerando Relatório de Análise (resultados.txt) ---")
+print("\n--- Gerando Relatório de Análise (resultados.txt) ---")
 output_filename = 'resultados.txt'
 with open(output_filename, 'w', encoding='utf-8') as f:
     grafos_ordenados = sorted(grafos, key=lambda g: g.nome_arquivo)
@@ -49,5 +56,13 @@ for grafo in grafos:
         dot_dfs = renderizar_dfs(ordem_dfs, arestas_de_retorno)
         dot_dfs.render(f'render/dfs/DFS_{base_name}', view=False, cleanup=True)
 
+
+print("\n--- Executando e Renderizando Grafos Subjacentes ---")
+for grafo in grafos:
+    if grafo.direcionado and grafo.vertices:
+        print("Gerando Subjacente em:", grafo.nome_arquivo)
+        base_name = os.path.splitext(grafo.nome_arquivo)[0]
+        dot = renderizar_grafo_subjacente(grafo)
+        dot.render(f'render/subjacente/SUBJACENTE_{base_name}', view=False, cleanup=True)
 
 print("\nTempo total: %.4f segundos" % (time.time() - inicio_timer))
