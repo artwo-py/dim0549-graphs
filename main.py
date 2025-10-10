@@ -5,7 +5,8 @@ from lib.utils.filereader import ler_diretorio
 from lib.utils.formater import gerar_relatorio_completo
 from lib.algorithms.bfs import bfs
 from lib.algorithms.dfs import dfs
-from lib.utils.renderer import renderizar_bfs, renderizar_dfs, renderizar_grafo, renderizar_grafo_subjacente
+from lib.algorithms.dfs_search import busca_profundidade_com_classificacao
+from lib.utils.renderer import renderizar_bfs, renderizar_dfs, renderizar_grafo, renderizar_grafo_subjacente, renderizar_dfs_classificada
 
 inicio_timer = time.time()
 directory = 'data'
@@ -56,6 +57,16 @@ for grafo in grafos:
         dot_dfs = renderizar_dfs(ordem_dfs, arestas_de_retorno)
         dot_dfs.render(f'render/dfs/DFS_{base_name}', view=False, cleanup=True)
 
+
+print("\n--- Executando e Renderizando Busca em Profundidade ---")
+for grafo in grafos:
+    if grafo.direcionado and grafo.vertices:
+        print("Executando Busca em Profundidade em:", grafo.nome_arquivo)
+        base_name = os.path.splitext(grafo.nome_arquivo)[0]
+        vertice_inicial = str(grafo.vertices[0].id)
+        ordem, arestas_arvore, arestas_retorno, arestas_avanco, arestas_cruzamento, pe_ids, ps_ids = busca_profundidade_com_classificacao(grafo, vertice_inicial)
+        dot_dfs = renderizar_dfs_classificada(ordem, arestas_arvore, arestas_retorno, arestas_avanco, arestas_cruzamento)
+        dot_dfs.render(f'render/dfs/Busca_Classificacao', view=False, cleanup=True)
 
 print("\n--- Executando e Renderizando Grafos Subjacentes ---")
 for grafo in grafos:
