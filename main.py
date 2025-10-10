@@ -10,7 +10,7 @@ inicio_timer = time.time()
 directory = 'data'
 grafos = ler_diretorio(directory)
 
-print("--- Gerando Relatório de Análise (resultados.txt) ---")
+print("\n--- Gerando Relatório de Análise (resultados.txt) ---")
 output_filename = 'resultados.txt'
 with open(output_filename, 'w', encoding='utf-8') as f:
     grafos_ordenados = sorted(grafos, key=lambda g: g.nome_arquivo)
