@@ -244,26 +244,25 @@ class Grafo:
         S: int - O número total de arestas.
         """
         return len(self.arestas)
-    def eh_conexo(self):
-        """
-        Info: Para grafos não-direcionados, verifica se há um único componente conexo
-            (grafo conexo) utilizando a ordem de visita retornada pela BFS. 
-            Para grafos direcionados, verifica se o grafo subjacente não-direcionado 
-            é conexo (conectividade fraca).
-        E: None
-        S: bool - True se o grafo for conexo (ou fraca conectividade para dígrafos), False caso contrário.
-        """
-        if self.num_vertices() <= 1: 
-            return True
 
-        ordem_visita, _ = bfs(self)
+    def get_grau(self, vertice_id):
+        """
+        Tarefa: (5) Função que calcula o grau de um vértice.
+        Info: Para grafos não direcionados, retorna o grau total (int).
+              Para grafos direcionados, retorna uma tupla (grau de entrada, grau de saída).
+        E: vertice_id (str/int) - O ID do vértice.
+        S: int or tuple(int, int) or None - O grau, ou None se o vértice não existir.
+        """
+        vertice_obj = self.indice_vertices.get(str(vertice_id))
+        if not vertice_obj:
+            return None
 
-        num_componentes = 0
-        for _, pai_id in ordem_visita:
-            if pai_id == '-':
-                num_componentes += 1
-                
-        if num_componentes == 1:
-            return True
+        if not self.direcionado:
+            return len(self.lista_adj.get(vertice_obj, []))
         else:
-            return False
+            grau_saida = len(self.lista_adj.get(vertice_obj, []))
+            grau_entrada = 0
+            for vizinhos in self.lista_adj.values():
+                if vertice_obj in vizinhos:
+                    grau_entrada += 1
+            return (grau_entrada, grau_saida)

@@ -35,10 +35,8 @@ def bfs(grafo: Grafo, id_inicio=None) -> (list, list):
     else:
         return [], [] 
 
-    # CORREÇÃO: Trocado grafo.get_vertices() pelo acesso direto ao atributo grafo.vertices
     todos_vertices = grafo.vertices
     
-    # Garante que a busca comece pelo vértice especificado
     ordem_de_busca = ([vertice_inicial_obj] + 
                       [v for v in todos_vertices if v != vertice_inicial_obj])
     
@@ -61,14 +59,12 @@ def bfs(grafo: Grafo, id_inicio=None) -> (list, list):
             pred_id = str(pred_obj.id) if pred_obj != "-" else "-"
             ordem.append((str(atual_obj.id), pred_id))
             
-            # Adicionado sorted para garantir uma ordem de visita determinística
             for prox_obj in sorted(adj.get(atual_obj, []), key=lambda v: str(v.id)):
                 if prox_obj not in visitados:
                     visitados.add(prox_obj)
                     pred[prox_obj] = atual_obj
                     fila.append(prox_obj)
                 else:
-                    # Verifica se a aresta não é a aresta de volta para o pai em grafos não direcionados
                     if not grafo.direcionado and pred.get(atual_obj) == prox_obj:
                         continue
                     aresta = (str(atual_obj.id), str(prox_obj.id))

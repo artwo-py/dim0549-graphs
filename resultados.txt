@@ -1,6 +1,6 @@
 *********************************************************************
 Arquivo: DIGRAFO_0.txt
-Conexo: Sim (Fracamente Conexo)
+Análise para: DÍGRAFO
 ==== MATRIZ DE ADJACÊNCIA ====
   | a b d c e f g h
 --+----------------
@@ -23,40 +23,12 @@ f: ['g']
 g: ['h']
 h: []
 
-==== DEMONSTRAÇÃO DE CONVERSÃO ====
-
---- 1. Matriz de Adjacências -> Lista de Adjacências ---
-
-==== LISTA DE ADJACÊNCIA ====
-a: ['b', 'd']
-b: ['c', 'e']
-c: ['a', 'f']
-d: ['e']
-e: ['f']
-f: ['g']
-g: ['h']
-h: []
-
---- 2. Lista de Adjacências -> Matriz de Adjacências ---
-
-==== MATRIZ DE ADJACÊNCIA ====
-  | a b d c e f g h
---+----------------
-a | 0 1 1 0 0 0 0 0
-b | 0 0 0 1 1 0 0 0
-d | 0 0 0 0 1 0 0 0
-c | 1 0 0 0 0 1 0 0
-e | 0 0 0 0 0 1 0 0
-f | 0 0 0 0 0 0 1 0
-g | 0 0 0 0 0 0 0 1
-h | 0 0 0 0 0 0 0 0
-
-==== GRAU DE CADA VÉRTICE NO GRAFO ====
+==== GRAUS DE ENTRADA E SAÍDA (Representação) ====
 d+(a)=2, d-(a)=1   d+(d)=1, d-(d)=1   d+(g)=1, d-(g)=1
 d+(b)=2, d-(b)=1   d+(e)=1, d-(e)=2   d+(h)=0, d-(h)=1
 d+(c)=2, d-(c)=1   d+(f)=1, d-(f)=2
 
-==== ADJACÊNCIAS DE CADA VÉRTICE ====
+==== SUCESSORES E ANTECESSORES (Representação) ====
 a: Sucessores: ['b', 'd'], Antecessores: ['c']
 b: Sucessores: ['c', 'e'], Antecessores: ['a']
 c: Sucessores: ['a', 'f'], Antecessores: ['b']
@@ -66,7 +38,17 @@ f: Sucessores: ['g'], Antecessores: ['c', 'e']
 g: Sucessores: ['h'], Antecessores: ['f']
 h: Sucessores: [], Antecessores: ['g']
 
-Bipartido: Não (Verificação feita no grafo não-direcionado subjacente)
+==== (18) GRAFO SUBJACENTE ====
+a: ['b', 'c', 'd']
+b: ['a', 'c', 'e']
+c: ['a', 'b', 'f']
+d: ['a', 'e']
+e: ['b', 'd', 'f']
+f: ['c', 'e', 'g']
+g: ['f', 'h']
+h: ['g']
+
+INFO: As buscas BFS (19) e DFS (20) são executadas e renderizadas visualmente.
 
 ==== BUSCA EM PROFUNDIDADE ====
 --- Resultado da Busca em Profundidade (DFS) a partir de 'a' ---
@@ -82,7 +64,7 @@ PS: {'a': 8, 'b': 6, 'd': 7, 'c': 4, 'e': 5, 'f': 3, 'g': 2, 'h': 1}
 
 *********************************************************************
 Arquivo: DIGRAFO_1.txt
-Conexo: Não (Fracamente Conexo)
+Análise para: DÍGRAFO
 ==== MATRIZ DE ADJACÊNCIA ====
    |  1  2  3  4  5  6  8  7  9 10 11 12 13
 ---+---------------------------------------
@@ -115,52 +97,14 @@ Conexo: Não (Fracamente Conexo)
 8: ['10', '4']
 9: ['8']
 
-==== DEMONSTRAÇÃO DE CONVERSÃO ====
-
---- 1. Matriz de Adjacências -> Lista de Adjacências ---
-
-==== LISTA DE ADJACÊNCIA ====
-1: ['2']
-10: []
-11: ['12']
-12: ['13']
-13: ['12']
-2: ['3']
-3: ['1', '4']
-4: ['5']
-5: ['6', '8']
-6: ['7']
-7: ['6', '9']
-8: ['10', '4']
-9: ['8']
-
---- 2. Lista de Adjacências -> Matriz de Adjacências ---
-
-==== MATRIZ DE ADJACÊNCIA ====
-   |  1  2  3  4  5  6  8  7  9 10 11 12 13
----+---------------------------------------
- 1 |  0  1  0  0  0  0  0  0  0  0  0  0  0
- 2 |  0  0  1  0  0  0  0  0  0  0  0  0  0
- 3 |  1  0  0  1  0  0  0  0  0  0  0  0  0
- 4 |  0  0  0  0  1  0  0  0  0  0  0  0  0
- 5 |  0  0  0  0  0  1  1  0  0  0  0  0  0
- 6 |  0  0  0  0  0  0  0  1  0  0  0  0  0
- 8 |  0  0  0  1  0  0  0  0  0  1  0  0  0
- 7 |  0  0  0  0  0  1  0  0  1  0  0  0  0
- 9 |  0  0  0  0  0  0  1  0  0  0  0  0  0
-10 |  0  0  0  0  0  0  0  0  0  0  0  0  0
-11 |  0  0  0  0  0  0  0  0  0  0  0  1  0
-12 |  0  0  0  0  0  0  0  0  0  0  0  0  1
-13 |  0  0  0  0  0  0  0  0  0  0  0  1  0
-
-==== GRAU DE CADA VÉRTICE NO GRAFO ====
+==== GRAUS DE ENTRADA E SAÍDA (Representação) ====
 d+(1)=1, d-(1)=1     d+(2)=1, d-(2)=1     d+(7)=2, d-(7)=1  
 d+(10)=0, d-(10)=1   d+(3)=2, d-(3)=1     d+(8)=2, d-(8)=2  
 d+(11)=1, d-(11)=0   d+(4)=1, d-(4)=2     d+(9)=1, d-(9)=1  
 d+(12)=1, d-(12)=2   d+(5)=2, d-(5)=1  
 d+(13)=1, d-(13)=1   d+(6)=1, d-(6)=2  
 
-==== ADJACÊNCIAS DE CADA VÉRTICE ====
+==== SUCESSORES E ANTECESSORES (Representação) ====
 1: Sucessores: ['2'], Antecessores: ['3']
 10: Sucessores: [], Antecessores: ['8']
 11: Sucessores: ['12'], Antecessores: []
@@ -175,7 +119,22 @@ d+(13)=1, d-(13)=1   d+(6)=1, d-(6)=2
 8: Sucessores: ['10', '4'], Antecessores: ['5', '9']
 9: Sucessores: ['8'], Antecessores: ['7']
 
-Bipartido: Não (Verificação feita no grafo não-direcionado subjacente)
+==== (18) GRAFO SUBJACENTE ====
+1: ['2', '3']
+10: ['8']
+11: ['12']
+12: ['11', '13']
+13: ['12']
+2: ['1', '3']
+3: ['1', '2', '4']
+4: ['3', '5', '8']
+5: ['4', '6', '8']
+6: ['5', '7']
+7: ['6', '9']
+8: ['10', '4', '5', '9']
+9: ['7', '8']
+
+INFO: As buscas BFS (19) e DFS (20) são executadas e renderizadas visualmente.
 
 ==== BUSCA EM PROFUNDIDADE ====
 --- Resultado da Busca em Profundidade (DFS) a partir de '1' ---
@@ -191,7 +150,7 @@ PS: {'1': 10, '2': 9, '3': 8, '4': 7, '5': 6, '6': 5, '8': 2, '7': 4, '9': 3, '1
 
 *********************************************************************
 Arquivo: DIGRAFO_2.txt
-Conexo: Não (Fracamente Conexo)
+Análise para: DÍGRAFO
 ==== MATRIZ DE ADJACÊNCIA ====
    |  1  2  3  4  5  6  8  7  9 10 12 11 13
 ---+---------------------------------------
@@ -224,52 +183,14 @@ Conexo: Não (Fracamente Conexo)
 8: ['10', '4']
 9: ['8']
 
-==== DEMONSTRAÇÃO DE CONVERSÃO ====
-
---- 1. Matriz de Adjacências -> Lista de Adjacências ---
-
-==== LISTA DE ADJACÊNCIA ====
-1: ['2']
-10: ['12']
-11: ['12']
-12: ['13']
-13: ['12']
-2: ['3']
-3: ['1', '4']
-4: ['5']
-5: ['6', '8']
-6: ['7']
-7: ['6', '9']
-8: ['10', '4']
-9: ['8']
-
---- 2. Lista de Adjacências -> Matriz de Adjacências ---
-
-==== MATRIZ DE ADJACÊNCIA ====
-   |  1  2  3  4  5  6  8  7  9 10 12 11 13
----+---------------------------------------
- 1 |  0  1  0  0  0  0  0  0  0  0  0  0  0
- 2 |  0  0  1  0  0  0  0  0  0  0  0  0  0
- 3 |  1  0  0  1  0  0  0  0  0  0  0  0  0
- 4 |  0  0  0  0  1  0  0  0  0  0  0  0  0
- 5 |  0  0  0  0  0  1  1  0  0  0  0  0  0
- 6 |  0  0  0  0  0  0  0  1  0  0  0  0  0
- 8 |  0  0  0  1  0  0  0  0  0  1  0  0  0
- 7 |  0  0  0  0  0  1  0  0  1  0  0  0  0
- 9 |  0  0  0  0  0  0  1  0  0  0  0  0  0
-10 |  0  0  0  0  0  0  0  0  0  0  1  0  0
-12 |  0  0  0  0  0  0  0  0  0  0  0  0  1
-11 |  0  0  0  0  0  0  0  0  0  0  1  0  0
-13 |  0  0  0  0  0  0  0  0  0  0  1  0  0
-
-==== GRAU DE CADA VÉRTICE NO GRAFO ====
+==== GRAUS DE ENTRADA E SAÍDA (Representação) ====
 d+(1)=1, d-(1)=1     d+(2)=1, d-(2)=1     d+(7)=2, d-(7)=1  
 d+(10)=1, d-(10)=1   d+(3)=2, d-(3)=1     d+(8)=2, d-(8)=2  
 d+(11)=1, d-(11)=0   d+(4)=1, d-(4)=2     d+(9)=1, d-(9)=1  
 d+(12)=1, d-(12)=3   d+(5)=2, d-(5)=1  
 d+(13)=1, d-(13)=1   d+(6)=1, d-(6)=2  
 
-==== ADJACÊNCIAS DE CADA VÉRTICE ====
+==== SUCESSORES E ANTECESSORES (Representação) ====
 1: Sucessores: ['2'], Antecessores: ['3']
 10: Sucessores: ['12'], Antecessores: ['8']
 11: Sucessores: ['12'], Antecessores: []
@@ -284,7 +205,22 @@ d+(13)=1, d-(13)=1   d+(6)=1, d-(6)=2
 8: Sucessores: ['10', '4'], Antecessores: ['5', '9']
 9: Sucessores: ['8'], Antecessores: ['7']
 
-Bipartido: Não (Verificação feita no grafo não-direcionado subjacente)
+==== (18) GRAFO SUBJACENTE ====
+1: ['2', '3']
+10: ['12', '8']
+11: ['12']
+12: ['10', '11', '13']
+13: ['12']
+2: ['1', '3']
+3: ['1', '2', '4']
+4: ['3', '5', '8']
+5: ['4', '6', '8']
+6: ['5', '7']
+7: ['6', '9']
+8: ['10', '4', '5', '9']
+9: ['7', '8']
+
+INFO: As buscas BFS (19) e DFS (20) são executadas e renderizadas visualmente.
 
 ==== BUSCA EM PROFUNDIDADE ====
 --- Resultado da Busca em Profundidade (DFS) a partir de '1' ---
@@ -300,7 +236,7 @@ PS: {'1': 12, '2': 11, '3': 10, '4': 9, '5': 8, '6': 7, '8': 4, '7': 6, '9': 5, 
 
 *********************************************************************
 Arquivo: DIGRAFO_3.txt
-Conexo: Não (Fracamente Conexo)
+Análise para: DÍGRAFO
 ==== MATRIZ DE ADJACÊNCIA ====
   | a b e f c d g h i l j k m n o p q
 --+----------------------------------
@@ -341,53 +277,7 @@ o: ['m']
 p: ['q']
 q: ['n']
 
-==== DEMONSTRAÇÃO DE CONVERSÃO ====
-
---- 1. Matriz de Adjacências -> Lista de Adjacências ---
-
-==== LISTA DE ADJACÊNCIA ====
-a: ['b', 'e', 'f']
-b: ['c']
-c: ['a']
-d: ['c']
-e: []
-f: ['e', 'g']
-g: ['d']
-h: ['i', 'l']
-i: ['j']
-j: ['g', 'k']
-k: ['i']
-l: ['k', 'm']
-m: ['h']
-n: ['o', 'p', 'q']
-o: ['m']
-p: ['q']
-q: ['n']
-
---- 2. Lista de Adjacências -> Matriz de Adjacências ---
-
-==== MATRIZ DE ADJACÊNCIA ====
-  | a b e f c d g h i l j k m n o p q
---+----------------------------------
-a | 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0
-b | 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0
-e | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-f | 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0
-c | 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-d | 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0
-g | 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
-h | 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0
-i | 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0
-l | 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0
-j | 0 0 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0
-k | 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0
-m | 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
-n | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1
-o | 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0
-p | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
-q | 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0
-
-==== GRAU DE CADA VÉRTICE NO GRAFO ====
+==== GRAUS DE ENTRADA E SAÍDA (Representação) ====
 d+(a)=3, d-(a)=1   d+(g)=1, d-(g)=2   d+(m)=1, d-(m)=2
 d+(b)=1, d-(b)=1   d+(h)=2, d-(h)=1   d+(n)=3, d-(n)=1
 d+(c)=1, d-(c)=2   d+(i)=1, d-(i)=2   d+(o)=1, d-(o)=1
@@ -395,7 +285,7 @@ d+(d)=1, d-(d)=1   d+(j)=2, d-(j)=1   d+(p)=1, d-(p)=1
 d+(e)=0, d-(e)=2   d+(k)=1, d-(k)=2   d+(q)=1, d-(q)=2
 d+(f)=2, d-(f)=1   d+(l)=2, d-(l)=1
 
-==== ADJACÊNCIAS DE CADA VÉRTICE ====
+==== SUCESSORES E ANTECESSORES (Representação) ====
 a: Sucessores: ['b', 'e', 'f'], Antecessores: ['c']
 b: Sucessores: ['c'], Antecessores: ['a']
 c: Sucessores: ['a'], Antecessores: ['b', 'd']
@@ -414,242 +304,26 @@ o: Sucessores: ['m'], Antecessores: ['n']
 p: Sucessores: ['q'], Antecessores: ['n']
 q: Sucessores: ['n'], Antecessores: ['n', 'p']
 
-Bipartido: Não (Verificação feita no grafo não-direcionado subjacente)
+==== (18) GRAFO SUBJACENTE ====
+a: ['b', 'c', 'e', 'f']
+b: ['a', 'c']
+c: ['a', 'b', 'd']
+d: ['c', 'g']
+e: ['a', 'f']
+f: ['a', 'e', 'g']
+g: ['d', 'f', 'j']
+h: ['i', 'l', 'm']
+i: ['h', 'j', 'k']
+j: ['g', 'i', 'k']
+k: ['i', 'j', 'l']
+l: ['h', 'k', 'm']
+m: ['h', 'l', 'o']
+n: ['o', 'p', 'q']
+o: ['m', 'n']
+p: ['n', 'q']
+q: ['n', 'p']
 
-==== BUSCA EM PROFUNDIDADE ====
---- Resultado da Busca em Profundidade (DFS) a partir de 'a' ---
-Classificação das Arestas:
-1. Arestas de Árvore (14): ['(a,b)', '(b,c)', '(a,e)', '(a,f)', '(f,g)', '(g,d)', '(h,i)', '(i,j)', '(j,k)', '(h,l)', '(l,m)', '(n,o)', '(n,p)', '(p,q)']
-2. Arestas de Retorno (4): ['(c,a)', '(k,i)', '(m,h)', '(q,n)']
-3. Arestas de Avanço (1): ['(n,q)']
-4. Arestas de Cruzamento (5): ['(f,e)', '(d,c)', '(j,g)', '(l,k)', '(o,m)']
-Resultados de PE e PS: 
-PE: {'a': 1, 'b': 2, 'e': 4, 'f': 5, 'c': 3, 'd': 7, 'g': 6, 'h': 8, 'i': 9, 'l': 12, 'j': 10, 'k': 11, 'm': 13, 'n': 14, 'o': 15, 'p': 16, 'q': 17}
-PS: {'a': 7, 'b': 2, 'e': 3, 'f': 6, 'c': 1, 'd': 4, 'g': 5, 'h': 13, 'i': 10, 'l': 12, 'j': 9, 'k': 8, 'm': 11, 'n': 17, 'o': 14, 'p': 16, 'q': 15}
-
-
-*********************************************************************
-Arquivo: DIGRAFO_4.txt
-Conexo: Não (Fracamente Conexo)
-==== MATRIZ DE ADJACÊNCIA ====
-  | s a b g c d e f h i
---+--------------------
-s | 0 1 1 1 0 0 0 0 0 0
-a | 0 0 0 0 1 0 0 0 0 0
-b | 0 0 0 0 0 0 0 0 0 0
-g | 0 0 0 0 0 0 0 1 0 0
-c | 0 0 1 0 0 1 0 0 0 0
-d | 0 1 0 0 0 0 1 0 0 0
-e | 0 0 0 0 1 0 0 0 0 0
-f | 0 0 0 1 0 0 1 0 0 0
-h | 0 0 0 0 0 1 0 0 0 1
-i | 0 0 0 0 0 0 0 0 0 0
-
-==== LISTA DE ADJACÊNCIA ====
-a: ['c']
-b: []
-c: ['b', 'd']
-d: ['a', 'e']
-e: ['c']
-f: ['e', 'g']
-g: ['f']
-h: ['d', 'i']
-i: []
-s: ['a', 'b', 'g']
-
-==== DEMONSTRAÇÃO DE CONVERSÃO ====
-
---- 1. Matriz de Adjacências -> Lista de Adjacências ---
-
-==== LISTA DE ADJACÊNCIA ====
-a: ['c']
-b: []
-c: ['b', 'd']
-d: ['a', 'e']
-e: ['c']
-f: ['e', 'g']
-g: ['f']
-h: ['d', 'i']
-i: []
-s: ['a', 'b', 'g']
-
---- 2. Lista de Adjacências -> Matriz de Adjacências ---
-
-==== MATRIZ DE ADJACÊNCIA ====
-  | s a b g c d e f h i
---+--------------------
-s | 0 1 1 1 0 0 0 0 0 0
-a | 0 0 0 0 1 0 0 0 0 0
-b | 0 0 0 0 0 0 0 0 0 0
-g | 0 0 0 0 0 0 0 1 0 0
-c | 0 0 1 0 0 1 0 0 0 0
-d | 0 1 0 0 0 0 1 0 0 0
-e | 0 0 0 0 1 0 0 0 0 0
-f | 0 0 0 1 0 0 1 0 0 0
-h | 0 0 0 0 0 1 0 0 0 1
-i | 0 0 0 0 0 0 0 0 0 0
-
-==== GRAU DE CADA VÉRTICE NO GRAFO ====
-d+(a)=1, d-(a)=2   d+(e)=1, d-(e)=2   d+(i)=0, d-(i)=1
-d+(b)=0, d-(b)=2   d+(f)=2, d-(f)=1   d+(s)=3, d-(s)=0
-d+(c)=2, d-(c)=2   d+(g)=1, d-(g)=2
-d+(d)=2, d-(d)=2   d+(h)=2, d-(h)=0
-
-==== ADJACÊNCIAS DE CADA VÉRTICE ====
-a: Sucessores: ['c'], Antecessores: ['d', 's']
-b: Sucessores: [], Antecessores: ['c', 's']
-c: Sucessores: ['b', 'd'], Antecessores: ['a', 'e']
-d: Sucessores: ['a', 'e'], Antecessores: ['c', 'h']
-e: Sucessores: ['c'], Antecessores: ['d', 'f']
-f: Sucessores: ['e', 'g'], Antecessores: ['g']
-g: Sucessores: ['f'], Antecessores: ['f', 's']
-h: Sucessores: ['d', 'i'], Antecessores: []
-i: Sucessores: [], Antecessores: ['h']
-s: Sucessores: ['a', 'b', 'g'], Antecessores: []
-
-Bipartido: Não (Verificação feita no grafo não-direcionado subjacente)
-
-==== BUSCA EM PROFUNDIDADE ====
---- Resultado da Busca em Profundidade (DFS) a partir de 's' ---
-Classificação das Arestas:
-1. Arestas de Árvore (8): ['(s,a)', '(a,c)', '(c,b)', '(c,d)', '(d,e)', '(s,g)', '(g,f)', '(h,i)']
-2. Arestas de Retorno (3): ['(d,a)', '(e,c)', '(f,g)']
-3. Arestas de Avanço (1): ['(s,b)']
-4. Arestas de Cruzamento (2): ['(f,e)', '(h,d)']
-Resultados de PE e PS: 
-PE: {'s': 1, 'a': 2, 'b': 4, 'g': 7, 'c': 3, 'd': 5, 'e': 6, 'f': 8, 'h': 9, 'i': 10}
-PS: {'s': 8, 'a': 5, 'b': 1, 'g': 7, 'c': 4, 'd': 3, 'e': 2, 'f': 6, 'h': 10, 'i': 9}
-
-
-*********************************************************************
-Arquivo: DIGRAFO_5_POR_MATRIZ_INCIDENCIA.txt
-Conexo: Sim (Fracamente Conexo)
-==== MATRIZ DE ADJACÊNCIA ====
-  | 2 3 4 1 5 6
---+------------
-2 | 0 1 1 0 0 0
-3 | 0 0 0 0 0 0
-4 | 1 0 0 1 1 0
-1 | 0 0 0 0 0 0
-5 | 0 0 0 0 0 1
-6 | 0 1 1 0 0 0
-
-==== LISTA DE ADJACÊNCIA ====
-1: []
-2: ['3', '4']
-3: []
-4: ['1', '2', '5']
-5: ['6']
-6: ['3', '4']
-
-==== DEMONSTRAÇÃO DE CONVERSÃO ====
-
---- 1. Matriz de Adjacências -> Lista de Adjacências ---
-
-==== LISTA DE ADJACÊNCIA ====
-1: []
-2: ['3', '4']
-3: []
-4: ['1', '2', '5']
-5: ['6']
-6: ['3', '4']
-
---- 2. Lista de Adjacências -> Matriz de Adjacências ---
-
-==== MATRIZ DE ADJACÊNCIA ====
-  | 2 3 4 1 5 6
---+------------
-2 | 0 1 1 0 0 0
-3 | 0 0 0 0 0 0
-4 | 1 0 0 1 1 0
-1 | 0 0 0 0 0 0
-5 | 0 0 0 0 0 1
-6 | 0 1 1 0 0 0
-
-==== GRAU DE CADA VÉRTICE NO GRAFO ====
-d+(1)=0, d-(1)=1   d+(3)=0, d-(3)=2   d+(5)=1, d-(5)=1
-d+(2)=2, d-(2)=1   d+(4)=3, d-(4)=2   d+(6)=2, d-(6)=1
-
-==== ADJACÊNCIAS DE CADA VÉRTICE ====
-1: Sucessores: [], Antecessores: ['4']
-2: Sucessores: ['3', '4'], Antecessores: ['4']
-3: Sucessores: [], Antecessores: ['2', '6']
-4: Sucessores: ['1', '2', '5'], Antecessores: ['2', '6']
-5: Sucessores: ['6'], Antecessores: ['4']
-6: Sucessores: ['3', '4'], Antecessores: ['5']
-
-Bipartido: Não (Verificação feita no grafo não-direcionado subjacente)
-
-==== BUSCA EM PROFUNDIDADE ====
---- Resultado da Busca em Profundidade (DFS) a partir de '2' ---
-Classificação das Arestas:
-1. Arestas de Árvore (5): ['(2,3)', '(2,4)', '(4,1)', '(4,5)', '(5,6)']
-2. Arestas de Retorno (2): ['(4,2)', '(6,4)']
-3. Arestas de Avanço (0): []
-4. Arestas de Cruzamento (1): ['(6,3)']
-Resultados de PE e PS: 
-PE: {'2': 1, '3': 2, '4': 3, '1': 4, '5': 5, '6': 6}
-PS: {'2': 6, '3': 1, '4': 5, '1': 2, '5': 4, '6': 3}
-
-
-*********************************************************************
-Arquivo: DIGRAFO_5_via_matriz.txt
-Conexo: Sim (Fracamente Conexo)
-==== MATRIZ DE ADJACÊNCIA ====
-  | 2 3 4 1 5 6
---+------------
-2 | 0 1 1 0 0 0
-3 | 0 0 0 0 0 0
-4 | 1 0 0 1 1 0
-1 | 0 0 0 0 0 0
-5 | 0 0 0 0 0 1
-6 | 0 1 1 0 0 0
-
-==== LISTA DE ADJACÊNCIA ====
-1: []
-2: ['3', '4']
-3: []
-4: ['1', '2', '5']
-5: ['6']
-6: ['3', '4']
-
-==== DEMONSTRAÇÃO DE CONVERSÃO ====
-
---- 1. Matriz de Adjacências -> Lista de Adjacências ---
-
-==== LISTA DE ADJACÊNCIA ====
-1: []
-2: ['3', '4']
-3: []
-4: ['1', '2', '5']
-5: ['6']
-6: ['3', '4']
-
---- 2. Lista de Adjacências -> Matriz de Adjacências ---
-
-==== MATRIZ DE ADJACÊNCIA ====
-  | 2 3 4 1 5 6
---+------------
-2 | 0 1 1 0 0 0
-3 | 0 0 0 0 0 0
-4 | 1 0 0 1 1 0
-1 | 0 0 0 0 0 0
-5 | 0 0 0 0 0 1
-6 | 0 1 1 0 0 0
-
-==== GRAU DE CADA VÉRTICE NO GRAFO ====
-d+(1)=0, d-(1)=1   d+(3)=0, d-(3)=2   d+(5)=1, d-(5)=1
-d+(2)=2, d-(2)=1   d+(4)=3, d-(4)=2   d+(6)=2, d-(6)=1
-
-==== ADJACÊNCIAS DE CADA VÉRTICE ====
-1: Sucessores: [], Antecessores: ['4']
-2: Sucessores: ['3', '4'], Antecessores: ['4']
-3: Sucessores: [], Antecessores: ['2', '6']
-4: Sucessores: ['1', '2', '5'], Antecessores: ['2', '6']
-5: Sucessores: ['6'], Antecessores: ['4']
-6: Sucessores: ['3', '4'], Antecessores: ['5']
-
-Bipartido: Não (Verificação feita no grafo não-direcionado subjacente)
+INFO: As buscas BFS (19) e DFS (20) são executadas e renderizadas visualmente.
 
 ==== BUSCA EM PROFUNDIDADE ====
 --- Resultado da Busca em Profundidade (DFS) a partir de '2' ---
@@ -665,7 +339,7 @@ PS: {'2': 6, '3': 1, '4': 5, '1': 2, '5': 4, '6': 3}
 
 *********************************************************************
 Arquivo: GRAFO_0.txt
-Conexo: Sim
+Análise para: GRAFO NÃO-DIRECIONADO
 ==== MATRIZ DE ADJACÊNCIA ====
   | a b c d e f g h
 --+----------------
@@ -688,11 +362,9 @@ f: ['e', 'g', 'h']
 g: ['f', 'h']
 h: ['f', 'g']
 
-==== DEMONSTRAÇÃO DE CONVERSÃO ====
+==== (4) DEMONSTRAÇÃO DE CONVERSÃO ====
 
---- 1. Matriz de Adjacências -> Lista de Adjacências ---
-
-==== LISTA DE ADJACÊNCIA ====
+--- Matriz de Adjacências -> Lista de Adjacências ---
 a: ['b']
 b: ['a', 'c', 'd']
 c: ['b', 'd', 'e']
@@ -702,9 +374,8 @@ f: ['e', 'g', 'h']
 g: ['f', 'h']
 h: ['f', 'g']
 
---- 2. Lista de Adjacências -> Matriz de Adjacências ---
+--- Lista de Adjacências -> Matriz de Adjacências ---
 
-==== MATRIZ DE ADJACÊNCIA ====
   | a b c d e f g h
 --+----------------
 a | 0 1 0 0 0 0 0 0
@@ -716,12 +387,12 @@ f | 0 0 0 0 1 0 1 1
 g | 0 0 0 0 0 1 0 1
 h | 0 0 0 0 0 1 1 0
 
-==== GRAU DE CADA VÉRTICE NO GRAFO ====
+==== (5) GRAU DE CADA VÉRTICE ====
 d(a) = 1   d(d) = 2   d(g) = 2
 d(b) = 3   d(e) = 2   d(h) = 2
 d(c) = 3   d(f) = 3
 
-==== ADJACÊNCIAS DE CADA VÉRTICE ====
+==== (6) ADJACÊNCIAS DE CADA VÉRTICE ====
 Adjacentes de a: ['b']
 Adjacentes de b: ['a', 'c', 'd']
 Adjacentes de c: ['b', 'd', 'e']
@@ -731,7 +402,21 @@ Adjacentes de f: ['e', 'g', 'h']
 Adjacentes de g: ['f', 'h']
 Adjacentes de h: ['f', 'g']
 
-Bipartido: Não
+==== (7) NÚMERO TOTAL DE VÉRTICES ====
+8
+
+==== (8) NÚMERO TOTAL DE ARESTAS ====
+9
+
+(11) Conexo: Sim
+
+(12) Bipartido: Não
+
+==== (15) BICONECTIVIDADE (ARTICULAÇÕES E PONTES) ====
+Pontos de Articulação: ['b', 'c', 'e', 'f']
+Pontes: [('a', 'b'), ('c', 'e'), ('e', 'f')]
+
+INFO: As buscas BFS (13) e DFS (14) são executadas e renderizadas visualmente.
 
 ==== BICONECTIVIDADE ====
 Articulações encontradas:
@@ -747,7 +432,7 @@ Bloco 5 (Arestas): ['(a,b)']
 
 *********************************************************************
 Arquivo: GRAFO_1.txt
-Conexo: Sim
+Análise para: GRAFO NÃO-DIRECIONADO
 ==== MATRIZ DE ADJACÊNCIA ====
   | a b c d e f i h
 --+----------------
@@ -770,11 +455,9 @@ f: ['b']
 h: ['d']
 i: ['c']
 
-==== DEMONSTRAÇÃO DE CONVERSÃO ====
+==== (4) DEMONSTRAÇÃO DE CONVERSÃO ====
 
---- 1. Matriz de Adjacências -> Lista de Adjacências ---
-
-==== LISTA DE ADJACÊNCIA ====
+--- Matriz de Adjacências -> Lista de Adjacências ---
 a: ['b']
 b: ['a', 'c', 'd', 'e', 'f']
 c: ['b', 'd', 'e', 'i']
@@ -784,9 +467,8 @@ f: ['b']
 h: ['d']
 i: ['c']
 
---- 2. Lista de Adjacências -> Matriz de Adjacências ---
+--- Lista de Adjacências -> Matriz de Adjacências ---
 
-==== MATRIZ DE ADJACÊNCIA ====
   | a b c d e f i h
 --+----------------
 a | 0 1 0 0 0 0 0 0
@@ -798,12 +480,12 @@ f | 0 1 0 0 0 0 0 0
 i | 0 0 1 0 0 0 0 0
 h | 0 0 0 1 0 0 0 0
 
-==== GRAU DE CADA VÉRTICE NO GRAFO ====
+==== (5) GRAU DE CADA VÉRTICE ====
 d(a) = 1   d(d) = 3   d(h) = 1
 d(b) = 5   d(e) = 2   d(i) = 1
 d(c) = 4   d(f) = 1
 
-==== ADJACÊNCIAS DE CADA VÉRTICE ====
+==== (6) ADJACÊNCIAS DE CADA VÉRTICE ====
 Adjacentes de a: ['b']
 Adjacentes de b: ['a', 'c', 'd', 'e', 'f']
 Adjacentes de c: ['b', 'd', 'e', 'i']
@@ -813,7 +495,21 @@ Adjacentes de f: ['b']
 Adjacentes de h: ['d']
 Adjacentes de i: ['c']
 
-Bipartido: Não
+==== (7) NÚMERO TOTAL DE VÉRTICES ====
+8
+
+==== (8) NÚMERO TOTAL DE ARESTAS ====
+9
+
+(11) Conexo: Sim
+
+(12) Bipartido: Não
+
+==== (15) BICONECTIVIDADE (ARTICULAÇÕES E PONTES) ====
+Pontos de Articulação: ['b', 'c', 'd']
+Pontes: [('a', 'b'), ('b', 'f'), ('c', 'i'), ('d', 'h')]
+
+INFO: As buscas BFS (13) e DFS (14) são executadas e renderizadas visualmente.
 
 ==== BICONECTIVIDADE ====
 Articulações encontradas:
@@ -829,7 +525,7 @@ Bloco 5 (Arestas): ['(a,b)']
 
 *********************************************************************
 Arquivo: GRAFO_2.txt
-Conexo: Não
+Análise para: GRAFO NÃO-DIRECIONADO
 ==== MATRIZ DE ADJACÊNCIA ====
    |  1  2  3  5  6  4  7  8  9 10 11
 ---+---------------------------------
@@ -858,11 +554,9 @@ Conexo: Não
 8: ['10', '11', '9']
 9: ['10', '8']
 
-==== DEMONSTRAÇÃO DE CONVERSÃO ====
+==== (4) DEMONSTRAÇÃO DE CONVERSÃO ====
 
---- 1. Matriz de Adjacências -> Lista de Adjacências ---
-
-==== LISTA DE ADJACÊNCIA ====
+--- Matriz de Adjacências -> Lista de Adjacências ---
 1: ['2', '3', '6']
 10: ['8', '9']
 11: ['8']
@@ -875,9 +569,8 @@ Conexo: Não
 8: ['10', '11', '9']
 9: ['10', '8']
 
---- 2. Lista de Adjacências -> Matriz de Adjacências ---
+--- Lista de Adjacências -> Matriz de Adjacências ---
 
-==== MATRIZ DE ADJACÊNCIA ====
    |  1  2  3  5  6  4  7  8  9 10 11
 ---+---------------------------------
  1 |  0  1  1  0  1  0  0  0  0  0  0
@@ -892,13 +585,13 @@ Conexo: Não
 10 |  0  0  0  0  0  0  0  1  1  0  0
 11 |  0  0  0  0  0  0  0  1  0  0  0
 
-==== GRAU DE CADA VÉRTICE NO GRAFO ====
+==== (5) GRAU DE CADA VÉRTICE ====
 d(1) = 3    d(3) = 3    d(7) = 1 
 d(10) = 2   d(4) = 2    d(8) = 3 
 d(11) = 1   d(5) = 2    d(9) = 2 
 d(2) = 4    d(6) = 3 
 
-==== ADJACÊNCIAS DE CADA VÉRTICE ====
+==== (6) ADJACÊNCIAS DE CADA VÉRTICE ====
 Adjacentes de 1: ['2', '3', '6']
 Adjacentes de 10: ['8', '9']
 Adjacentes de 11: ['8']
@@ -911,7 +604,21 @@ Adjacentes de 7: ['6']
 Adjacentes de 8: ['10', '11', '9']
 Adjacentes de 9: ['10', '8']
 
-Bipartido: Não
+==== (7) NÚMERO TOTAL DE VÉRTICES ====
+11
+
+==== (8) NÚMERO TOTAL DE ARESTAS ====
+13
+
+(11) Conexo: Não
+
+(12) Bipartido: Não
+
+==== (15) BICONECTIVIDADE (ARTICULAÇÕES E PONTES) ====
+Pontos de Articulação: ['6', '8']
+Pontes: [('11', '8'), ('6', '7')]
+
+INFO: As buscas BFS (13) e DFS (14) são executadas e renderizadas visualmente.
 
 ==== BICONECTIVIDADE ====
 Articulações encontradas:
@@ -925,7 +632,7 @@ Bloco 3 (Arestas): ['(1,2)', '(2,3)', '(3,1)', '(3,4)', '(4,5)', '(5,2)', '(2,6)
 
 *********************************************************************
 Arquivo: GRAFO_3.txt
-Conexo: Sim
+Análise para: GRAFO NÃO-DIRECIONADO
 ==== MATRIZ DE ADJACÊNCIA ====
   | a b c e f d g q j h i l m k o n p
 --+----------------------------------
@@ -966,11 +673,9 @@ o: ['m', 'n']
 p: ['n', 'q']
 q: ['d', 'n', 'p']
 
-==== DEMONSTRAÇÃO DE CONVERSÃO ====
+==== (4) DEMONSTRAÇÃO DE CONVERSÃO ====
 
---- 1. Matriz de Adjacências -> Lista de Adjacências ---
-
-==== LISTA DE ADJACÊNCIA ====
+--- Matriz de Adjacências -> Lista de Adjacências ---
 a: ['b', 'c', 'e', 'f']
 b: ['a']
 c: ['a', 'd']
@@ -989,9 +694,8 @@ o: ['m', 'n']
 p: ['n', 'q']
 q: ['d', 'n', 'p']
 
---- 2. Lista de Adjacências -> Matriz de Adjacências ---
+--- Lista de Adjacências -> Matriz de Adjacências ---
 
-==== MATRIZ DE ADJACÊNCIA ====
   | a b c e f d g q j h i l m k o n p
 --+----------------------------------
 a | 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0
@@ -1012,7 +716,7 @@ o | 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0
 n | 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 0 1
 p | 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 0
 
-==== GRAU DE CADA VÉRTICE NO GRAFO ====
+==== (5) GRAU DE CADA VÉRTICE ====
 d(a) = 4   d(g) = 3   d(m) = 3
 d(b) = 1   d(h) = 3   d(n) = 3
 d(c) = 2   d(i) = 3   d(o) = 2
@@ -1020,7 +724,7 @@ d(d) = 4   d(j) = 3   d(p) = 2
 d(e) = 2   d(k) = 3   d(q) = 3
 d(f) = 4   d(l) = 3
 
-==== ADJACÊNCIAS DE CADA VÉRTICE ====
+==== (6) ADJACÊNCIAS DE CADA VÉRTICE ====
 Adjacentes de a: ['b', 'c', 'e', 'f']
 Adjacentes de b: ['a']
 Adjacentes de c: ['a', 'd']
@@ -1039,233 +743,18 @@ Adjacentes de o: ['m', 'n']
 Adjacentes de p: ['n', 'q']
 Adjacentes de q: ['d', 'n', 'p']
 
-Bipartido: Não
+==== (7) NÚMERO TOTAL DE VÉRTICES ====
+17
 
-==== BICONECTIVIDADE ====
-Articulações encontradas:
-{ a }
-Componentes biconectados (blocos):
-Bloco 1 (Arestas): ['(q,n)', '(q,d)', '(p,q)', '(n,p)', '(o,n)', '(m,o)', '(m,h)', '(l,m)', '(k,j)', '(k,i)', '(l,k)', '(h,l)', '(i,h)', '(j,i)', '(g,j)', '(g,d)', '(f,g)', '(e,a)', '(f,e)', '(f,a)', '(d,f)', '(c,d)', '(a,c)']
-Bloco 2 (Arestas): ['(a,b)']
+==== (8) NÚMERO TOTAL DE ARESTAS ====
+24
 
+(11) Conexo: Sim
 
+(12) Bipartido: Não
 
-*********************************************************************
-Arquivo: GRAFO_4.txt
-Conexo: Sim
-==== MATRIZ DE ADJACÊNCIA ====
-  | 1 3 2 4 6 5 7 8 9
---+------------------
-1 | 0 1 1 0 0 0 0 0 0
-3 | 1 0 1 1 1 1 0 0 0
-2 | 1 1 0 0 0 0 0 0 0
-4 | 0 1 0 0 1 0 0 0 0
-6 | 0 1 0 1 0 0 0 0 0
-5 | 0 1 0 0 0 0 1 1 0
-7 | 0 0 0 0 0 1 0 1 1
-8 | 0 0 0 0 0 1 1 0 1
-9 | 0 0 0 0 0 0 1 1 0
+==== (15) BICONECTIVIDADE (ARTICULAÇÕES E PONTES) ====
+Pontos de Articulação: ['a']
+Pontes: [('a', 'b')]
 
-==== LISTA DE ADJACÊNCIA ====
-1: ['2', '3']
-2: ['1', '3']
-3: ['1', '2', '4', '5', '6']
-4: ['3', '6']
-5: ['3', '7', '8']
-6: ['3', '4']
-7: ['5', '8', '9']
-8: ['5', '7', '9']
-9: ['7', '8']
-
-==== DEMONSTRAÇÃO DE CONVERSÃO ====
-
---- 1. Matriz de Adjacências -> Lista de Adjacências ---
-
-==== LISTA DE ADJACÊNCIA ====
-1: ['2', '3']
-2: ['1', '3']
-3: ['1', '2', '4', '5', '6']
-4: ['3', '6']
-5: ['3', '7', '8']
-6: ['3', '4']
-7: ['5', '8', '9']
-8: ['5', '7', '9']
-9: ['7', '8']
-
---- 2. Lista de Adjacências -> Matriz de Adjacências ---
-
-==== MATRIZ DE ADJACÊNCIA ====
-  | 1 3 2 4 6 5 7 8 9
---+------------------
-1 | 0 1 1 0 0 0 0 0 0
-3 | 1 0 1 1 1 1 0 0 0
-2 | 1 1 0 0 0 0 0 0 0
-4 | 0 1 0 0 1 0 0 0 0
-6 | 0 1 0 1 0 0 0 0 0
-5 | 0 1 0 0 0 0 1 1 0
-7 | 0 0 0 0 0 1 0 1 1
-8 | 0 0 0 0 0 1 1 0 1
-9 | 0 0 0 0 0 0 1 1 0
-
-==== GRAU DE CADA VÉRTICE NO GRAFO ====
-d(1) = 2   d(4) = 2   d(7) = 3
-d(2) = 2   d(5) = 3   d(8) = 3
-d(3) = 5   d(6) = 2   d(9) = 2
-
-==== ADJACÊNCIAS DE CADA VÉRTICE ====
-Adjacentes de 1: ['2', '3']
-Adjacentes de 2: ['1', '3']
-Adjacentes de 3: ['1', '2', '4', '5', '6']
-Adjacentes de 4: ['3', '6']
-Adjacentes de 5: ['3', '7', '8']
-Adjacentes de 6: ['3', '4']
-Adjacentes de 7: ['5', '8', '9']
-Adjacentes de 8: ['5', '7', '9']
-Adjacentes de 9: ['7', '8']
-
-Bipartido: Não
-
-==== BICONECTIVIDADE ====
-Articulações encontradas:
-{ 3, 5 }
-Componentes biconectados (blocos):
-Bloco 1 (Arestas): ['(6,3)', '(4,6)', '(3,4)']
-Bloco 2 (Arestas): ['(9,7)', '(8,9)', '(8,5)', '(7,8)', '(5,7)']
-Bloco 3 (Arestas): ['(3,5)']
-Bloco 4 (Arestas): ['(1,3)', '(3,2)', '(2,1)']
-
-
-
-*********************************************************************
-Arquivo: GRAFO_5_POR_MATRIZ_INCIDENCIA.txt
-Conexo: Sim
-==== MATRIZ DE ADJACÊNCIA ====
-  | 2 3 4 1 5 6
---+------------
-2 | 0 1 1 0 0 0
-3 | 1 0 0 0 0 1
-4 | 1 0 0 1 1 0
-1 | 0 0 1 0 0 0
-5 | 0 0 1 0 0 1
-6 | 0 1 0 0 1 0
-
-==== LISTA DE ADJACÊNCIA ====
-1: ['4']
-2: ['3', '4']
-3: ['2', '6']
-4: ['1', '2', '5']
-5: ['4', '6']
-6: ['3', '5']
-
-==== DEMONSTRAÇÃO DE CONVERSÃO ====
-
---- 1. Matriz de Adjacências -> Lista de Adjacências ---
-
-==== LISTA DE ADJACÊNCIA ====
-1: ['4']
-2: ['3', '4']
-3: ['2', '6']
-4: ['1', '2', '5']
-5: ['4', '6']
-6: ['3', '5']
-
---- 2. Lista de Adjacências -> Matriz de Adjacências ---
-
-==== MATRIZ DE ADJACÊNCIA ====
-  | 2 3 4 1 5 6
---+------------
-2 | 0 1 1 0 0 0
-3 | 1 0 0 0 0 1
-4 | 1 0 0 1 1 0
-1 | 0 0 1 0 0 0
-5 | 0 0 1 0 0 1
-6 | 0 1 0 0 1 0
-
-==== GRAU DE CADA VÉRTICE NO GRAFO ====
-d(1) = 1   d(3) = 2   d(5) = 2
-d(2) = 2   d(4) = 3   d(6) = 2
-
-==== ADJACÊNCIAS DE CADA VÉRTICE ====
-Adjacentes de 1: ['4']
-Adjacentes de 2: ['3', '4']
-Adjacentes de 3: ['2', '6']
-Adjacentes de 4: ['1', '2', '5']
-Adjacentes de 5: ['4', '6']
-Adjacentes de 6: ['3', '5']
-
-Bipartido: Não
-
-==== BICONECTIVIDADE ====
-Articulações encontradas:
-{ 4 }
-Componentes biconectados (blocos):
-Bloco 1 (Arestas): ['(4,1)']
-Bloco 2 (Arestas): ['(2,3)', '(3,6)', '(6,5)', '(5,4)', '(4,2)']
-
-
-
-*********************************************************************
-Arquivo: GRAFO_5_via_matriz.txt
-Conexo: Sim
-==== MATRIZ DE ADJACÊNCIA ====
-  | 2 3 4 1 5 6
---+------------
-2 | 0 1 1 0 0 0
-3 | 1 0 0 0 0 1
-4 | 1 0 0 1 1 0
-1 | 0 0 1 0 0 0
-5 | 0 0 1 0 0 1
-6 | 0 1 0 0 1 0
-
-==== LISTA DE ADJACÊNCIA ====
-1: ['4']
-2: ['3', '4']
-3: ['2', '6']
-4: ['1', '2', '5']
-5: ['4', '6']
-6: ['3', '5']
-
-==== DEMONSTRAÇÃO DE CONVERSÃO ====
-
---- 1. Matriz de Adjacências -> Lista de Adjacências ---
-
-==== LISTA DE ADJACÊNCIA ====
-1: ['4']
-2: ['3', '4']
-3: ['2', '6']
-4: ['1', '2', '5']
-5: ['4', '6']
-6: ['3', '5']
-
---- 2. Lista de Adjacências -> Matriz de Adjacências ---
-
-==== MATRIZ DE ADJACÊNCIA ====
-  | 2 3 4 1 5 6
---+------------
-2 | 0 1 1 0 0 0
-3 | 1 0 0 0 0 1
-4 | 1 0 0 1 1 0
-1 | 0 0 1 0 0 0
-5 | 0 0 1 0 0 1
-6 | 0 1 0 0 1 0
-
-==== GRAU DE CADA VÉRTICE NO GRAFO ====
-d(1) = 1   d(3) = 2   d(5) = 2
-d(2) = 2   d(4) = 3   d(6) = 2
-
-==== ADJACÊNCIAS DE CADA VÉRTICE ====
-Adjacentes de 1: ['4']
-Adjacentes de 2: ['3', '4']
-Adjacentes de 3: ['2', '6']
-Adjacentes de 4: ['1', '2', '5']
-Adjacentes de 5: ['4', '6']
-Adjacentes de 6: ['3', '5']
-
-Bipartido: Não
-
-==== BICONECTIVIDADE ====
-Articulações encontradas:
-{ 4 }
-Componentes biconectados (blocos):
-Bloco 1 (Arestas): ['(4,1)']
-Bloco 2 (Arestas): ['(2,3)', '(3,6)', '(6,5)', '(5,4)', '(4,2)']
+INFO: As buscas BFS (13) e DFS (14) são executadas e renderizadas visualmente.

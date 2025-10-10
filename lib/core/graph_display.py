@@ -16,7 +16,6 @@ def imprimir_lista_adj(grafo: Grafo):
     if not grafo.lista_adj:
         print("Vazia.")
         return
-    # Ordena a impressão para consistência
     for vertice, vizinhos in sorted(grafo.lista_adj.items(), key=lambda item: str(item[0].id)):
         vizinhos_ids = sorted([v.id for v in vizinhos])
         print(f"{vertice.id}: {vizinhos_ids}")
@@ -53,13 +52,11 @@ def imprimir_matriz_incidencia(grafo: Grafo):
         print("Vazia.")
         return
     
-    # Cabeçalho com nome das arestas (e1, e2, ...)
     header_arestas = [f"e{i+1}" for i in range(grafo.num_arestas())]
     print("  | " + " ".join(header_arestas))
     print("-" * (len(header_arestas) * 3 + 3))
 
     ids_vertices = [v.id for v in grafo.vertices]
     for i, linha in enumerate(grafo.matriz_incidencia):
-        # Formata a linha para alinhar os números -1, 0, 1
         linha_formatada = " ".join(f"{val: >2}" for val in linha)
         print(f"{ids_vertices[i]:<2}| {linha_formatada}")

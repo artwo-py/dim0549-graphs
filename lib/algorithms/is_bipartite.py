@@ -18,7 +18,7 @@ def is_bipartite(grafo: Grafo) -> bool:
     if not grafo.vertices:
         return True
 
-    cores = {}  # 0: não visitado, 1: cor A, -1: cor B
+    cores = {}  
     for v_inicial in grafo.vertices:
         if v_inicial not in cores:
             cores[v_inicial] = 1
@@ -27,7 +27,6 @@ def is_bipartite(grafo: Grafo) -> bool:
             while fila:
                 u = fila.popleft()
 
-                # Usa a lista de adjacência do grafo para encontrar vizinhos
                 for v_vizinho in grafo.lista_adj.get(u, []):
                     if v_vizinho not in cores:
                         cores[v_vizinho] = -cores[u]

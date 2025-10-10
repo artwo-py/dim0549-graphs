@@ -23,7 +23,6 @@ def dfs(grafo: Grafo, id_vertice_inicial=None, classificar_arestas=False, retorn
        - Modo Avançado: dict - Dicionário com os resultados solicitados.
     """
     adj = grafo.lista_adj
-    # CORREÇÃO: Trocado grafo.get_vertices() pelo acesso direto ao atributo grafo.vertices
     todos_vertices = grafo.vertices
 
     vertice_inicial_obj = None
@@ -37,7 +36,6 @@ def dfs(grafo: Grafo, id_vertice_inicial=None, classificar_arestas=False, retorn
     else:
         return ([], []) if not classificar_arestas and not retornar_tempos else {}
 
-    # Garante que a busca comece pelo vértice especificado
     ordem_de_busca = ([vertice_inicial_obj] +
                       [v for v in todos_vertices if v != vertice_inicial_obj])
 
@@ -64,7 +62,6 @@ def dfs(grafo: Grafo, id_vertice_inicial=None, classificar_arestas=False, retorn
         pai_id = str(pai_obj.id) if pai_obj else "-"
         ordem_visita.append((str(u.id), pai_id))
 
-        # Adicionado sorted para garantir uma ordem de visita determinística
         for v in sorted(adj.get(u, []), key=lambda vertice: str(vertice.id)):
             if cor[v] == 'branco':
                 parent[v] = u
@@ -104,6 +101,5 @@ def dfs(grafo: Grafo, id_vertice_inicial=None, classificar_arestas=False, retorn
         return resultados
     
     else:
-        # No modo simples, converte arestas para tuplas de IDs para consistência
         arestas_retorno_tuplas = [(str(a.v1.id), str(a.v2.id)) for a in arestas_retorno]
         return ordem_visita, arestas_retorno_tuplas
