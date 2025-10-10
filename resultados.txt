@@ -1,7 +1,8 @@
 *********************************************************************
 Arquivo: DIGRAFO_0.txt
 Análise para: DÍGRAFO
-==== MATRIZ DE ADJACÊNCIA ====
+
+==== (16) REPRESENTAÇÃO POR MATRIZ DE ADJACÊNCIA ====
   | a b d c e f g h
 --+----------------
 a | 0 1 1 0 0 0 0 0
@@ -13,32 +14,19 @@ f | 0 0 0 0 0 0 1 0
 g | 0 0 0 0 0 0 0 1
 h | 0 0 0 0 0 0 0 0
 
-==== LISTA DE ADJACÊNCIA ====
-a: ['b', 'd']
-b: ['c', 'e']
-c: ['a', 'f']
-d: ['e']
-e: ['f']
-f: ['g']
-g: ['h']
-h: []
+==== (17) REPRESENTAÇÃO POR MATRIZ DE INCIDÊNCIA ====
+    |  e1  e2  e3  e4  e5  e6  e7  e8  e9 e10
+----+----------------------------------------
+  a |   1   1   0   0  -1   0   0   0   0   0
+  b |  -1   0   1   1   0   0   0   0   0   0
+  d |   0  -1   0   0   0   0   1   0   0   0
+  c |   0   0  -1   0   1   1   0   0   0   0
+  e |   0   0   0  -1   0   0  -1   1   0   0
+  f |   0   0   0   0   0  -1   0  -1   1   0
+  g |   0   0   0   0   0   0   0   0  -1   1
+  h |   0   0   0   0   0   0   0   0   0  -1
 
-==== GRAUS DE ENTRADA E SAÍDA (Representação) ====
-d+(a)=2, d-(a)=1   d+(d)=1, d-(d)=1   d+(g)=1, d-(g)=1
-d+(b)=2, d-(b)=1   d+(e)=1, d-(e)=2   d+(h)=0, d-(h)=1
-d+(c)=2, d-(c)=1   d+(f)=1, d-(f)=2
-
-==== SUCESSORES E ANTECESSORES (Representação) ====
-a: Sucessores: ['b', 'd'], Antecessores: ['c']
-b: Sucessores: ['c', 'e'], Antecessores: ['a']
-c: Sucessores: ['a', 'f'], Antecessores: ['b']
-d: Sucessores: ['e'], Antecessores: ['a']
-e: Sucessores: ['f'], Antecessores: ['b', 'd']
-f: Sucessores: ['g'], Antecessores: ['c', 'e']
-g: Sucessores: ['h'], Antecessores: ['f']
-h: Sucessores: [], Antecessores: ['g']
-
-==== (18) GRAFO SUBJACENTE ====
+==== (18) GRAFO SUBJACENTE (OPC) ====
 a: ['b', 'c', 'd']
 b: ['a', 'c', 'e']
 c: ['a', 'b', 'f']
@@ -48,24 +36,15 @@ f: ['c', 'e', 'g']
 g: ['f', 'h']
 h: ['g']
 
-INFO: As buscas BFS (19) e DFS (20) são executadas e renderizadas visualmente.
-
-==== BUSCA EM PROFUNDIDADE ====
---- Resultado da Busca em Profundidade (DFS) a partir de 'a' ---
-Classificação das Arestas:
-1. Arestas de Árvore (7): ['(a,b)', '(b,c)', '(c,f)', '(f,g)', '(g,h)', '(b,e)', '(a,d)']
-2. Arestas de Retorno (1): ['(c,a)']
-3. Arestas de Avanço (0): []
-4. Arestas de Cruzamento (2): ['(e,f)', '(d,e)']
-Resultados de PE e PS: 
-PE: {'a': 1, 'b': 2, 'd': 8, 'c': 3, 'e': 7, 'f': 4, 'g': 5, 'h': 6}
-PS: {'a': 8, 'b': 6, 'd': 7, 'c': 4, 'e': 5, 'f': 3, 'g': 2, 'h': 1}
+==== (19) e (20) BUSCAS BFS E DFS ====
+INFO: As buscas são executadas e seus resultados (com classificação completa de arestas para DFS) são renderizados visualmente.
 
 
 *********************************************************************
 Arquivo: DIGRAFO_1.txt
 Análise para: DÍGRAFO
-==== MATRIZ DE ADJACÊNCIA ====
+
+==== (16) REPRESENTAÇÃO POR MATRIZ DE ADJACÊNCIA ====
    |  1  2  3  4  5  6  8  7  9 10 11 12 13
 ---+---------------------------------------
  1 |  0  1  0  0  0  0  0  0  0  0  0  0  0
@@ -82,44 +61,24 @@ Análise para: DÍGRAFO
 12 |  0  0  0  0  0  0  0  0  0  0  0  0  1
 13 |  0  0  0  0  0  0  0  0  0  0  0  1  0
 
-==== LISTA DE ADJACÊNCIA ====
-1: ['2']
-10: []
-11: ['12']
-12: ['13']
-13: ['12']
-2: ['3']
-3: ['1', '4']
-4: ['5']
-5: ['6', '8']
-6: ['7']
-7: ['6', '9']
-8: ['10', '4']
-9: ['8']
+==== (17) REPRESENTAÇÃO POR MATRIZ DE INCIDÊNCIA ====
+    |  e1  e2  e3  e4  e5  e6  e7  e8  e9 e10 e11 e12 e13 e14 e15 e16
+----+----------------------------------------------------------------
+  1 |   1   0  -1   0   0   0   0   0   0   0   0   0   0   0   0   0
+  2 |  -1   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+  3 |   0  -1   1   1   0   0   0   0   0   0   0   0   0   0   0   0
+  4 |   0   0   0  -1   1   0   0   0   0   0  -1   0   0   0   0   0
+  5 |   0   0   0   0  -1   1   1   0   0   0   0   0   0   0   0   0
+  6 |   0   0   0   0   0  -1   0   1  -1   0   0   0   0   0   0   0
+  8 |   0   0   0   0   0   0  -1   0   0   0   1   1  -1   0   0   0
+  7 |   0   0   0   0   0   0   0  -1   1   1   0   0   0   0   0   0
+  9 |   0   0   0   0   0   0   0   0   0  -1   0   0   1   0   0   0
+ 10 |   0   0   0   0   0   0   0   0   0   0   0  -1   0   0   0   0
+ 11 |   0   0   0   0   0   0   0   0   0   0   0   0   0   1   0   0
+ 12 |   0   0   0   0   0   0   0   0   0   0   0   0   0  -1   1  -1
+ 13 |   0   0   0   0   0   0   0   0   0   0   0   0   0   0  -1   1
 
-==== GRAUS DE ENTRADA E SAÍDA (Representação) ====
-d+(1)=1, d-(1)=1     d+(2)=1, d-(2)=1     d+(7)=2, d-(7)=1  
-d+(10)=0, d-(10)=1   d+(3)=2, d-(3)=1     d+(8)=2, d-(8)=2  
-d+(11)=1, d-(11)=0   d+(4)=1, d-(4)=2     d+(9)=1, d-(9)=1  
-d+(12)=1, d-(12)=2   d+(5)=2, d-(5)=1  
-d+(13)=1, d-(13)=1   d+(6)=1, d-(6)=2  
-
-==== SUCESSORES E ANTECESSORES (Representação) ====
-1: Sucessores: ['2'], Antecessores: ['3']
-10: Sucessores: [], Antecessores: ['8']
-11: Sucessores: ['12'], Antecessores: []
-12: Sucessores: ['13'], Antecessores: ['11', '13']
-13: Sucessores: ['12'], Antecessores: ['12']
-2: Sucessores: ['3'], Antecessores: ['1']
-3: Sucessores: ['1', '4'], Antecessores: ['2']
-4: Sucessores: ['5'], Antecessores: ['3', '8']
-5: Sucessores: ['6', '8'], Antecessores: ['4']
-6: Sucessores: ['7'], Antecessores: ['5', '7']
-7: Sucessores: ['6', '9'], Antecessores: ['6']
-8: Sucessores: ['10', '4'], Antecessores: ['5', '9']
-9: Sucessores: ['8'], Antecessores: ['7']
-
-==== (18) GRAFO SUBJACENTE ====
+==== (18) GRAFO SUBJACENTE (OPC) ====
 1: ['2', '3']
 10: ['8']
 11: ['12']
@@ -134,24 +93,15 @@ d+(13)=1, d-(13)=1   d+(6)=1, d-(6)=2
 8: ['10', '4', '5', '9']
 9: ['7', '8']
 
-INFO: As buscas BFS (19) e DFS (20) são executadas e renderizadas visualmente.
-
-==== BUSCA EM PROFUNDIDADE ====
---- Resultado da Busca em Profundidade (DFS) a partir de '1' ---
-Classificação das Arestas:
-1. Arestas de Árvore (11): ['(1,2)', '(2,3)', '(3,4)', '(4,5)', '(5,6)', '(6,7)', '(7,9)', '(9,8)', '(8,10)', '(11,12)', '(12,13)']
-2. Arestas de Retorno (4): ['(3,1)', '(7,6)', '(8,4)', '(13,12)']
-3. Arestas de Avanço (1): ['(5,8)']
-4. Arestas de Cruzamento (0): []
-Resultados de PE e PS: 
-PE: {'1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '8': 9, '7': 7, '9': 8, '10': 10, '11': 11, '12': 12, '13': 13}
-PS: {'1': 10, '2': 9, '3': 8, '4': 7, '5': 6, '6': 5, '8': 2, '7': 4, '9': 3, '10': 1, '11': 13, '12': 12, '13': 11}
+==== (19) e (20) BUSCAS BFS E DFS ====
+INFO: As buscas são executadas e seus resultados (com classificação completa de arestas para DFS) são renderizados visualmente.
 
 
 *********************************************************************
 Arquivo: DIGRAFO_2.txt
 Análise para: DÍGRAFO
-==== MATRIZ DE ADJACÊNCIA ====
+
+==== (16) REPRESENTAÇÃO POR MATRIZ DE ADJACÊNCIA ====
    |  1  2  3  4  5  6  8  7  9 10 12 11 13
 ---+---------------------------------------
  1 |  0  1  0  0  0  0  0  0  0  0  0  0  0
@@ -168,44 +118,24 @@ Análise para: DÍGRAFO
 11 |  0  0  0  0  0  0  0  0  0  0  1  0  0
 13 |  0  0  0  0  0  0  0  0  0  0  1  0  0
 
-==== LISTA DE ADJACÊNCIA ====
-1: ['2']
-10: ['12']
-11: ['12']
-12: ['13']
-13: ['12']
-2: ['3']
-3: ['1', '4']
-4: ['5']
-5: ['6', '8']
-6: ['7']
-7: ['6', '9']
-8: ['10', '4']
-9: ['8']
+==== (17) REPRESENTAÇÃO POR MATRIZ DE INCIDÊNCIA ====
+    |  e1  e2  e3  e4  e5  e6  e7  e8  e9 e10 e11 e12 e13 e14 e15 e16 e17
+----+--------------------------------------------------------------------
+  1 |   1   0  -1   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+  2 |  -1   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+  3 |   0  -1   1   1   0   0   0   0   0   0   0   0   0   0   0   0   0
+  4 |   0   0   0  -1   1   0   0   0   0   0  -1   0   0   0   0   0   0
+  5 |   0   0   0   0  -1   1   1   0   0   0   0   0   0   0   0   0   0
+  6 |   0   0   0   0   0  -1   0   1  -1   0   0   0   0   0   0   0   0
+  8 |   0   0   0   0   0   0  -1   0   0   0   1   1  -1   0   0   0   0
+  7 |   0   0   0   0   0   0   0  -1   1   1   0   0   0   0   0   0   0
+  9 |   0   0   0   0   0   0   0   0   0  -1   0   0   1   0   0   0   0
+ 10 |   0   0   0   0   0   0   0   0   0   0   0  -1   0   1   0   0   0
+ 12 |   0   0   0   0   0   0   0   0   0   0   0   0   0  -1  -1   1  -1
+ 11 |   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   0   0
+ 13 |   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0  -1   1
 
-==== GRAUS DE ENTRADA E SAÍDA (Representação) ====
-d+(1)=1, d-(1)=1     d+(2)=1, d-(2)=1     d+(7)=2, d-(7)=1  
-d+(10)=1, d-(10)=1   d+(3)=2, d-(3)=1     d+(8)=2, d-(8)=2  
-d+(11)=1, d-(11)=0   d+(4)=1, d-(4)=2     d+(9)=1, d-(9)=1  
-d+(12)=1, d-(12)=3   d+(5)=2, d-(5)=1  
-d+(13)=1, d-(13)=1   d+(6)=1, d-(6)=2  
-
-==== SUCESSORES E ANTECESSORES (Representação) ====
-1: Sucessores: ['2'], Antecessores: ['3']
-10: Sucessores: ['12'], Antecessores: ['8']
-11: Sucessores: ['12'], Antecessores: []
-12: Sucessores: ['13'], Antecessores: ['10', '11', '13']
-13: Sucessores: ['12'], Antecessores: ['12']
-2: Sucessores: ['3'], Antecessores: ['1']
-3: Sucessores: ['1', '4'], Antecessores: ['2']
-4: Sucessores: ['5'], Antecessores: ['3', '8']
-5: Sucessores: ['6', '8'], Antecessores: ['4']
-6: Sucessores: ['7'], Antecessores: ['5', '7']
-7: Sucessores: ['6', '9'], Antecessores: ['6']
-8: Sucessores: ['10', '4'], Antecessores: ['5', '9']
-9: Sucessores: ['8'], Antecessores: ['7']
-
-==== (18) GRAFO SUBJACENTE ====
+==== (18) GRAFO SUBJACENTE (OPC) ====
 1: ['2', '3']
 10: ['12', '8']
 11: ['12']
@@ -220,24 +150,15 @@ d+(13)=1, d-(13)=1   d+(6)=1, d-(6)=2
 8: ['10', '4', '5', '9']
 9: ['7', '8']
 
-INFO: As buscas BFS (19) e DFS (20) são executadas e renderizadas visualmente.
-
-==== BUSCA EM PROFUNDIDADE ====
---- Resultado da Busca em Profundidade (DFS) a partir de '1' ---
-Classificação das Arestas:
-1. Arestas de Árvore (11): ['(1,2)', '(2,3)', '(3,4)', '(4,5)', '(5,6)', '(6,7)', '(7,9)', '(9,8)', '(8,10)', '(10,12)', '(12,13)']
-2. Arestas de Retorno (4): ['(3,1)', '(7,6)', '(8,4)', '(13,12)']
-3. Arestas de Avanço (1): ['(5,8)']
-4. Arestas de Cruzamento (1): ['(11,12)']
-Resultados de PE e PS: 
-PE: {'1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '8': 9, '7': 7, '9': 8, '10': 10, '12': 11, '11': 13, '13': 12}
-PS: {'1': 12, '2': 11, '3': 10, '4': 9, '5': 8, '6': 7, '8': 4, '7': 6, '9': 5, '10': 3, '12': 2, '11': 13, '13': 1}
+==== (19) e (20) BUSCAS BFS E DFS ====
+INFO: As buscas são executadas e seus resultados (com classificação completa de arestas para DFS) são renderizados visualmente.
 
 
 *********************************************************************
 Arquivo: DIGRAFO_3.txt
 Análise para: DÍGRAFO
-==== MATRIZ DE ADJACÊNCIA ====
+
+==== (16) REPRESENTAÇÃO POR MATRIZ DE ADJACÊNCIA ====
   | a b e f c d g h i l j k m n o p q
 --+----------------------------------
 a | 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -258,53 +179,28 @@ o | 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0
 p | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
 q | 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0
 
-==== LISTA DE ADJACÊNCIA ====
-a: ['b', 'e', 'f']
-b: ['c']
-c: ['a']
-d: ['c']
-e: []
-f: ['e', 'g']
-g: ['d']
-h: ['i', 'l']
-i: ['j']
-j: ['g', 'k']
-k: ['i']
-l: ['k', 'm']
-m: ['h']
-n: ['o', 'p', 'q']
-o: ['m']
-p: ['q']
-q: ['n']
+==== (17) REPRESENTAÇÃO POR MATRIZ DE INCIDÊNCIA ====
+    |  e1  e2  e3  e4  e5  e6  e7  e8  e9 e10 e11 e12 e13 e14 e15 e16 e17 e18 e19 e20 e21 e22 e23 e24
+----+------------------------------------------------------------------------------------------------
+  a |   1   1   1   0  -1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+  b |  -1   0   0   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+  e |   0  -1   0   0   0   0  -1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+  f |   0   0  -1   0   0   0   1   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+  c |   0   0   0  -1   1  -1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+  d |   0   0   0   0   0   1   0   0  -1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+  g |   0   0   0   0   0   0   0  -1   1   0   0   0  -1   0   0   0   0   0   0   0   0   0   0   0
+  h |   0   0   0   0   0   0   0   0   0   1   1   0   0   0   0   0   0  -1   0   0   0   0   0   0
+  i |   0   0   0   0   0   0   0   0   0  -1   0   1   0   0  -1   0   0   0   0   0   0   0   0   0
+  l |   0   0   0   0   0   0   0   0   0   0  -1   0   0   0   0   1   1   0   0   0   0   0   0   0
+  j |   0   0   0   0   0   0   0   0   0   0   0  -1   1   1   0   0   0   0   0   0   0   0   0   0
+  k |   0   0   0   0   0   0   0   0   0   0   0   0   0  -1   1  -1   0   0   0   0   0   0   0   0
+  m |   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0  -1   1   0   0   0  -1   0   0
+  n |   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   1   1   0   0  -1
+  o |   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0  -1   0   0   1   0   0
+  p |   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0  -1   0   0   1   0
+  q |   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0  -1   0  -1   1
 
-==== GRAUS DE ENTRADA E SAÍDA (Representação) ====
-d+(a)=3, d-(a)=1   d+(g)=1, d-(g)=2   d+(m)=1, d-(m)=2
-d+(b)=1, d-(b)=1   d+(h)=2, d-(h)=1   d+(n)=3, d-(n)=1
-d+(c)=1, d-(c)=2   d+(i)=1, d-(i)=2   d+(o)=1, d-(o)=1
-d+(d)=1, d-(d)=1   d+(j)=2, d-(j)=1   d+(p)=1, d-(p)=1
-d+(e)=0, d-(e)=2   d+(k)=1, d-(k)=2   d+(q)=1, d-(q)=2
-d+(f)=2, d-(f)=1   d+(l)=2, d-(l)=1
-
-==== SUCESSORES E ANTECESSORES (Representação) ====
-a: Sucessores: ['b', 'e', 'f'], Antecessores: ['c']
-b: Sucessores: ['c'], Antecessores: ['a']
-c: Sucessores: ['a'], Antecessores: ['b', 'd']
-d: Sucessores: ['c'], Antecessores: ['g']
-e: Sucessores: [], Antecessores: ['a', 'f']
-f: Sucessores: ['e', 'g'], Antecessores: ['a']
-g: Sucessores: ['d'], Antecessores: ['f', 'j']
-h: Sucessores: ['i', 'l'], Antecessores: ['m']
-i: Sucessores: ['j'], Antecessores: ['h', 'k']
-j: Sucessores: ['g', 'k'], Antecessores: ['i']
-k: Sucessores: ['i'], Antecessores: ['j', 'l']
-l: Sucessores: ['k', 'm'], Antecessores: ['h']
-m: Sucessores: ['h'], Antecessores: ['l', 'o']
-n: Sucessores: ['o', 'p', 'q'], Antecessores: ['q']
-o: Sucessores: ['m'], Antecessores: ['n']
-p: Sucessores: ['q'], Antecessores: ['n']
-q: Sucessores: ['n'], Antecessores: ['n', 'p']
-
-==== (18) GRAFO SUBJACENTE ====
+==== (18) GRAFO SUBJACENTE (OPC) ====
 a: ['b', 'c', 'e', 'f']
 b: ['a', 'c']
 c: ['a', 'b', 'd']
@@ -323,24 +219,25 @@ o: ['m', 'n']
 p: ['n', 'q']
 q: ['n', 'p']
 
-INFO: As buscas BFS (19) e DFS (20) são executadas e renderizadas visualmente.
-
-==== BUSCA EM PROFUNDIDADE ====
---- Resultado da Busca em Profundidade (DFS) a partir de '2' ---
-Classificação das Arestas:
-1. Arestas de Árvore (5): ['(2,3)', '(2,4)', '(4,1)', '(4,5)', '(5,6)']
-2. Arestas de Retorno (2): ['(4,2)', '(6,4)']
-3. Arestas de Avanço (0): []
-4. Arestas de Cruzamento (1): ['(6,3)']
-Resultados de PE e PS: 
-PE: {'2': 1, '3': 2, '4': 3, '1': 4, '5': 5, '6': 6}
-PS: {'2': 6, '3': 1, '4': 5, '1': 2, '5': 4, '6': 3}
+==== (19) e (20) BUSCAS BFS E DFS ====
+INFO: As buscas são executadas e seus resultados (com classificação completa de arestas para DFS) são renderizados visualmente.
 
 
 *********************************************************************
 Arquivo: GRAFO_0.txt
 Análise para: GRAFO NÃO-DIRECIONADO
-==== MATRIZ DE ADJACÊNCIA ====
+
+==== (1) REPRESENTAÇÃO POR LISTA DE ADJACÊNCIA ====
+a: ['b']
+b: ['a', 'c', 'd']
+c: ['b', 'd', 'e']
+d: ['b', 'c']
+e: ['c', 'f']
+f: ['e', 'g', 'h']
+g: ['f', 'h']
+h: ['f', 'g']
+
+==== (2) REPRESENTAÇÃO POR MATRIZ DE ADJACÊNCIA ====
   | a b c d e f g h
 --+----------------
 a | 0 1 0 0 0 0 0 0
@@ -352,7 +249,21 @@ f | 0 0 0 0 1 0 1 1
 g | 0 0 0 0 0 1 0 1
 h | 0 0 0 0 0 1 1 0
 
-==== LISTA DE ADJACÊNCIA ====
+==== (3) REPRESENTAÇÃO POR MATRIZ DE INCIDÊNCIA ====
+   | e1 e2 e3 e4 e5 e6 e7 e8 e9
+---+---------------------------
+ a |  1  0  0  0  0  0  0  0  0
+ b |  1  1  1  0  0  0  0  0  0
+ c |  0  1  0  1  1  0  0  0  0
+ d |  0  0  1  1  0  0  0  0  0
+ e |  0  0  0  0  1  1  0  0  0
+ f |  0  0  0  0  0  1  1  1  0
+ g |  0  0  0  0  0  0  1  0  1
+ h |  0  0  0  0  0  0  0  1  1
+
+==== (4) CONVERSÃO ENTRE REPRESENTAÇÕES ====
+
+--- Matriz -> Lista ---
 a: ['b']
 b: ['a', 'c', 'd']
 c: ['b', 'd', 'e']
@@ -362,20 +273,7 @@ f: ['e', 'g', 'h']
 g: ['f', 'h']
 h: ['f', 'g']
 
-==== (4) DEMONSTRAÇÃO DE CONVERSÃO ====
-
---- Matriz de Adjacências -> Lista de Adjacências ---
-a: ['b']
-b: ['a', 'c', 'd']
-c: ['b', 'd', 'e']
-d: ['b', 'c']
-e: ['c', 'f']
-f: ['e', 'g', 'h']
-g: ['f', 'h']
-h: ['f', 'g']
-
---- Lista de Adjacências -> Matriz de Adjacências ---
-
+--- Lista -> Matriz ---
   | a b c d e f g h
 --+----------------
 a | 0 1 0 0 0 0 0 0
@@ -408,32 +306,38 @@ Adjacentes de h: ['f', 'g']
 ==== (8) NÚMERO TOTAL DE ARESTAS ====
 9
 
-(11) Conexo: Sim
+==== (9) e (10) INCLUSÃO E EXCLUSÃO DE VÉRTICES ====
+INFO: Funções implementadas na classe Grafo para manipulação dos dados.
 
-(12) Bipartido: Não
+==== (11) CONECTIVIDADE ====
+O grafo é conexo? Sim
+
+==== (12) BIPARTIÇÃO (OPC) ====
+O grafo é bipartido? Não
+
+==== (13) e (14) BUSCAS BFS E DFS ====
+INFO: As buscas são executadas e seus resultados renderizados visualmente.
 
 ==== (15) BICONECTIVIDADE (ARTICULAÇÕES E PONTES) ====
 Pontos de Articulação: ['b', 'c', 'e', 'f']
 Pontes: [('a', 'b'), ('c', 'e'), ('e', 'f')]
 
-INFO: As buscas BFS (13) e DFS (14) são executadas e renderizadas visualmente.
-
-==== BICONECTIVIDADE ====
-Articulações encontradas:
-{ b, c, e, f }
-Componentes biconectados (blocos):
-Bloco 1 (Arestas): ['(h,f)', '(g,h)', '(f,g)']
-Bloco 2 (Arestas): ['(e,f)']
-Bloco 3 (Arestas): ['(c,e)']
-Bloco 4 (Arestas): ['(d,b)', '(c,d)', '(b,c)']
-Bloco 5 (Arestas): ['(a,b)']
-
-
 
 *********************************************************************
 Arquivo: GRAFO_1.txt
 Análise para: GRAFO NÃO-DIRECIONADO
-==== MATRIZ DE ADJACÊNCIA ====
+
+==== (1) REPRESENTAÇÃO POR LISTA DE ADJACÊNCIA ====
+a: ['b']
+b: ['a', 'c', 'd', 'e', 'f']
+c: ['b', 'd', 'e', 'i']
+d: ['b', 'c', 'h']
+e: ['b', 'c']
+f: ['b']
+h: ['d']
+i: ['c']
+
+==== (2) REPRESENTAÇÃO POR MATRIZ DE ADJACÊNCIA ====
   | a b c d e f i h
 --+----------------
 a | 0 1 0 0 0 0 0 0
@@ -445,7 +349,21 @@ f | 0 1 0 0 0 0 0 0
 i | 0 0 1 0 0 0 0 0
 h | 0 0 0 1 0 0 0 0
 
-==== LISTA DE ADJACÊNCIA ====
+==== (3) REPRESENTAÇÃO POR MATRIZ DE INCIDÊNCIA ====
+   | e1 e2 e3 e4 e5 e6 e7 e8 e9
+---+---------------------------
+ a |  1  0  0  0  0  0  0  0  0
+ b |  1  1  1  1  1  0  0  0  0
+ c |  0  1  0  0  0  1  1  1  0
+ d |  0  0  1  0  0  1  0  0  1
+ e |  0  0  0  1  0  0  1  0  0
+ f |  0  0  0  0  1  0  0  0  0
+ i |  0  0  0  0  0  0  0  1  0
+ h |  0  0  0  0  0  0  0  0  1
+
+==== (4) CONVERSÃO ENTRE REPRESENTAÇÕES ====
+
+--- Matriz -> Lista ---
 a: ['b']
 b: ['a', 'c', 'd', 'e', 'f']
 c: ['b', 'd', 'e', 'i']
@@ -455,20 +373,7 @@ f: ['b']
 h: ['d']
 i: ['c']
 
-==== (4) DEMONSTRAÇÃO DE CONVERSÃO ====
-
---- Matriz de Adjacências -> Lista de Adjacências ---
-a: ['b']
-b: ['a', 'c', 'd', 'e', 'f']
-c: ['b', 'd', 'e', 'i']
-d: ['b', 'c', 'h']
-e: ['b', 'c']
-f: ['b']
-h: ['d']
-i: ['c']
-
---- Lista de Adjacências -> Matriz de Adjacências ---
-
+--- Lista -> Matriz ---
   | a b c d e f i h
 --+----------------
 a | 0 1 0 0 0 0 0 0
@@ -501,32 +406,41 @@ Adjacentes de i: ['c']
 ==== (8) NÚMERO TOTAL DE ARESTAS ====
 9
 
-(11) Conexo: Sim
+==== (9) e (10) INCLUSÃO E EXCLUSÃO DE VÉRTICES ====
+INFO: Funções implementadas na classe Grafo para manipulação dos dados.
 
-(12) Bipartido: Não
+==== (11) CONECTIVIDADE ====
+O grafo é conexo? Sim
+
+==== (12) BIPARTIÇÃO (OPC) ====
+O grafo é bipartido? Não
+
+==== (13) e (14) BUSCAS BFS E DFS ====
+INFO: As buscas são executadas e seus resultados renderizados visualmente.
 
 ==== (15) BICONECTIVIDADE (ARTICULAÇÕES E PONTES) ====
 Pontos de Articulação: ['b', 'c', 'd']
 Pontes: [('a', 'b'), ('b', 'f'), ('c', 'i'), ('d', 'h')]
 
-INFO: As buscas BFS (13) e DFS (14) são executadas e renderizadas visualmente.
-
-==== BICONECTIVIDADE ====
-Articulações encontradas:
-{ b, c, d }
-Componentes biconectados (blocos):
-Bloco 1 (Arestas): ['(d,h)']
-Bloco 2 (Arestas): ['(c,i)']
-Bloco 3 (Arestas): ['(e,b)', '(c,e)', '(d,b)', '(c,d)', '(b,c)']
-Bloco 4 (Arestas): ['(b,f)']
-Bloco 5 (Arestas): ['(a,b)']
-
-
 
 *********************************************************************
 Arquivo: GRAFO_2.txt
 Análise para: GRAFO NÃO-DIRECIONADO
-==== MATRIZ DE ADJACÊNCIA ====
+
+==== (1) REPRESENTAÇÃO POR LISTA DE ADJACÊNCIA ====
+1: ['2', '3', '6']
+10: ['8', '9']
+11: ['8']
+2: ['1', '3', '5', '6']
+3: ['1', '2', '4']
+4: ['3', '5']
+5: ['2', '4']
+6: ['1', '2', '7']
+7: ['6']
+8: ['10', '11', '9']
+9: ['10', '8']
+
+==== (2) REPRESENTAÇÃO POR MATRIZ DE ADJACÊNCIA ====
    |  1  2  3  5  6  4  7  8  9 10 11
 ---+---------------------------------
  1 |  0  1  1  0  1  0  0  0  0  0  0
@@ -541,7 +455,24 @@ Análise para: GRAFO NÃO-DIRECIONADO
 10 |  0  0  0  0  0  0  0  1  1  0  0
 11 |  0  0  0  0  0  0  0  1  0  0  0
 
-==== LISTA DE ADJACÊNCIA ====
+==== (3) REPRESENTAÇÃO POR MATRIZ DE INCIDÊNCIA ====
+    |  e1  e2  e3  e4  e5  e6  e7  e8  e9 e10 e11 e12 e13
+----+----------------------------------------------------
+  1 |   1   1   0   0   0   0   0   0   1   0   0   0   0
+  2 |   1   0   1   1   1   0   0   0   0   0   0   0   0
+  3 |   0   1   1   0   0   1   0   0   0   0   0   0   0
+  5 |   0   0   0   1   0   0   1   0   0   0   0   0   0
+  6 |   0   0   0   0   1   0   0   1   1   0   0   0   0
+  4 |   0   0   0   0   0   1   1   0   0   0   0   0   0
+  7 |   0   0   0   0   0   0   0   1   0   0   0   0   0
+  8 |   0   0   0   0   0   0   0   0   0   1   1   1   0
+  9 |   0   0   0   0   0   0   0   0   0   1   0   0   1
+ 10 |   0   0   0   0   0   0   0   0   0   0   1   0   1
+ 11 |   0   0   0   0   0   0   0   0   0   0   0   1   0
+
+==== (4) CONVERSÃO ENTRE REPRESENTAÇÕES ====
+
+--- Matriz -> Lista ---
 1: ['2', '3', '6']
 10: ['8', '9']
 11: ['8']
@@ -554,23 +485,7 @@ Análise para: GRAFO NÃO-DIRECIONADO
 8: ['10', '11', '9']
 9: ['10', '8']
 
-==== (4) DEMONSTRAÇÃO DE CONVERSÃO ====
-
---- Matriz de Adjacências -> Lista de Adjacências ---
-1: ['2', '3', '6']
-10: ['8', '9']
-11: ['8']
-2: ['1', '3', '5', '6']
-3: ['1', '2', '4']
-4: ['3', '5']
-5: ['2', '4']
-6: ['1', '2', '7']
-7: ['6']
-8: ['10', '11', '9']
-9: ['10', '8']
-
---- Lista de Adjacências -> Matriz de Adjacências ---
-
+--- Lista -> Matriz ---
    |  1  2  3  5  6  4  7  8  9 10 11
 ---+---------------------------------
  1 |  0  1  1  0  1  0  0  0  0  0  0
@@ -610,30 +525,47 @@ Adjacentes de 9: ['10', '8']
 ==== (8) NÚMERO TOTAL DE ARESTAS ====
 13
 
-(11) Conexo: Não
+==== (9) e (10) INCLUSÃO E EXCLUSÃO DE VÉRTICES ====
+INFO: Funções implementadas na classe Grafo para manipulação dos dados.
 
-(12) Bipartido: Não
+==== (11) CONECTIVIDADE ====
+O grafo é conexo? Não
+
+==== (12) BIPARTIÇÃO (OPC) ====
+O grafo é bipartido? Não
+
+==== (13) e (14) BUSCAS BFS E DFS ====
+INFO: As buscas são executadas e seus resultados renderizados visualmente.
 
 ==== (15) BICONECTIVIDADE (ARTICULAÇÕES E PONTES) ====
 Pontos de Articulação: ['6', '8']
 Pontes: [('11', '8'), ('6', '7')]
 
-INFO: As buscas BFS (13) e DFS (14) são executadas e renderizadas visualmente.
-
-==== BICONECTIVIDADE ====
-Articulações encontradas:
-{ 6, 8 }
-Componentes biconectados (blocos):
-Bloco 1 (Arestas): ['(6,7)']
-Bloco 2 (Arestas): ['(8,11)']
-Bloco 3 (Arestas): ['(1,2)', '(2,3)', '(3,1)', '(3,4)', '(4,5)', '(5,2)', '(2,6)', '(6,1)', '(8,9)', '(9,10)', '(10,8)']
-
-
 
 *********************************************************************
 Arquivo: GRAFO_3.txt
 Análise para: GRAFO NÃO-DIRECIONADO
-==== MATRIZ DE ADJACÊNCIA ====
+
+==== (1) REPRESENTAÇÃO POR LISTA DE ADJACÊNCIA ====
+a: ['b', 'c', 'e', 'f']
+b: ['a']
+c: ['a', 'd']
+d: ['c', 'f', 'g', 'q']
+e: ['a', 'f']
+f: ['a', 'd', 'e', 'g']
+g: ['d', 'f', 'j']
+h: ['i', 'l', 'm']
+i: ['h', 'j', 'k']
+j: ['g', 'i', 'k']
+k: ['i', 'j', 'l']
+l: ['h', 'k', 'm']
+m: ['h', 'l', 'o']
+n: ['o', 'p', 'q']
+o: ['m', 'n']
+p: ['n', 'q']
+q: ['d', 'n', 'p']
+
+==== (2) REPRESENTAÇÃO POR MATRIZ DE ADJACÊNCIA ====
   | a b c e f d g q j h i l m k o n p
 --+----------------------------------
 a | 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0
@@ -654,7 +586,30 @@ o | 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0
 n | 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 0 1
 p | 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 0
 
-==== LISTA DE ADJACÊNCIA ====
+==== (3) REPRESENTAÇÃO POR MATRIZ DE INCIDÊNCIA ====
+    |  e1  e2  e3  e4  e5  e6  e7  e8  e9 e10 e11 e12 e13 e14 e15 e16 e17 e18 e19 e20 e21 e22 e23 e24
+----+------------------------------------------------------------------------------------------------
+  a |   1   1   1   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+  b |   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+  c |   0   1   0   0   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+  e |   0   0   1   0   0   0   0   0   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+  f |   0   0   0   1   0   1   0   0   1   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+  d |   0   0   0   0   1   1   1   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+  g |   0   0   0   0   0   0   1   0   0   1   1   0   0   0   0   0   0   0   0   0   0   0   0   0
+  q |   0   0   0   0   0   0   0   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   1
+  j |   0   0   0   0   0   0   0   0   0   0   1   0   0   0   1   0   1   0   0   0   0   0   0   0
+  h |   0   0   0   0   0   0   0   0   0   0   0   1   1   1   0   0   0   0   0   0   0   0   0   0
+  i |   0   0   0   0   0   0   0   0   0   0   0   1   0   0   1   1   0   0   0   0   0   0   0   0
+  l |   0   0   0   0   0   0   0   0   0   0   0   0   1   0   0   0   0   1   1   0   0   0   0   0
+  m |   0   0   0   0   0   0   0   0   0   0   0   0   0   1   0   0   0   0   1   1   0   0   0   0
+  k |   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   1   1   0   0   0   0   0   0
+  o |   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   1   0   0   0
+  n |   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   1   1   0
+  p |   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   0   1
+
+==== (4) CONVERSÃO ENTRE REPRESENTAÇÕES ====
+
+--- Matriz -> Lista ---
 a: ['b', 'c', 'e', 'f']
 b: ['a']
 c: ['a', 'd']
@@ -673,29 +628,7 @@ o: ['m', 'n']
 p: ['n', 'q']
 q: ['d', 'n', 'p']
 
-==== (4) DEMONSTRAÇÃO DE CONVERSÃO ====
-
---- Matriz de Adjacências -> Lista de Adjacências ---
-a: ['b', 'c', 'e', 'f']
-b: ['a']
-c: ['a', 'd']
-d: ['c', 'f', 'g', 'q']
-e: ['a', 'f']
-f: ['a', 'd', 'e', 'g']
-g: ['d', 'f', 'j']
-h: ['i', 'l', 'm']
-i: ['h', 'j', 'k']
-j: ['g', 'i', 'k']
-k: ['i', 'j', 'l']
-l: ['h', 'k', 'm']
-m: ['h', 'l', 'o']
-n: ['o', 'p', 'q']
-o: ['m', 'n']
-p: ['n', 'q']
-q: ['d', 'n', 'p']
-
---- Lista de Adjacências -> Matriz de Adjacências ---
-
+--- Lista -> Matriz ---
   | a b c e f d g q j h i l m k o n p
 --+----------------------------------
 a | 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0
@@ -749,12 +682,18 @@ Adjacentes de q: ['d', 'n', 'p']
 ==== (8) NÚMERO TOTAL DE ARESTAS ====
 24
 
-(11) Conexo: Sim
+==== (9) e (10) INCLUSÃO E EXCLUSÃO DE VÉRTICES ====
+INFO: Funções implementadas na classe Grafo para manipulação dos dados.
 
-(12) Bipartido: Não
+==== (11) CONECTIVIDADE ====
+O grafo é conexo? Sim
+
+==== (12) BIPARTIÇÃO (OPC) ====
+O grafo é bipartido? Não
+
+==== (13) e (14) BUSCAS BFS E DFS ====
+INFO: As buscas são executadas e seus resultados renderizados visualmente.
 
 ==== (15) BICONECTIVIDADE (ARTICULAÇÕES E PONTES) ====
 Pontos de Articulação: ['a']
 Pontes: [('a', 'b')]
-
-INFO: As buscas BFS (13) e DFS (14) são executadas e renderizadas visualmente.
