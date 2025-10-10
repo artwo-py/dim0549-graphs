@@ -15,10 +15,8 @@ def are_adjacent_by_list(grafo: Grafo, v1_id, v2_id) -> bool:
         v1 = grafo.indice_vertices[str(v1_id)]
         v2 = grafo.indice_vertices[str(v2_id)]
 
-        # Verifica se v2 está na lista de vizinhos de v1
         if v2 in grafo.lista_adj.get(v1, []):
             return True
-        # Para grafos não direcionados, a checagem inversa também é válida
         if not grafo.direcionado and v1 in grafo.lista_adj.get(v2, []):
             return True
             
@@ -60,18 +58,13 @@ def are_adjacent_by_inc_matrix(grafo: Grafo, v1_id, v2_id) -> bool:
         if not grafo.matriz_incidencia or not grafo.matriz_incidencia[0]:
             return False
 
-        # Itera sobre cada coluna (aresta)
         for j in range(grafo.num_arestas()):
             coluna_v1 = grafo.matriz_incidencia[idx1][j]
             coluna_v2 = grafo.matriz_incidencia[idx2][j]
 
-            # Se ambos os vértices incidem na mesma aresta (valores != 0), eles são adjacentes
             if coluna_v1 != 0 and coluna_v2 != 0:
-                # Em grafos direcionados, se ambos forem 1 ou -1, é aresta paralela, não adjacência simples.
-                # Se um for 1 e outro -1, eles são adjacentes.
                 if grafo.direcionado and coluna_v1 != coluna_v2:
                     return True
-                # Em grafos não direcionados, basta que ambos sejam 1.
                 elif not grafo.direcionado:
                     return True
                 

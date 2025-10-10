@@ -1,19 +1,16 @@
 import math
-from collections import defaultdict
 from lib.core.graph import Grafo
 from lib.algorithms.is_bipartite import is_bipartite
 from lib.algorithms.is_connected import is_connected
-from lib.core.graph_converter import matriz_adj_para_lista_adj, lista_adj_para_matriz_adj
+from lib.algorithms.lowpt import lowpt 
+from lib.core.graph_converter import matriz_adj_para_lista_adj, lista_adj_para_matriz_adj, get_grafo_subjacente
 
-def _calcular_graus_entrada(grafo: Grafo):
-    """Calcula o grau de entrada para cada vértice em um grafo direcionado."""
-    graus_entrada = defaultdict(int)
-    for vertice in grafo.vertices:
-        graus_entrada[vertice]  # Garante que todos os vértices estejam no dict
-    for vizinhos in grafo.lista_adj.values():
-        for vizinho in vizinhos:
-            graus_entrada[vizinho] += 1
-    return graus_entrada
+def formatar_info_gerais(grafo: Grafo):
+    output = [
+        f"\n==== (7) NÚMERO TOTAL DE VÉRTICES ====\n{grafo.num_vertices()}",
+        f"\n==== (8) NÚMERO TOTAL DE ARESTAS ====\n{grafo.num_arestas()}"
+    ]
+    return "\n".join(output)
 
 def formatar_matriz_adj(grafo: Grafo):
     """Formata a matriz de adjacência com alinhamento dinâmico."""
@@ -47,27 +44,30 @@ def formatar_lista_adj(grafo: Grafo):
 def formatar_bipartido(grafo: Grafo):
     """Verifica se o grafo é bipartido e formata a saída."""
     resultado = "Sim" if is_bipartite(grafo) else "Não"
-    if grafo.direcionado:
-        resultado += " (Verificação feita no grafo não-direcionado subjacente)"
-    return f"\nBipartido: {resultado}"
+    return f"\n(12) Bipartido: {resultado}"
 
 def formatar_graus(grafo: Grafo):
-    """Formata os graus dos vértices em múltiplas colunas."""
-    output = ["\n==== GRAU DE CADA VÉRTICE NO GRAFO ===="]
+    """Formata os graus dos vértices."""
+    if grafo.direcionado:
+        output = ["\n==== GRAUS DE ENTRADA E SAÍDA (Representação) ===="]
+    else:
+        output = ["\n==== (5) GRAU DE CADA VÉRTICE ===="]
+
     if not grafo.vertices:
         return "\n".join(output + ["Vazio."])
 
     sorted_vertices = sorted(grafo.vertices, key=lambda v: str(v.id))
     degree_strings = []
-    if grafo.direcionado:
-        graus_entrada = _calcular_graus_entrada(grafo)
-        for v in sorted_vertices:
-            grau_saida = len(grafo.lista_adj.get(v, []))
-            grau_entrada = graus_entrada.get(v, 0)
+    
+    for v in sorted_vertices:
+        grau_info = grafo.get_grau(v.id)
+        if grau_info is None: continue 
+
+        if grafo.direcionado:
+            grau_entrada, grau_saida = grau_info
             degree_strings.append(f"d+({v.id})={grau_saida}, d-({v.id})={grau_entrada}")
-    else:
-        for v in sorted_vertices:
-            grau = len(grafo.lista_adj.get(v, []))
+        else:
+            grau = grau_info
             degree_strings.append(f"d({v.id}) = {grau}")
 
     num_cols = 3
@@ -80,14 +80,11 @@ def formatar_graus(grafo: Grafo):
     return "\n".join(output)
 
 def formatar_eh_conexo(grafo: Grafo):
-    """Formata a resposta do grafo ser conexo ou não, usando a função externa."""
-    # CORREÇÃO: Chamando a nova função 'is_connected' importada
+    """Formata a resposta do grafo ser conexo ou não."""
     resultado = "Sim" if is_connected(grafo) else "Não"
-    tipo = " (Fracamente Conexo)" if grafo.direcionado else ""
-    return f"Conexo: {resultado}{tipo}"
+    return f"\n(11) Conexo: {resultado}"
   
 def _calcular_antecessores(grafo: Grafo):
-    """Helper para calcular os antecessores de todos os vértices em um dígrafo."""
     antecessores = {v: [] for v in grafo.vertices}
     for u, vizinhos in grafo.lista_adj.items():
         for v in vizinhos:
@@ -96,7 +93,11 @@ def _calcular_antecessores(grafo: Grafo):
 
 def formatar_adjacencias_por_vertice(grafo: Grafo):
     """Formata os adjacentes (ou sucessores/antecessores) de cada vértice."""
-    output = ["\n==== ADJACÊNCIAS DE CADA VÉRTICE ===="]
+    if grafo.direcionado:
+        output = ["\n==== SUCESSORES E ANTECESSORES (Representação) ===="]
+    else:
+        output = ["\n==== (6) ADJACÊNCIAS DE CADA VÉRTICE ===="]
+
     if not grafo.vertices:
         return "\n".join(output + ["Vazio."])
 
@@ -113,37 +114,83 @@ def formatar_adjacencias_por_vertice(grafo: Grafo):
             output.append(f"Adjacentes de {v.id}: {adjacentes_ids}")
     return "\n".join(output)
 
+def formatar_biconectividade(grafo: Grafo):
+    """Formata a saída da análise de biconectividade."""
+    output = ["\n==== (15) BICONECTIVIDADE (ARTICULAÇÕES E PONTES) ===="]
+    
+    if grafo.num_vertices() == 0:
+        output.append("Grafo vazio.")
+        return "\n".join(output)
+
+    articulacoes, pontes = lowpt(grafo)
+    
+    if not articulacoes:
+        output.append("Pontos de Articulação: Nenhum (o grafo é biconexo ou trivial).")
+    else:
+        articulacoes_sorted = sorted(list(articulacoes), key=str)
+        output.append(f"Pontos de Articulação: {articulacoes_sorted}")
+        
+    if not pontes:
+        output.append("Pontes: Nenhuma.")
+    else:
+        pontes_sorted = sorted(list(pontes))
+        output.append(f"Pontes: {pontes_sorted}")
+        
+    return "\n".join(output)
+    
+def formatar_grafo_subjacente(grafo: Grafo):
+    """Exibe a lista de adjacências do grafo subjacente."""
+    output = ["\n==== (18) GRAFO SUBJACENTE ===="]
+    subjacente = get_grafo_subjacente(grafo)
+    output.append(formatar_lista_adj(subjacente).replace("\n==== LISTA DE ADJACÊNCIA ====\n", ""))
+    return "\n".join(output)
+
 def formatar_conversoes(grafo: Grafo):
     """Formata a demonstração de conversão entre matriz e lista."""
-    output = ["\n==== DEMONSTRAÇÃO DE CONVERSÃO ===="]
+    output = ["\n==== (4) DEMONSTRAÇÃO DE CONVERSÃO ===="]
     lista_adj_original = {k: list(v) for k, v in grafo.lista_adj.items()}
     matriz_adj_original = [row[:] for row in grafo.matriz_adj]
-
-    output.append("\n--- 1. Matriz de Adjacências -> Lista de Adjacências ---")
+    output.append("\n--- Matriz de Adjacências -> Lista de Adjacências ---")
     matriz_adj_para_lista_adj(grafo)
-    output.append(formatar_lista_adj(grafo))
-    
+    output.append(formatar_lista_adj(grafo).replace("\n==== LISTA DE ADJACÊNCIA ====\n", ""))
     grafo.lista_adj = lista_adj_original
-    output.append("\n--- 2. Lista de Adjacências -> Matriz de Adjacências ---\n")
+    output.append("\n--- Lista de Adjacências -> Matriz de Adjacências ---")
     lista_adj_para_matriz_adj(grafo)
-    output.append(formatar_matriz_adj(grafo))
-
+    output.append(formatar_matriz_adj(grafo).replace("==== MATRIZ DE ADJACÊNCIA ====", ""))
     grafo.lista_adj = lista_adj_original
     grafo.matriz_adj = matriz_adj_original
     return "\n".join(output)
 
 def gerar_relatorio_completo(grafo: Grafo):
-    """Gera um relatório completo e formatado para um único grafo."""
-    report = [
+    """Gera um relatório completo e formatado com base no tipo de grafo."""
+    header = [
         "*********************************************************************",
         f"Arquivo: {grafo.nome_arquivo}",
-        formatar_eh_conexo(grafo), # A formatação agora inclui o título "Conexo:"
-        formatar_matriz_adj(grafo),
-        formatar_lista_adj(grafo),
-        formatar_conversoes(grafo),
-        formatar_graus(grafo),
-        formatar_adjacencias_por_vertice(grafo),
-        formatar_bipartido(grafo)
     ]
-    return "\n".join(report)
 
+    if not grafo.direcionado:
+        report_body = [
+            "Análise para: GRAFO NÃO-DIRECIONADO",
+            formatar_matriz_adj(grafo),
+            formatar_lista_adj(grafo),
+            formatar_conversoes(grafo),           
+            formatar_graus(grafo),              
+            formatar_adjacencias_por_vertice(grafo), 
+            formatar_info_gerais(grafo),
+            formatar_eh_conexo(grafo),            
+            formatar_bipartido(grafo),            
+            formatar_biconectividade(grafo),      
+            "\nINFO: As buscas BFS (13) e DFS (14) são executadas e renderizadas visualmente."
+        ]
+    else:
+        report_body = [
+            "Análise para: DÍGRAFO",
+            formatar_matriz_adj(grafo),
+            formatar_lista_adj(grafo),
+            formatar_graus(grafo),               
+            formatar_adjacencias_por_vertice(grafo),
+            formatar_grafo_subjacente(grafo),     
+            "\nINFO: As buscas BFS (19) e DFS (20) são executadas e renderizadas visualmente."
+        ]
+    
+    return "\n".join(header + report_body)

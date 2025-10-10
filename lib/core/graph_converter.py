@@ -4,7 +4,7 @@ Descriçao: Contém funções para converter e sincronizar as diferentes
            representações de dados de um objeto Grafo.
 """
 import collections
-from lib.core.graph import Grafo
+from lib.core.graph import Grafo, Aresta
 
 def matriz_adj_para_lista_adj(grafo: Grafo):
     """
@@ -16,7 +16,6 @@ def matriz_adj_para_lista_adj(grafo: Grafo):
     """
     nova_lista_adj = collections.defaultdict(list)
     for i, vertice_i in enumerate(grafo.vertices):
-        # Garante que todo vértice exista como chave, mesmo que sem arestas de saída
         nova_lista_adj[vertice_i] = []
         for j, vertice_j in enumerate(grafo.vertices):
             if grafo.matriz_adj[i][j] == 1:
@@ -75,15 +74,15 @@ def matriz_inc_para_arestas(grafo: Grafo):
     num_vertices = grafo.num_vertices()
     num_arestas_na_matriz = len(grafo.matriz_incidencia[0])
 
-    for j in range(num_arestas_na_matriz):  # Itera sobre cada coluna (aresta)
+    for j in range(num_arestas_na_matriz): 
         pontas = []
         origem, destino = None, None
-        for i in range(num_vertices):  # Itera sobre cada linha (vértice)
+        for i in range(num_vertices):  
             valor = grafo.matriz_incidencia[i][j]
             if grafo.direcionado:
                 if valor == 1: origem = grafo.vertices[i]
                 elif valor == -1: destino = grafo.vertices[i]
-            elif valor == 1: # Não direcionado
+            elif valor == 1: 
                 pontas.append(grafo.vertices[i])
         
         if grafo.direcionado:
@@ -92,3 +91,24 @@ def matriz_inc_para_arestas(grafo: Grafo):
             novas_arestas.append(Aresta(pontas[0], pontas[1]))
     
     grafo.arestas = novas_arestas
+
+def get_grafo_subjacente(digrafo: Grafo) -> Grafo:
+    """
+    Tarefa: (18) Determinação do Grafo subjacente.
+    Info: Cria e retorna um novo grafo não-direcionado a partir de um dígrafo.
+          Se o grafo de entrada já for não-direcionado, retorna uma cópia dele.
+    E: digrafo (Grafo) - O grafo (potencialmente direcionado) de entrada.
+    S: Grafo - Um novo objeto Grafo não-direcionado.
+    """
+    if not digrafo.direcionado:
+        print("Aviso: O grafo de entrada já é não-direcionado. Retornando uma cópia.")
+    
+    subjacente = Grafo(direcionado=False, nome_arquivo=f"{digrafo.nome_arquivo} (subjacente)")
+    
+    for vertice in digrafo.vertices:
+        subjacente.adicionar_vertice(vertice.id)
+        
+    for aresta in digrafo.arestas:
+        subjacente.adicionar_aresta(aresta.v1.id, aresta.v2.id)
+        
+    return subjacente
