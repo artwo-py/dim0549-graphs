@@ -238,17 +238,18 @@ class Grafo:
             print(f"{ids[i]}|", *linha)
 
     def eh_conexo(self):
-        """       
-        Info: Para grafos NÃO-DIRECIONADOS, verifica se há um único componente conexo 
-              (Grafo Conexo) utilizando da BFS. Para DÍGRAFOS, verifica se é FRACAMENTE 
-              CONEXO (se o grafo subjacente, ignorando a direção, é conexo). 
+        """
+        Info: Para grafos não-direcionados, verifica se há um único componente conexo
+            (grafo conexo) utilizando a ordem de visita retornada pela BFS. 
+            Para grafos direcionados, verifica se o grafo subjacente não-direcionado 
+            é conexo (conectividade fraca).
         E: None
-        S: bool - True se for conexo/fortemente conexo, False caso contrário.
+        S: bool - True se o grafo for conexo (ou fraca conectividade para dígrafos), False caso contrário.
         """
         if self.num_vertices() <= 1: 
             return True
 
-        ordem_visita, arestas = bfs(self)
+        ordem_visita, _ = bfs(self)
 
         num_componentes = 0
         for _, pai_id in ordem_visita:

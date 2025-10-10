@@ -60,7 +60,7 @@ for grafo in grafos:
 print("\n--- Executando e Renderizando Grafos Subjacentes ---")
 for grafo in grafos:
     if grafo.direcionado and grafo.vertices:
-        print("gGerando Subjacente em:", grafo.nome_arquivo)
+        print("Gerando Subjacente em:", grafo.nome_arquivo)
         base_name = os.path.splitext(grafo.nome_arquivo)[0]
         dot = renderizar_grafo_subjacente(grafo)
         dot.render(f'render/subjacente/SUBJACENTE_{base_name}', view=False, cleanup=True)
