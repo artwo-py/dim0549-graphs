@@ -161,6 +161,60 @@ def formatar_conversoes(grafo: Grafo):
     grafo.matriz_adj = matriz_adj_original
     return "\n".join(output)
 
+def formatar_biconectividade(grafo):
+    output = []
+    if not grafo.vertices:
+        return "\n".join(output + ["Vazio."])
+
+    if not grafo.direcionado:
+        output.append("\n==== BICONECTIVIDADE ====")
+
+        vertice_inicial = str(grafo.vertices[0].id)
+        articulacoes, blocos = biconnectivity(grafo, vertice_inicial)
+    
+        vertice_inicial = str(grafo.vertices[0].id)
+        articulacoes, blocos = biconnectivity(grafo, vertice_inicial)
+        
+        output.append("Articulações encontradas:")
+        articulacoes_str = ", ".join(sorted([str(a) for a in articulacoes])) # Converte IDs em str e junta
+        output.append(f"{{ {articulacoes_str} }}") 
+        
+        if not blocos:
+            output.append("Nenhum bloco biconectado (Grafo Trivial ou Ponte Única).")
+        else:
+            output.append("Componentes biconectados (blocos):")
+            for i, bloco in enumerate(blocos):
+                bloco_str = [str(item) for item in bloco]
+                output.append(f"Bloco {i+1} (Arestas): {bloco_str}")
+
+    return "\n".join(output)
+
+def formatar_busca_profundidade_classificacao(grafo):
+    output = []
+    if not grafo.vertices:
+        return "\n".join(output + ["Vazio."])
+
+    if grafo.direcionado:
+        output.append("==== BUSCA EM PROFUNDIDADE ====")
+
+        vertice_inicial = str(grafo.vertices[0].id)
+
+        ordem_visita, arestas_arvore, arestas_retorno, arestas_avanco, arestas_cruzamento, pe_ids, ps_ids = busca_profundidade_com_classificacao(grafo, vertice_inicial)
+
+        output.append(f"--- Resultado da Busca em Profundidade (DFS) a partir de '{vertice_inicial}' ---")
+
+        # Classificação das Arestas
+        output.append("Classificação das Arestas:")
+        output.append(f"1. Arestas de Árvore ({len(arestas_arvore)}): {[str(a) for a in arestas_arvore]}")
+        output.append(f"2. Arestas de Retorno ({len(arestas_retorno)}): {[str(a) for a in arestas_retorno]}")
+        output.append(f"3. Arestas de Avanço ({len(arestas_avanco)}): {[str(a) for a in arestas_avanco]}")
+        output.append(f"4. Arestas de Cruzamento ({len(arestas_cruzamento)}): {[str(a) for a in arestas_cruzamento]}")
+        output.append("Resultados de PE e PS: ")
+        output.append(f"PE: {pe_ids}")
+        output.append(f"PS: {ps_ids}")
+    return "\n".join(output)
+
+
 def gerar_relatorio_completo(grafo: Grafo):
     """Gera um relatório completo e formatado com base no tipo de grafo."""
     header = [

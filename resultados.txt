@@ -50,6 +50,17 @@ h: ['g']
 
 INFO: As buscas BFS (19) e DFS (20) são executadas e renderizadas visualmente.
 
+==== BUSCA EM PROFUNDIDADE ====
+--- Resultado da Busca em Profundidade (DFS) a partir de 'a' ---
+Classificação das Arestas:
+1. Arestas de Árvore (7): ['(a,b)', '(b,c)', '(c,f)', '(f,g)', '(g,h)', '(b,e)', '(a,d)']
+2. Arestas de Retorno (1): ['(c,a)']
+3. Arestas de Avanço (0): []
+4. Arestas de Cruzamento (2): ['(e,f)', '(d,e)']
+Resultados de PE e PS: 
+PE: {'a': 1, 'b': 2, 'd': 8, 'c': 3, 'e': 7, 'f': 4, 'g': 5, 'h': 6}
+PS: {'a': 8, 'b': 6, 'd': 7, 'c': 4, 'e': 5, 'f': 3, 'g': 2, 'h': 1}
+
 
 *********************************************************************
 Arquivo: DIGRAFO_1.txt
@@ -125,6 +136,17 @@ d+(13)=1, d-(13)=1   d+(6)=1, d-(6)=2
 
 INFO: As buscas BFS (19) e DFS (20) são executadas e renderizadas visualmente.
 
+==== BUSCA EM PROFUNDIDADE ====
+--- Resultado da Busca em Profundidade (DFS) a partir de '1' ---
+Classificação das Arestas:
+1. Arestas de Árvore (11): ['(1,2)', '(2,3)', '(3,4)', '(4,5)', '(5,6)', '(6,7)', '(7,9)', '(9,8)', '(8,10)', '(11,12)', '(12,13)']
+2. Arestas de Retorno (4): ['(3,1)', '(7,6)', '(8,4)', '(13,12)']
+3. Arestas de Avanço (1): ['(5,8)']
+4. Arestas de Cruzamento (0): []
+Resultados de PE e PS: 
+PE: {'1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '8': 9, '7': 7, '9': 8, '10': 10, '11': 11, '12': 12, '13': 13}
+PS: {'1': 10, '2': 9, '3': 8, '4': 7, '5': 6, '6': 5, '8': 2, '7': 4, '9': 3, '10': 1, '11': 13, '12': 12, '13': 11}
+
 
 *********************************************************************
 Arquivo: DIGRAFO_2.txt
@@ -199,6 +221,17 @@ d+(13)=1, d-(13)=1   d+(6)=1, d-(6)=2
 9: ['7', '8']
 
 INFO: As buscas BFS (19) e DFS (20) são executadas e renderizadas visualmente.
+
+==== BUSCA EM PROFUNDIDADE ====
+--- Resultado da Busca em Profundidade (DFS) a partir de '1' ---
+Classificação das Arestas:
+1. Arestas de Árvore (11): ['(1,2)', '(2,3)', '(3,4)', '(4,5)', '(5,6)', '(6,7)', '(7,9)', '(9,8)', '(8,10)', '(10,12)', '(12,13)']
+2. Arestas de Retorno (4): ['(3,1)', '(7,6)', '(8,4)', '(13,12)']
+3. Arestas de Avanço (1): ['(5,8)']
+4. Arestas de Cruzamento (1): ['(11,12)']
+Resultados de PE e PS: 
+PE: {'1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '8': 9, '7': 7, '9': 8, '10': 10, '12': 11, '11': 13, '13': 12}
+PS: {'1': 12, '2': 11, '3': 10, '4': 9, '5': 8, '6': 7, '8': 4, '7': 6, '9': 5, '10': 3, '12': 2, '11': 13, '13': 1}
 
 
 *********************************************************************
@@ -292,6 +325,17 @@ q: ['n', 'p']
 
 INFO: As buscas BFS (19) e DFS (20) são executadas e renderizadas visualmente.
 
+==== BUSCA EM PROFUNDIDADE ====
+--- Resultado da Busca em Profundidade (DFS) a partir de '2' ---
+Classificação das Arestas:
+1. Arestas de Árvore (5): ['(2,3)', '(2,4)', '(4,1)', '(4,5)', '(5,6)']
+2. Arestas de Retorno (2): ['(4,2)', '(6,4)']
+3. Arestas de Avanço (0): []
+4. Arestas de Cruzamento (1): ['(6,3)']
+Resultados de PE e PS: 
+PE: {'2': 1, '3': 2, '4': 3, '1': 4, '5': 5, '6': 6}
+PS: {'2': 6, '3': 1, '4': 5, '1': 2, '5': 4, '6': 3}
+
 
 *********************************************************************
 Arquivo: GRAFO_0.txt
@@ -374,6 +418,17 @@ Pontes: [('a', 'b'), ('c', 'e'), ('e', 'f')]
 
 INFO: As buscas BFS (13) e DFS (14) são executadas e renderizadas visualmente.
 
+==== BICONECTIVIDADE ====
+Articulações encontradas:
+{ b, c, e, f }
+Componentes biconectados (blocos):
+Bloco 1 (Arestas): ['(h,f)', '(g,h)', '(f,g)']
+Bloco 2 (Arestas): ['(e,f)']
+Bloco 3 (Arestas): ['(c,e)']
+Bloco 4 (Arestas): ['(d,b)', '(c,d)', '(b,c)']
+Bloco 5 (Arestas): ['(a,b)']
+
+
 
 *********************************************************************
 Arquivo: GRAFO_1.txt
@@ -455,6 +510,17 @@ Pontos de Articulação: ['b', 'c', 'd']
 Pontes: [('a', 'b'), ('b', 'f'), ('c', 'i'), ('d', 'h')]
 
 INFO: As buscas BFS (13) e DFS (14) são executadas e renderizadas visualmente.
+
+==== BICONECTIVIDADE ====
+Articulações encontradas:
+{ b, c, d }
+Componentes biconectados (blocos):
+Bloco 1 (Arestas): ['(d,h)']
+Bloco 2 (Arestas): ['(c,i)']
+Bloco 3 (Arestas): ['(e,b)', '(c,e)', '(d,b)', '(c,d)', '(b,c)']
+Bloco 4 (Arestas): ['(b,f)']
+Bloco 5 (Arestas): ['(a,b)']
+
 
 
 *********************************************************************
@@ -553,6 +619,15 @@ Pontos de Articulação: ['6', '8']
 Pontes: [('11', '8'), ('6', '7')]
 
 INFO: As buscas BFS (13) e DFS (14) são executadas e renderizadas visualmente.
+
+==== BICONECTIVIDADE ====
+Articulações encontradas:
+{ 6, 8 }
+Componentes biconectados (blocos):
+Bloco 1 (Arestas): ['(6,7)']
+Bloco 2 (Arestas): ['(8,11)']
+Bloco 3 (Arestas): ['(1,2)', '(2,3)', '(3,1)', '(3,4)', '(4,5)', '(5,2)', '(2,6)', '(6,1)', '(8,9)', '(9,10)', '(10,8)']
+
 
 
 *********************************************************************
