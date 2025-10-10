@@ -5,7 +5,7 @@ from lib.utils.filereader import ler_diretorio
 from lib.utils.formater import gerar_relatorio_completo
 from lib.algorithms.bfs import bfs
 from lib.algorithms.dfs import dfs
-from lib.utils.renderer import renderizar_bfs, renderizar_dfs, renderizar_grafo
+from lib.utils.renderer import renderizar_bfs, renderizar_dfs, renderizar_grafo, renderizar_grafo_subjacente
 
 inicio_timer = time.time()
 directory = 'data'
@@ -56,5 +56,13 @@ for grafo in grafos:
         dot_dfs = renderizar_dfs(ordem_dfs, arestas_de_retorno)
         dot_dfs.render(f'render/dfs/DFS_{base_name}', view=False, cleanup=True)
 
+
+print("\n--- Executando e Renderizando Grafos Subjacentes ---")
+for grafo in grafos:
+    if grafo.direcionado and grafo.vertices:
+        print("gGerando Subjacente em:", grafo.nome_arquivo)
+        base_name = os.path.splitext(grafo.nome_arquivo)[0]
+        dot = renderizar_grafo_subjacente(grafo)
+        dot.render(f'render/subjacente/SUBJACENTE_{base_name}', view=False, cleanup=True)
 
 print("\nTempo total: %.4f segundos" % (time.time() - inicio_timer))

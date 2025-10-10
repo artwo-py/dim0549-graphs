@@ -210,29 +210,29 @@ d+(d) = 2, d-(d) = 2   d+(h) = 2, d-(h) = 0
 
 Arquivo: DIGRAFO_5_POR_MATRIZ_INCIDENCIA.txt
 
-CONEXO?  Não (fortemente conexo)
+CONEXO?  Sim (fortemente conexo)
 
 ==== MATRIZ DE ADJACÊNCIA ====
   | 2 3 4 1 5 6
 ---------------
-2 | 0 1 0 0 0 0
+2 | 0 1 1 0 0 0
 3 | 0 0 0 0 0 0
 4 | 1 0 0 1 1 0
 1 | 0 0 0 0 0 0
 5 | 0 0 0 0 0 1
-6 | 0 1 0 0 0 0
+6 | 0 1 1 0 0 0
 
 ==== LISTA DE ADJACÊNCIA ====
 1: []
-2: ['3']
+2: ['3', '4']
 3: []
 4: ['1', '2', '5']
 5: ['6']
-6: ['3']
+6: ['3', '4']
 
 ==== GRAU DE CADA VÉRTICE NO GRAFO ====
 d+(1) = 0, d-(1) = 1   d+(3) = 0, d-(3) = 2   d+(5) = 1, d-(5) = 1
-d+(2) = 1, d-(2) = 1   d+(4) = 3, d-(4) = 0   d+(6) = 1, d-(6) = 1
+d+(2) = 2, d-(2) = 1   d+(4) = 3, d-(4) = 2   d+(6) = 2, d-(6) = 1
 
 
 Arquivo: GRAFO_0.txt
