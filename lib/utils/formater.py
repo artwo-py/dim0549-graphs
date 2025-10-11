@@ -1,3 +1,8 @@
+"""
+Módulo:    display
+Descriçao: Contém funções para gerar representações textuais das estruturas
+           de dados e resultados de análise de um objeto Grafo.
+"""
 import math
 from lib.core.graph import Grafo
 from lib.algorithms.is_bipartite import is_bipartite
@@ -6,6 +11,12 @@ from lib.algorithms.lowpt import lowpt
 from lib.core.graph_converter import matriz_adj_para_lista_adj, lista_adj_para_matriz_adj, get_grafo_subjacente
 
 def formatar_lista_adj(grafo: Grafo):
+    """
+    Info: (Função de relatórios) Formata a lista de adjacências do grafo
+          em uma representação textual legível.
+    E: grafo (Grafo) - A instância do grafo.
+    S: str - A representação textual da lista de adjacências.
+    """
     titulo = "\n==== (1) REPRESENTAÇÃO POR LISTA DE ADJACÊNCIA ===="
     output = [titulo]
     if not grafo.vertices:
@@ -19,6 +30,12 @@ def formatar_lista_adj(grafo: Grafo):
     return "\n".join(output)
 
 def formatar_matriz_adj(grafo: Grafo):
+    """
+    Info: (Função de relatórios) Formata a matriz de adjacências do grafo
+          em uma representação textual legível.
+    E: grafo (Grafo) - A instância do grafo.
+    S: str - A representação textual da matriz de adjacências.
+    """
     titulo = "\n==== (2) REPRESENTAÇÃO POR MATRIZ DE ADJACÊNCIA ===="
     if grafo.direcionado:
         titulo = "\n==== (16) REPRESENTAÇÃO POR MATRIZ DE ADJACÊNCIA ===="
@@ -39,6 +56,12 @@ def formatar_matriz_adj(grafo: Grafo):
     return "\n".join(output)
 
 def formatar_matriz_incidencia(grafo: Grafo):
+    """
+    Info: (Função de relatórios) Formata a matriz de incidência do grafo
+          em uma representação textual legível.
+    E: grafo (Grafo) - A instância do grafo.
+    S: str - A representação textual da matriz de incidência.
+    """
     titulo = "\n==== (3) REPRESENTAÇÃO POR MATRIZ DE INCIDÊNCIA ===="
     if grafo.direcionado:
         titulo = "\n==== (17) REPRESENTAÇÃO POR MATRIZ DE INCIDÊNCIA ===="
@@ -66,21 +89,37 @@ def formatar_matriz_incidencia(grafo: Grafo):
     return "\n".join(output)
 
 def formatar_conversoes(grafo: Grafo):
+    """
+    Info: (Função de relatórios) Demonstra a conversão entre as representações
+          de lista e matriz de adjacências. As representações originais
+          do grafo são restauradas após o teste.
+    E: grafo (Grafo) - A instância do grafo.
+    S: str - O resultado textual da conversão.
+    """
     output = ["\n==== (4) CONVERSÃO ENTRE REPRESENTAÇÕES ===="]
     lista_adj_original = {k: list(v) for k, v in grafo.lista_adj.items()}
     matriz_adj_original = [row[:] for row in grafo.matriz_adj]
     output.append("\n--- Matriz -> Lista ---")
     matriz_adj_para_lista_adj(grafo)
+    # Pega apenas o corpo (sem o cabeçalho) da representação
     output.append(formatar_lista_adj(grafo).split('\n', 2)[-1])
     grafo.lista_adj = lista_adj_original
     output.append("\n--- Lista -> Matriz ---")
     lista_adj_para_matriz_adj(grafo)
+    # Pega apenas o corpo (sem o cabeçalho) da representação
     output.append(formatar_matriz_adj(grafo).split('\n', 2)[-1])
     grafo.lista_adj = lista_adj_original
     grafo.matriz_adj = matriz_adj_original
     return "\n".join(output)
 
 def formatar_graus(grafo: Grafo):
+    """
+    Info: (Função de relatórios) Lista o grau de cada vértice. Para dígrafos,
+          as funções de grau podem retornar tuplas (grau_entrada, grau_saída).
+          Esta função ignora tuplas, focando no grau total para grafos não-direcionados.
+    E: grafo (Grafo) - A instância do grafo.
+    S: str - A lista de graus formatada.
+    """
     output = ["\n==== (5) GRAU DE CADA VÉRTICE ===="]
     if not grafo.vertices:
         output.append("Vazio.")
@@ -91,6 +130,8 @@ def formatar_graus(grafo: Grafo):
         grau = grafo.get_grau(v.id)
         if grau is not None and not isinstance(grau, tuple):
             degree_strings.append(f"d({v.id}) = {grau}")
+    
+    # Formatação em colunas para melhor legibilidade
     num_cols = 3
     max_len = max(len(s) for s in degree_strings) if degree_strings else 0
     padded_strings = [s.ljust(max_len) for s in degree_strings]
@@ -101,6 +142,11 @@ def formatar_graus(grafo: Grafo):
     return "\n".join(output)
 
 def formatar_adjacencias_por_vertice(grafo: Grafo):
+    """
+    Info: (Função de relatórios) Lista os vizinhos adjacentes para cada vértice.
+    E: grafo (Grafo) - A instância do grafo.
+    S: str - A lista de adjacências formatada.
+    """
     output = ["\n==== (6) ADJACÊNCIAS DE CADA VÉRTICE ===="]
     if not grafo.vertices:
         output.append("Vazio.")
@@ -112,6 +158,11 @@ def formatar_adjacencias_por_vertice(grafo: Grafo):
     return "\n".join(output)
 
 def formatar_info_gerais(grafo: Grafo):
+    """
+    Info: (Função de relatórios) Informa o número total de vértices e arestas.
+    E: grafo (Grafo) - A instância do grafo.
+    S: str - O resumo das informações gerais.
+    """
     output = [
         f"\n==== (7) NÚMERO TOTAL DE VÉRTICES ====\n{grafo.num_vertices()}",
         f"\n==== (8) NÚMERO TOTAL DE ARESTAS ====\n{grafo.num_arestas()}"
@@ -119,18 +170,34 @@ def formatar_info_gerais(grafo: Grafo):
     return "\n".join(output)
 
 def formatar_eh_conexo(grafo: Grafo):
+    """
+    Info: (Função de relatórios) Verifica e reporta se o grafo é conexo.
+    E: grafo (Grafo) - A instância do grafo.
+    S: str - O resultado da conectividade.
+    """
     output = ["\n==== (11) CONECTIVIDADE ===="]
     resultado = "Sim" if is_connected(grafo) else "Não"
     output.append(f"O grafo é conexo? {resultado}")
     return "\n".join(output)
 
 def formatar_bipartido(grafo: Grafo):
+    """
+    Info: (Função de relatórios) Verifica e reporta se o grafo é bipartido.
+    E: grafo (Grafo) - A instância do grafo.
+    S: str - O resultado da bipartição.
+    """
     output = ["\n==== (12) BIPARTIÇÃO (OPC) ===="]
     resultado = "Sim" if is_bipartite(grafo) else "Não"
     output.append(f"O grafo é bipartido? {resultado}")
     return "\n".join(output)
 
 def formatar_biconectividade(grafo: Grafo):
+    """
+    Info: (Função de relatórios) Encontra e reporta os pontos de articulação
+          e as pontes do grafo usando o algoritmo lowpt.
+    E: grafo (Grafo) - A instância do grafo.
+    S: str - O resultado da análise de biconectividade.
+    """
     output = ["\n==== (15) BICONECTIVIDADE (ARTICULAÇÕES E PONTES) ===="]
     if grafo.num_vertices() == 0:
         output.append("Grafo vazio.")
@@ -139,22 +206,37 @@ def formatar_biconectividade(grafo: Grafo):
     if not articulacoes:
         output.append("Pontos de Articulação: Nenhum.")
     else:
+        # Ordena a lista de IDs para exibição consistente
         output.append(f"Pontos de Articulação: {sorted(list(articulacoes), key=str)}")
     if not pontes:
         output.append("Pontes: Nenhuma.")
     else:
+        # Pontes são tuplas (v1_id, v2_id), ordenadas para exibição consistente
         output.append(f"Pontes: {sorted(list(pontes))}")
     return "\n".join(output)
     
 def formatar_grafo_subjacente(grafo: Grafo):
+    """
+    Info: (Função de relatórios) Gera a representação textual do grafo
+          subjacente (não-direcionado) de um dígrafo.
+    E: grafo (Grafo) - A instância do dígrafo.
+    S: str - A representação textual do grafo subjacente.
+    """
     output = ["\n==== (18) GRAFO SUBJACENTE (OPC) ===="]
     subjacente = get_grafo_subjacente(grafo)
-    # Chama a função formatar_lista_adj, que agora só tem o título (1), e remove esse título
+    # Chama formatar_lista_adj no grafo subjacente e remove o título (1)
     texto_lista = formatar_lista_adj(subjacente).split('\n', 2)[-1]
     output.append(texto_lista)
     return "\n".join(output)
 
 def gerar_relatorio_completo(grafo: Grafo):
+    """
+    Info: (Função de relatórios) Agrega todos os resultados de análise em
+          um relatório textual completo, formatando-o de forma diferente
+          dependendo se o objeto é um Grafo (não-direcionado) ou Dígrafo.
+    E: grafo (Grafo) - A instância do grafo a ser analisada.
+    S: str - O relatório completo.
+    """
     header = [
         "*********************************************************************",
         f"Arquivo: {grafo.nome_arquivo}",
@@ -184,4 +266,3 @@ def gerar_relatorio_completo(grafo: Grafo):
             "\n==== (19) e (20) BUSCAS BFS E DFS ====\nINFO: As buscas são executadas e seus resultados (com classificação completa de arestas para DFS) são renderizados visualmente.",
         ]
     return "\n".join(header + report_body)
-
