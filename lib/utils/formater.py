@@ -1,5 +1,5 @@
 """
-Módulo:    display
+Módulo:    Formatador
 Descriçao: Contém funções para gerar representações textuais das estruturas
            de dados e resultados de análise de um objeto Grafo.
 """

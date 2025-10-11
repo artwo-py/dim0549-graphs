@@ -1,5 +1,5 @@
 """
-Módulo:    renderer
+Módulo:    Rendererizador
 Descriçao: Contém funções que utilizam a biblioteca `graphviz` para gerar
            representações visuais (imagens PNG) de objetos `Grafo`, bem como
            de resultados de algoritmos de busca (BFS e DFS).

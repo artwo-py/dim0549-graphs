@@ -1,3 +1,7 @@
+"""
+Módulo:    Leitor de Arquivos
+Descriçao: Funcionalidades para leitura e tratamento com arquivos.
+"""
 import os
 import sys
 from lib.core.graph import Grafo
