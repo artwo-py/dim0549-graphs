@@ -31,10 +31,3 @@
 
 ### Requisitos Opcionais
 - [X] **(18) Determinação do Grafo subjacente (OPC)**
-
----
-
-### Resumo do que falta implementar:
-1.  **Função de Grau:** Criar um método que retorne o grau de um vértice.
-2.  **Grafo Subjacente:** Criar uma função que transforme um dígrafo em seu grafo subjacente não direcionado.
-3.  **Articulações e Blocos:** Implementar o algoritmo de biconectividade usando DFS e a função `lowpt`.
