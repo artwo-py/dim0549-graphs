@@ -19,7 +19,7 @@ from lib.utils.renderer import (
 )
 
 inicio_timer = time.time()
-directory = 'data'
+directory = 'data/unit_1'
 grafos = ler_diretorio(directory) # Carrega todos os grafos da pasta 'data'
 
 print("\n--- Gerando Relatório de Análise (resultados.txt) ---")

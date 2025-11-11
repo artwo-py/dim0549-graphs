@@ -23,14 +23,60 @@ def renderizar_grafo(grafo: Grafo):
         dot = Graph(comment=f'Grafo: {grafo.nome_arquivo}', format="png")
         
     dot.graph_attr.update({
-        "layout": "neato", "rankdir": "LR", "splines": "true", "overlap": "false",
+        "layout": "sfdp",
+        "pad": "0.2",
+        "normalize": "true",
+        "sep": "+1",
+        "rankdir": "TB",
+        "splines": "true",
+        "overlap": "scale",
+        "K": "0.1"
+    })
+
+    dot.edge_attr.update({
+        "len": "1.6"
     })
 
     for vertice in grafo.vertices:
         dot.node(str(vertice.id), style="solid", penwidth='2.0')
 
     for aresta in grafo.arestas:
-        dot.edge(str(aresta.v1.id), str(aresta.v2.id), style="solid", penwidth='2.0')
+        label = str(aresta.peso) if aresta.peso else None
+        dot.edge(str(aresta.v1.id), str(aresta.v2.id),
+         style="solid",
+         penwidth="2.0",
+         label=label,
+         constraint="true", 
+         minlen="2", 
+         fontcolor = "red",
+         )
+            
+    return dot
+
+def renderizar_AGM(grafo: Grafo):
+    """
+    Info: (Função de renderização) Cria uma representação visual (dot object)
+          de uma AGM utilizando as informações de seus
+          vértices e arestas.
+    E: grafo (Grafo) - A instância do grafo a ser visualizada.
+    S: dot (Graph/Digraph) - Um objeto `graphviz` que pode ser renderizado
+       em um arquivo de imagem (e.g., PNG).
+    """
+    if grafo.direcionado:
+        dot = Digraph(comment=f'Digrafo: {grafo.nome_arquivo}', format="png")
+    else:
+        dot = Graph(comment=f'Grafo: {grafo.nome_arquivo}', format="png")
+        
+    dot.graph_attr.update({
+        "layout": "dot", "rankdir": "LR", "splines": "true", "overlap": "false",
+    })
+
+    for vertice in grafo.vertices:
+        dot.node(str(vertice.id), style="solid", penwidth='2.0')
+
+    for aresta in grafo.arestas:
+        label = str(aresta.peso) if aresta.peso or aresta.peso == 0 else None
+        dot.edge(str(aresta.v1.id), str(aresta.v2.id), style="solid", penwidth='2.0', label=label, fontcolor = "red",)
             
     return dot
 

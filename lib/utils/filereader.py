@@ -7,25 +7,40 @@ import sys
 from lib.core.graph import Grafo
 from lib.core.graph_display import imprimir_lista_adj, imprimir_matriz_adj
 
-def ler_grafo(caminho_arquivo, direcionado=False):
+def ler_grafo(caminho_arquivo, direcionado=False, renomear=None):
     """
     Lê um arquivo de definição de grafo, cria o objeto Grafo e escreve
     suas representações (matriz e lista de adjacência) e graus em um arquivo.
+    Se o parâmetro 'renomear' for fornecido, o grafo e seu respectivo arquivo de output 
+    serão nomeados com esse valor
     """
     print(f"Lendo arquivo: {caminho_arquivo}")
-    nome_arquivo = os.path.basename(caminho_arquivo)
+    nome_arquivo = renomear if renomear else os.path.basename(caminho_arquivo)
     grafo = Grafo(direcionado, nome_arquivo)
     try:
         with open(caminho_arquivo, 'r', encoding='utf-8') as arquivo:
-            arquivo.readline() 
+            primeira_linha = arquivo.readline().strip()
+
+            if len(primeira_linha) > 1 and not primeira_linha.isdigit():
+                partes = [p.strip() for p in primeira_linha.replace('(', '').replace(')', '').replace('{', '').replace('}', '').split(',')]
+                if len(partes) >= 2 and partes[0] and partes[1]:
+                    v1_id, v2_id = partes[0], partes[1]
+                    peso = int(partes[2]) if len(partes) > 2 else None
+                    grafo.adicionar_vertice(v1_id)
+                    grafo.adicionar_vertice(v2_id)
+                    grafo.adicionar_aresta(v1_id, v2_id, peso)
+
             for linha in arquivo:
-                partes = [p.strip() for p in linha.split(',')]
+                partes = [p.strip() for p in linha.replace('(', '').replace(')', '').replace('{', '').replace('}', '').split(',')]
                 if len(partes) < 2 or not partes[0] or not partes[1]:
                     continue
                 v1_id, v2_id = partes[0], partes[1]
+
+                peso = int(partes[2]) if len(partes) > 2 else None
+
                 grafo.adicionar_vertice(v1_id)
                 grafo.adicionar_vertice(v2_id)
-                grafo.adicionar_aresta(v1_id, v2_id)
+                grafo.adicionar_aresta(v1_id, v2_id, peso)
 
         graus = {}
         for vertice in grafo.vertices:
@@ -100,4 +115,9 @@ def ler_diretorio(diretorio):
                 grafo = ler_grafo(caminho, direcionado=True)
                 if grafo:
                     lista_grafos.append(grafo)
+            elif nome_lower.startswith('agm') and nome_lower.endswith('.txt'):
+                grafo = ler_grafo(caminho, direcionado=True, renomear='GRAFO_AGM')
+                if grafo:
+                    print("Arquivo AGM processado com renomeação.")
+                    lista_grafos.append(grafo)    
     return lista_grafos

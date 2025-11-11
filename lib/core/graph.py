@@ -23,15 +23,17 @@ class Vertice:
 
 class Aresta:
     """Info: Representa uma aresta (ou arco) que conecta dois vértices."""
-    def __init__(self, v1, v2):
+    def __init__(self, v1, v2, peso=None):
         self.v1 = v1
         self.v2 = v2
+        self.peso = peso
     
     def __str__(self):
-        return f"({self.v1},{self.v2})"
+        peso_str = f", peso={self.peso}" if self.peso is not None else ""
+        return f"({self.v1},{self.v2}{peso_str})"
 
 class Grafo:
-    def __init__(self, direcionado=False, nome_arquivo=""):
+    def __init__(self, direcionado=False, nome_arquivo="", vertices=None):
         """
         Info: Representa um grafo, gerenciando suas estruturas de dados e operações.
         E: direcionado (bool), nome_arquivo (str)
@@ -39,7 +41,7 @@ class Grafo:
         """
         self.direcionado = direcionado
         self.nome_arquivo = nome_arquivo
-        self.vertices = []
+        self.vertices = list(vertices) if vertices else []
         self.arestas = []
         self.indice_vertices = {} 
         self.lista_adj = collections.defaultdict(list)
@@ -70,16 +72,19 @@ class Grafo:
 
         return v
     
-    def adicionar_aresta(self, v1_id, v2_id):
+    def adicionar_aresta(self, v1_id, v2_id, w=None):
         """
         Tarefa: (1), (2), (16) Criação do Grafo a partir de arestas.
         Info: Orquestra a adição de uma aresta entre dois vértices existentes, atualizando
               a lista de arestas, a lista e a matriz de adjacência.
         E: v1_id, v2_id (str/int) - IDs dos vértices a serem conectados.
+        w (int, opcional) - Peso da aresta.
         S: None.
         """
         v1 = self.indice_vertices.get(str(v1_id))
         v2 = self.indice_vertices.get(str(v2_id))
+
+        peso = w
 
         if not v1 or not v2:
             print(f"Alerta: Vértice não encontrado ao criar aresta ({v1_id}, {v2_id}).")
@@ -91,9 +96,8 @@ class Grafo:
             else:
                 if a.v1 == v1 and a.v2 == v2: return
 
-        nova_aresta = Aresta(v1, v2)
+        nova_aresta = Aresta(v1, v2, peso)
         self.arestas.append(nova_aresta)
-
         self._adicionar_aresta_lista_adj(v1, v2)
         self._adicionar_aresta_matriz_adj(v1, v2)
         self._adicionar_aresta_matriz_inc(v1, v2)
