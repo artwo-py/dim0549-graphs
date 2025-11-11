@@ -41,7 +41,7 @@ def renderizar_grafo(grafo: Grafo):
         dot.node(str(vertice.id), style="solid", penwidth='2.0')
 
     for aresta in grafo.arestas:
-        label = str(aresta.peso) if aresta.peso else None
+        label = str(aresta.peso) if aresta.peso or aresta.peso == 0 else None
         dot.edge(str(aresta.v1.id), str(aresta.v2.id),
          style="solid",
          penwidth="2.0",
