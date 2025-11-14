@@ -18,7 +18,7 @@ def matriz_adj_para_lista_adj(grafo: Grafo):
     for i, vertice_i in enumerate(grafo.vertices):
         nova_lista_adj[vertice_i] = []
         for j, vertice_j in enumerate(grafo.vertices):
-            if grafo.matriz_adj[i][j] == 1:
+            if grafo.matriz_adj[i][j] != grafo.vazio:
                 nova_lista_adj[vertice_i].append(vertice_j)
     grafo.lista_adj = nova_lista_adj
 
@@ -31,7 +31,7 @@ def lista_adj_para_matriz_adj(grafo: Grafo):
     S: None
     """
     n = grafo.num_vertices()
-    grafo.matriz_adj = [[0] * n for _ in range(n)]
+    grafo.matriz_adj = [[grafo.vazio] * n for _ in range(n)]
     for vertice, vizinhos in grafo.lista_adj.items():
         i = grafo.vertices.index(vertice)
         for vizinho in vizinhos:
@@ -109,6 +109,6 @@ def get_grafo_subjacente(digrafo: Grafo) -> Grafo:
         subjacente.adicionar_vertice(vertice.id)
         
     for aresta in digrafo.arestas:
-        subjacente.adicionar_aresta(aresta.v1.id, aresta.v2.id)
+        subjacente.adicionar_aresta(aresta.v1.id, aresta.v2.id, aresta.peso)
         
     return subjacente

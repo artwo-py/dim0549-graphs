@@ -6,7 +6,7 @@ Funções:   kruskal(grafo)
 
 from lib.core.graph import Grafo, Aresta, Vertice
 from lib.algorithms.dfs import dfs
-from lib.utils.renderer import renderizar_dfs_classificada
+from lib.core.graph_converter import get_grafo_subjacente
 
 def kruskal(grafo):
     """
@@ -17,9 +17,11 @@ def kruskal(grafo):
         grafo (Grafo): O objeto grafo ponderado.
 
     Returns:
-        agm: Lista de arestas que compõem a árvore geradora mínima.
+        agm (Grafo): Subgrafo gerador do grafo fornecido.
     """
     
+    grafo = get_grafo_subjacente(grafo)
+
     for a in grafo.arestas:
         if a.peso is None:
             raise ValueError("Todas as arestas precisam ser ponderadas para execução do algoritmo.")
@@ -43,16 +45,13 @@ def kruskal(grafo):
         resultado = dfs(grafo=temp, id_vertice_inicial="1", classificar_arestas=True)
         arestas_retorno = resultado['arestas_retorno']
         
+
         if arestas_retorno:
             temp.remover_aresta(aresta.v1.id, aresta.v2.id)
             continue
         else:
             agm.adicionar_aresta(aresta.v1.id, aresta.v2.id, aresta.peso)
             continue
-    
-    print("Arestas inseridas: ")
-    for aresta in agm.arestas:
-        print(f"({aresta.v1.id},{aresta.v2.id}, {{{aresta.peso}}})")
 
     return agm
 

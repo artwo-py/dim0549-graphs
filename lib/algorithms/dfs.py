@@ -70,6 +70,8 @@ def dfs(grafo: Grafo, id_vertice_inicial=None, classificar_arestas=False, retorn
                 dfs_visit(v)
             
             elif cor[v] == 'cinza':
+                if not grafo.direcionado and parent[u] == v:
+                    continue
                 arestas_retorno.append(Aresta(u, v))
             
             elif cor[v] == 'preto' and classificar_arestas:

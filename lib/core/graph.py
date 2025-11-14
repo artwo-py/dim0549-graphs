@@ -12,6 +12,7 @@ Funções:   A classe Grafo inclui métodos para manipulação (adicionar vérti
            sincronização das estruturas de dados internas.
 """
 import collections
+from math import inf as infinito
 
 class Vertice:
     """Info: Representa um vértice (ou nó) em um grafo."""
@@ -33,13 +34,14 @@ class Aresta:
         return f"({self.v1},{self.v2}{peso_str})"
 
 class Grafo:
-    def __init__(self, direcionado=False, nome_arquivo="", vertices=None):
+    def __init__(self, direcionado=False, nome_arquivo="", vertices=None, ponderado=False):
         """
         Info: Representa um grafo, gerenciando suas estruturas de dados e operações.
         E: direcionado (bool), nome_arquivo (str)
         S: None
         """
         self.direcionado = direcionado
+        self.ponderado = ponderado
         self.nome_arquivo = nome_arquivo
         self.vertices = list(vertices) if vertices else []
         self.arestas = []
@@ -47,6 +49,7 @@ class Grafo:
         self.lista_adj = collections.defaultdict(list)
         self.matriz_adj = []
         self.matriz_incidencia = []
+        self.vazio = infinito if self.ponderado else 0
 
     # --------------------------------------------------------------------------
     # Interface Pública de Manipulação
@@ -99,7 +102,7 @@ class Grafo:
         nova_aresta = Aresta(v1, v2, peso)
         self.arestas.append(nova_aresta)
         self._adicionar_aresta_lista_adj(v1, v2)
-        self._adicionar_aresta_matriz_adj(v1, v2)
+        self._adicionar_aresta_matriz_adj(v1, v2, peso)
         self._adicionar_aresta_matriz_inc(v1, v2)
 
     def remover_aresta(self, v1_id, v2_id):
@@ -185,8 +188,8 @@ class Grafo:
         S: None
         """
         for linha in self.matriz_adj:
-            linha.append(0)
-        nova_linha = [0] * len(self.vertices)
+            linha.append(self.vazio)
+        nova_linha = [self.vazio] * len(self.vertices)
         self.matriz_adj.append(nova_linha)
 
     def _adicionar_vertice_matriz_inc(self):
@@ -209,17 +212,18 @@ class Grafo:
         if not self.direcionado:
             self.lista_adj[v2].append(v1)
 
-    def _adicionar_aresta_matriz_adj(self, v1, v2):
+    def _adicionar_aresta_matriz_adj(self, v1, v2, w=None):
         """
         Info: Adiciona a conexão entre dois vértices na matriz de adjacência.
         E: v1 (Vertice), v2 (Vertice) - Os objetos dos vértices para encontrar seus índices.
         S: None
         """
+
         idx1 = self.vertices.index(v1)
         idx2 = self.vertices.index(v2)
-        self.matriz_adj[idx1][idx2] = 1
+        self.matriz_adj[idx1][idx2] = 1 if w is None else w
         if not self.direcionado:
-            self.matriz_adj[idx2][idx1] = 1
+            self.matriz_adj[idx2][idx1] = 1 if w is None else w
 
     def _adicionar_aresta_matriz_inc(self, v1, v2):
         """
@@ -311,3 +315,29 @@ class Grafo:
                 if vertice_obj in vizinhos:
                     grau_entrada += 1
             return (grau_entrada, grau_saida)
+    
+    def get_aresta(self, v1_id, v2_id):
+        """
+        Info: Recupera a aresta indicada pelos vértices, se houver.
+        E: v1_id, v2_id (str/int): Id's dos vértices terminais da aresta 
+            sendo buscada
+        S: aresta (Aresta) ou None
+        """
+
+        s1 = str(v1_id)
+        s2 = str(v2_id)
+
+        for a in self.arestas:
+            a1 = str(a.v1.id)
+            a2 = str(a.v2.id)
+
+            if not self.direcionado:
+                if (a1 == s1 and a2 == s2) or (a1 == s2 and a2 == s1):
+                    return a
+            else:
+                if a1 == s1 and a2 == s2:
+                    return a
+
+        return None
+
+    

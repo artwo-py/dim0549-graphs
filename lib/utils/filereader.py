@@ -7,7 +7,7 @@ import sys
 from lib.core.graph import Grafo
 from lib.core.graph_display import imprimir_lista_adj, imprimir_matriz_adj
 
-def ler_grafo(caminho_arquivo, direcionado=False, renomear=None):
+def ler_grafo(caminho_arquivo, direcionado=False, renomear=None, ponderado=False):
     """
     Lê um arquivo de definição de grafo, cria o objeto Grafo e escreve
     suas representações (matriz e lista de adjacência) e graus em um arquivo.
@@ -16,7 +16,7 @@ def ler_grafo(caminho_arquivo, direcionado=False, renomear=None):
     """
     print(f"Lendo arquivo: {caminho_arquivo}")
     nome_arquivo = renomear if renomear else os.path.basename(caminho_arquivo)
-    grafo = Grafo(direcionado, nome_arquivo)
+    grafo = Grafo(direcionado, nome_arquivo, ponderado=ponderado)
     try:
         with open(caminho_arquivo, 'r', encoding='utf-8') as arquivo:
             primeira_linha = arquivo.readline().strip()
@@ -116,8 +116,7 @@ def ler_diretorio(diretorio):
                 if grafo:
                     lista_grafos.append(grafo)
             elif nome_lower.startswith('agm') and nome_lower.endswith('.txt'):
-                grafo = ler_grafo(caminho, direcionado=True, renomear='GRAFO_AGM')
+                grafo = ler_grafo(caminho, direcionado=True, renomear='GRAFO_AGM', ponderado=True)
                 if grafo:
-                    print("Arquivo AGM processado com renomeação.")
                     lista_grafos.append(grafo)    
     return lista_grafos
