@@ -5,10 +5,12 @@ Funções:   kruskal(grafo)
 """
 
 from lib.core.graph import Grafo, Aresta, Vertice
+from lib.algorithms.dfs import dfs
+from lib.utils.renderer import renderizar_dfs_classificada
 
 def kruskal(grafo):
     """
-    Tarefas: (1), (2).
+    Tarefa: (1).
     Info: Implementa o algoritmo de Kruskal para encontrar a árvore geradora mínima de um grafo ponderado.
 
     Args:
@@ -25,50 +27,39 @@ def kruskal(grafo):
     arestas = sorted(grafo.arestas, key=lambda x: x.peso)
 
     # --------------------------------------------------------------------------
-    # Implementação de Union-Find com union by rank e compressão de caminhos
+    # Implementação de verificação de ciclos usando busca em profundidade (DFS)
     # --------------------------------------------------------------------------
     
-    pai = {}
-    rank = {}
-
-    def find(x):
-        if pai[x] != x:
-            pai[x] = find(pai[x])
-        return pai[x]
-
-    def union(x, y):
-        rx = find(x)
-        ry = find(y)
-        if rx == ry:
-            return False
-        if rank[rx] < rank[ry]:
-            pai[rx] = ry
-        elif rank[rx] > rank[ry]:
-            pai[ry] = rx
-        else:
-            pai[ry] = rx
-            rank[rx] += 1
-        return True
-
-    for v in grafo.vertices:
-        pai[v.id] = v.id
-        rank[v.id] = 0
-
-    agm = Grafo(direcionado=True, nome_arquivo="Kruskal")
-
+    agm = Grafo(direcionado=grafo.direcionado, nome_arquivo="KRUSKAL")
     for v in grafo.vertices:
         agm.adicionar_vertice(v.id)
 
-    for a in arestas:
-        if union(a.v1.id, a.v2.id):
-            agm.adicionar_aresta(a.v1.id, a.v2.id, w=a.peso)
-            print(f"Aresta {a} adicionada na AGM")
-        else:
-            print(f"Aresta {a} NÃO adicionada na AGM")
+    temp = Grafo(direcionado=grafo.direcionado)
+    for v in grafo.vertices:
+        temp.adicionar_vertice(v.id)
 
+    for aresta in arestas:
+        temp.adicionar_aresta(aresta.v1.id, aresta.v2.id, aresta.peso)
+        resultado = dfs(grafo=temp, id_vertice_inicial="1", classificar_arestas=True)
+        arestas_retorno = resultado['arestas_retorno']
+        
+        if arestas_retorno:
+            temp.remover_aresta(aresta.v1.id, aresta.v2.id)
+            continue
+        else:
+            agm.adicionar_aresta(aresta.v1.id, aresta.v2.id, aresta.peso)
+            continue
+    
+    print("Arestas inseridas: ")
     for aresta in agm.arestas:
-        print(aresta)
+        print(f"({aresta.v1.id},{aresta.v2.id}, {{{aresta.peso}}})")
 
     return agm
+
+
+
+
+
+    
 
 

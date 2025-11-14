@@ -102,6 +102,47 @@ class Grafo:
         self._adicionar_aresta_matriz_adj(v1, v2)
         self._adicionar_aresta_matriz_inc(v1, v2)
 
+    def remover_aresta(self, v1_id, v2_id):
+        v1 = self.indice_vertices.get(str(v1_id))
+        v2 = self.indice_vertices.get(str(v2_id))
+
+        if not v1 or not v2:
+            print(f"Alerta: Vértice não encontrado ao remover aresta ({v1_id}, {v2_id}).")
+            return False
+
+        aresta_remover = None
+        for a in self.arestas:
+            if not self.direcionado:
+                if (a.v1 == v1 and a.v2 == v2) or (a.v1 == v2 and a.v2 == v1):
+                    aresta_remover = a
+                    break
+            else:
+                if a.v1 == v1 and a.v2 == v2:
+                    aresta_remover = a
+                    break
+
+        if not aresta_remover:
+            print(f"Alerta: Aresta ({v1_id}, {v2_id}) não encontrada para remoção.")
+            return False
+
+        idx_aresta = self.arestas.index(aresta_remover)
+        self.arestas.remove(aresta_remover)
+
+        self.lista_adj[v1] = [v for v in self.lista_adj[v1] if v != v2]
+        if not self.direcionado:
+            self.lista_adj[v2] = [v for v in self.lista_adj[v2] if v != v1]
+
+        i1 = self.vertices.index(v1)
+        i2 = self.vertices.index(v2)
+        self.matriz_adj[i1][i2] = 0
+        if not self.direcionado:
+            self.matriz_adj[i2][i1] = 0
+
+        for linha in self.matriz_incidencia:
+            linha.pop(idx_aresta)
+
+        return True
+
     def remover_vertice(self, id):
         """
         Info: Orquestra a remoção de um vértice do grafo junto com todas as arestas associadas,

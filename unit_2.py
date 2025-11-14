@@ -13,7 +13,7 @@ from lib.utils.renderer import (
     renderizar_bfs, # Renderiza o percurso BFS
     renderizar_dfs, # Renderiza o percurso DFS
     renderizar_grafo, # Renderiza o grafo/dígrafo original
-    renderizar_AGM, # Renderiza a AGM
+    renderizar_agm, # Renderiza a AGM
     renderizar_dfs_classificada # Renderiza DFS com classificação de arestas (dígrafo)
 )
 
@@ -38,8 +38,8 @@ for grafo in grafos:
 print("--- Renderizando AGMs ---")
 for grafo in arvores_kruskal:
     print("Renderizando:", grafo.nome_arquivo)
-    base_name = os.path.splitext(grafo.nome_arquivo)[0]
-    dot = renderizar_AGM(grafo) # Cria objeto DOT para grafo/dígrafo
+    base_name = grafo.nome_arquivo
+    dot = renderizar_agm(grafo) # Cria objeto DOT para AGM
     dot.render(f'render/AGM/{base_name}', view=False, cleanup=True) # Renderiza para PNG
 
 print("\nTempo total: %.4f segundos" % (time.time() - inicio_timer))

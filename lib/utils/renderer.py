@@ -53,7 +53,7 @@ def renderizar_grafo(grafo: Grafo):
             
     return dot
 
-def renderizar_AGM(grafo: Grafo):
+def renderizar_agm(grafo: Grafo):
     """
     Info: (Função de renderização) Cria uma representação visual (dot object)
           de uma AGM utilizando as informações de seus
