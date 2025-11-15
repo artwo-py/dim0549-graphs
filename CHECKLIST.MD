@@ -1,5 +1,6 @@
-# Checklist - Trabalho de Grafos
+# Checklist - Trabalhos de Grafos 
 
+# UNIDADE I
 ## A. Para Grafos
 
 ### Requisitos Essenciais
@@ -31,3 +32,20 @@
 
 ### Requisitos Opcionais
 - [X] **(18) Determinação do Grafo subjacente (OPC)**
+
+# UNIDADE II
+
+## A. Para ÁRVORES GERADORES MÍNIMAS 
+- [] (1) Algoritmo de Kruskal – Detalhar em vídeo
+- [] (2) Algoritmo de Prim – Detalhar em vídeo
+**- [] (3) Algoritmo de Boruvka (OPC) – Detalhar em vídeo**
+**- [] (4) Algoritmo de Chu-Liu/Edmonds (OPC)– Detalhar em vídeo**
+
+## B. Para CAMINHO MAIS CURTO
+- [] (5) Algoritmo de Dijkstra – Detalhar em vídeo
+- [] (6) Algoritmo de Bellman-Ford – Detalhar em vídeo
+- [] (7) Algoritmo de Floyd-Warshall, inclusive a Recuperação de Caminhos através da árvore de caminhos mais curtos – Detalhar em vídeo
+
+## C. Para GRAFOS EULERIANOS
+- [] (8) Algoritmo de Hierholzer (CICLOS) – Detalhar em vídeo
+**- [] (9) Algoritmo de Hierholzer (CAMINHOS) (OPC)– Detalhar em vídeo**
