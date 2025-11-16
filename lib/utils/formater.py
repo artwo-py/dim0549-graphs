@@ -283,13 +283,16 @@ def formatar_caminho_floyd_warshall(grafo: Grafo, id_inicio: str, id_fim: str):
          - list or None: Os dados do caminho (para o renderer), ou None se não houver.
     """
     
-    titulo = f"Relatório Floyd-Warshall ({id_inicio} -> {id_fim})"
+    # --- ALTERAÇÃO AQUI ---
+    # Título segue o padrão do relatório
+    titulo = f"\n==== (21) CAMINHO MAIS CURTO (FLOYD-WARSHALL {id_inicio} -> {id_fim}) ===="
     
     if not grafo.ponderado:
         report = "  Algoritmo não aplicável (grafo não ponderado)."
         return (titulo + "\n" + report, None)
     
     try:
+        # (O resto da função permanece idêntico)
         dist, pred, vertices = floyd_warshall(grafo)
         
         idx_map = {v.id: i for i, v in enumerate(vertices)}
