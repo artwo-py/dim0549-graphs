@@ -95,13 +95,13 @@ def ler_diretorio(diretorio):
     """
     with open("resultados.txt", "w", encoding='utf-8') as arquivo:
         arquivo.write("")
-        
+
     try:
         arquivos = os.listdir(diretorio)
     except FileNotFoundError:
         print(f"ERRO: A pasta '{diretorio}' não foi encontrada.")
         return []
-        
+
     lista_grafos = []
     for nome_arquivo in arquivos:
         caminho = os.path.join(diretorio, nome_arquivo)
@@ -118,5 +118,13 @@ def ler_diretorio(diretorio):
             elif nome_lower.startswith('agm') and nome_lower.endswith('.txt'):
                 grafo = ler_grafo(caminho, direcionado=True, renomear='GRAFO_AGM', ponderado=True)
                 if grafo:
-                    lista_grafos.append(grafo)    
+                    lista_grafos.append(grafo) 
+            elif nome_lower.startswith('hierholzer_ciclo') and nome_lower.endswith('.txt'):
+                grafo = ler_grafo(caminho, direcionado=False, renomear='GRAFO_CICLO_HIERHOLZER')
+                if grafo:
+                    lista_grafos.append(grafo)
+            elif nome_lower.startswith('hierholzer_caminho') and nome_lower.endswith('.txt'):
+                grafo = ler_grafo(caminho, direcionado=True, renomear='GRAFO_CAMINHO_HIERHOLZER')
+                if grafo:
+                    lista_grafos.append(grafo)
     return lista_grafos
