@@ -26,7 +26,7 @@ grafos = ler_diretorio(directory) # Carrega todos os grafos da pasta 'data'
 
 arvores_geradoras = []
 
-print("--- Renderizando Grafos e Dígrafos Originais ---")
+print("\n--- Renderizando Grafos e Dígrafos Originais ---")
 for grafo in grafos:
     print("Renderizando:", grafo.nome_arquivo)
     base_name = os.path.splitext(grafo.nome_arquivo)[0]
@@ -41,7 +41,21 @@ for grafo in grafos:
     agm_prim = prim(grafo)
     arvores_geradoras.append(agm_prim)
 
-print("--- Renderizando AGMs ---")
+print("\n--- Gerando Relatório de Análise para Hierholzer (resultados.txt) ---")
+with open('resultados.txt', 'a', encoding='utf-8') as f:
+    for grafo in grafos:
+        if 'HIERHOLZER' in grafo.nome_arquivo:
+            relatorio = f"Grafo: {grafo.nome_arquivo} (Direcionado: {grafo.direcionado})\n"
+            if 'CICLO_HIERHOLZER'in grafo.nome_arquivo:
+                ciclo = hierholzer_ciclos(grafo)
+                relatorio += f"  Ciclo euleriano: {' -> '.join(map(str, ciclo))}\n"
+            elif 'CAMINHO_HIERHOLZER' in grafo.nome_arquivo:
+                caminho = hierholzer_caminhos(grafo)
+                relatorio += f"  Caminho euleriano: {' -> '.join(map(str, caminho))}\n"
+            f.write(relatorio + "\n")
+print("Relatório de análise gerado com sucesso!")
+
+print("\n--- Renderizando AGMs ---")
 for grafo in arvores_geradoras:
     print("Renderizando:", grafo.nome_arquivo)
     base_name = grafo.nome_arquivo

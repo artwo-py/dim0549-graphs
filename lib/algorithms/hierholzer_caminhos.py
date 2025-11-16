@@ -78,10 +78,12 @@ def hierholzer_caminhos(grafo):
     is_eulerian_possible, vertice_inicial = _verificar_condicoes_eulerianas(grafo)
 
     if not is_eulerian_possible:
-        return "Caminho euleriano não é possível: condições de grau não atendidas."
+        #print("Caminho euleriano não é possível: condições de grau não atendidas.")
+        return None
 
     if not is_connected(grafo):
-        return "Caminho euleriano não é possível: grafo não é conectado."
+        #print("Caminho euleriano não é possível: grafo não é conectado.")
+        return None
 
     if grafo.num_arestas() == 0:
         return []

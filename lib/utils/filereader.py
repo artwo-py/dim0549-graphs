@@ -119,12 +119,12 @@ def ler_diretorio(diretorio):
                 grafo = ler_grafo(caminho, direcionado=True, renomear='GRAFO_AGM', ponderado=True)
                 if grafo:
                     lista_grafos.append(grafo) 
-            elif nome_lower.startswith('hierholzer_digrafo') and nome_lower.endswith('.txt'):
-                grafo = ler_grafo(caminho, direcionado=True, renomear='DIGRAFO_HIERHOLZER')
+            elif nome_lower.startswith('hierholzer_ciclo') and nome_lower.endswith('.txt'):
+                grafo = ler_grafo(caminho, direcionado=False, renomear='GRAFO_CICLO_HIERHOLZER')
                 if grafo:
                     lista_grafos.append(grafo)
-            elif nome_lower.startswith('hierholzer_grafo') and nome_lower.endswith('.txt'):
-                grafo = ler_grafo(caminho, direcionado=False, renomear='GRAFO_HIERHOLZER')
+            elif nome_lower.startswith('hierholzer_caminho') and nome_lower.endswith('.txt'):
+                grafo = ler_grafo(caminho, direcionado=True, renomear='GRAFO_CAMINHO_HIERHOLZER')
                 if grafo:
                     lista_grafos.append(grafo)
     return lista_grafos

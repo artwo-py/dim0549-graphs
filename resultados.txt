@@ -1,3 +1,74 @@
+Arquivo: GRAFO_CICLO_HIERHOLZER
+
+==== MATRIZ DE ADJACÊNCIA ====
+
+--- Matriz de Adjacências ---
+  | 1 2 3 4 5 6 7
+-----------------
+1 | 0 1 1 0 0 0 0
+2 | 1 0 1 1 1 0 0
+3 | 1 1 0 1 0 1 0
+4 | 0 1 1 0 1 1 0
+5 | 0 1 0 1 0 1 1
+6 | 0 0 1 1 1 0 1
+7 | 0 0 0 0 1 1 0
+
+==== LISTA DE ADJACÊNCIA ====
+
+--- Lista de Adjacências ---
+1: ['2', '3']
+2: ['1', '3', '4', '5']
+3: ['1', '2', '4', '6']
+4: ['2', '3', '5', '6']
+5: ['2', '4', '6', '7']
+6: ['3', '4', '5', '7']
+7: ['5', '6']
+
+==== GRAU DE CADA VÉRTICE NO GRAFO ====
+d(1) = 2
+d(2) = 4
+d(3) = 4
+d(4) = 4
+d(5) = 4
+d(6) = 4
+d(7) = 2
+
+========================================
+
+Arquivo: GRAFO_CAMINHO_HIERHOLZER
+
+==== MATRIZ DE ADJACÊNCIA ====
+
+--- Matriz de Adjacências ---
+  | a b f d c e
+---------------
+a | 0 1 1 0 0 0
+b | 1 0 0 1 0 0
+f | 0 0 0 0 0 1
+d | 0 1 0 0 1 0
+c | 0 1 0 0 0 0
+e | 1 0 0 1 0 0
+
+==== LISTA DE ADJACÊNCIA ====
+
+--- Lista de Adjacências ---
+a: ['b', 'f']
+b: ['a', 'd']
+c: ['b']
+d: ['b', 'c']
+e: ['a', 'd']
+f: ['e']
+
+==== GRAU DE CADA VÉRTICE NO GRAFO ====
+d+(a) = 2, d-(a) = 2
+d+(b) = 2, d-(b) = 3
+d+(f) = 1, d-(f) = 1
+d+(d) = 2, d-(d) = 2
+d+(c) = 1, d-(c) = 1
+d+(e) = 2, d-(e) = 1
+
+========================================
+
 Arquivo: GRAFO_AGM
 
 ==== MATRIZ DE ADJACÊNCIA ====
@@ -70,4 +141,10 @@ d+(18) = 2, d-(18) = 1
 d+(19) = 0, d-(19) = 2
 
 ========================================
+
+Grafo: GRAFO_CICLO_HIERHOLZER (Direcionado: False)
+  Ciclo euleriano: 1 -> 2 -> 3 -> 6 -> 4 -> 2 -> 5 -> 6 -> 7 -> 5 -> 4 -> 3 -> 1
+
+Grafo: GRAFO_CAMINHO_HIERHOLZER (Direcionado: True)
+  Caminho euleriano: e -> d -> c -> b -> a -> f -> e -> a -> b -> d -> b
 

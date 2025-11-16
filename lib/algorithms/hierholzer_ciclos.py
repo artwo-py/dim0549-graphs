@@ -6,33 +6,6 @@ Objetivo:  Implementa o algoritmo de Hierholzer para encontrar um ciclo eulerian
 from lib.core.graph import Grafo, Vertice
 from lib.algorithms.is_connected import is_connected
 
-def copiar_grafo(grafo):
-    """
-    Cria uma cópia do grafo sem modificar a classe Grafo original.
-
-    Args:
-        grafo (Grafo): O objeto Grafo a ser copiado.
-
-    Returns:
-        Grafo: Uma nova instância do grafo com os mesmos vértices e arestas.
-    """
-    novo_grafo = Grafo(
-        direcionado=grafo.direcionado,
-        ponderado=grafo.ponderado,
-        nome_arquivo=f"{grafo.nome_arquivo}"
-    )
-
-    for vertice_original in grafo.vertices:
-        novo_grafo.adicionar_vertice(vertice_original.id)
-
-    for aresta_original in grafo.arestas:
-        id1 = aresta_original.v1.id
-        id2 = aresta_original.v2.id
-        peso = aresta_original.peso
-        novo_grafo.adicionar_aresta(id1, id2, peso)
-
-    return novo_grafo
-
 def _verificar_condicoes_eulerianas(grafo):
     """
     Verifica se o grafo atende às condições necessárias para a existência de um ciclo euleriano.
@@ -73,11 +46,13 @@ def hierholzer_ciclos(grafo):
     """
 
     if not _verificar_condicoes_eulerianas(grafo):
-        return "Ciclo euleriano não é possível: condições de grau não atendidas."
+        #print("Ciclo euleriano não é possível: condições de grau não atendidas.")
+        return None
 
     # Se o grafo tem arestas, ele deve ser conectado
     if grafo.num_arestas() > 0 and not is_connected(grafo):
-        return "Ciclo euleriano não é possível: grafo não é conectado."
+        #print("Ciclo euleriano não é possível: grafo não é conectado.")
+        return None
 
     if grafo.num_arestas() == 0:
         return []
