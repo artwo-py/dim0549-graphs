@@ -10,6 +10,8 @@ from lib.utils.filereader import ler_diretorio # Leitura de arquivos de grafos
 from lib.utils.formater import gerar_relatorio_completo # Geração do relatório textual completo
 from lib.algorithms.kruskal import kruskal # Implementação do algoritmo de Kruskal
 from lib.algorithms.prim import prim # Implementação do algoritmo de Prim
+from lib.algorithms.hierholzer_ciclos import hierholzer_ciclos
+from lib.algorithms.hierholzer_caminhos import hierholzer_caminhos
 from lib.utils.renderer import (
     renderizar_bfs, # Renderiza o percurso BFS
     renderizar_dfs, # Renderiza o percurso DFS
@@ -24,12 +26,6 @@ grafos = ler_diretorio(directory) # Carrega todos os grafos da pasta 'data'
 
 arvores_geradoras = []
 
-for grafo in grafos:
-    agm_kruskal = kruskal(grafo)
-    arvores_geradoras.append(agm_kruskal)
-    agm_prim = prim(grafo)
-    arvores_geradoras.append(agm_prim)
-
 print("--- Renderizando Grafos e Dígrafos Originais ---")
 for grafo in grafos:
     print("Renderizando:", grafo.nome_arquivo)
@@ -37,6 +33,13 @@ for grafo in grafos:
     dot = renderizar_grafo(grafo) # Cria objeto DOT para grafo/dígrafo
     dot.render(f'render/{base_name}', view=False, cleanup=True) # Renderiza para PNG
 
+for grafo in grafos:
+    if 'HIERHOLZER' in grafo.nome_arquivo:
+        continue
+    agm_kruskal = kruskal(grafo)
+    arvores_geradoras.append(agm_kruskal)
+    agm_prim = prim(grafo)
+    arvores_geradoras.append(agm_prim)
 
 print("--- Renderizando AGMs ---")
 for grafo in arvores_geradoras:
