@@ -4,11 +4,13 @@ Descriçao: Contém funções para gerar representações textuais das estrutura
            de dados e resultados de análise de um objeto Grafo.
 """
 import math
+from math import inf as infinito
 from lib.core.graph import Grafo
 from lib.algorithms.is_bipartite import is_bipartite
 from lib.algorithms.is_connected import is_connected
 from lib.algorithms.lowpt import lowpt 
 from lib.core.graph_converter import matriz_adj_para_lista_adj, lista_adj_para_matriz_adj, get_grafo_subjacente
+from lib.algorithms.floyd_warshall import floyd_warshall, reconstruir_caminho
 
 def formatar_lista_adj(grafo: Grafo):
     """
@@ -266,3 +268,53 @@ def gerar_relatorio_completo(grafo: Grafo):
             "\n==== (19) e (20) BUSCAS BFS E DFS ====\nINFO: As buscas são executadas e seus resultados (com classificação completa de arestas para DFS) são renderizados visualmente.",
         ]
     return "\n".join(header + report_body)
+
+def formatar_caminho_floyd_warshall(grafo: Grafo, id_inicio: str, id_fim: str):
+    """
+    Info: (Função de relatórios) Executa o Floyd-Warshall, reconstrói o caminho
+          mais curto entre dois vértices e formata o resultado textual.
+          
+    E: grafo (Grafo) - A instância do grafo.
+    E: id_inicio (str) - ID do vértice inicial.
+    E: id_fim (str) - ID do vértice final.
+    
+    S: tupla (str, list[Vertice] or None) 
+         - str: O relatório textual formatado (para impressão).
+         - list or None: Os dados do caminho (para o renderer), ou None se não houver.
+    """
+    
+    # --- ALTERAÇÃO AQUI ---
+    # Título segue o padrão do relatório
+    titulo = f"\n==== (21) CAMINHO MAIS CURTO (FLOYD-WARSHALL {id_inicio} -> {id_fim}) ===="
+    
+    if not grafo.ponderado:
+        report = "  Algoritmo não aplicável (grafo não ponderado)."
+        return (titulo + "\n" + report, None)
+    
+    try:
+        # (O resto da função permanece idêntico)
+        dist, pred, vertices = floyd_warshall(grafo)
+        
+        idx_map = {v.id: i for i, v in enumerate(vertices)}
+        idx_inicio = idx_map.get(id_inicio)
+        idx_fim = idx_map.get(id_fim)
+
+        if idx_inicio is None or idx_fim is None:
+            report = f"  Erro: Vértice {id_inicio} ou {id_fim} não encontrado."
+            return (titulo + "\n" + report, None)
+
+        custo = dist[idx_inicio][idx_fim]
+        caminho = reconstruir_caminho(pred, vertices, idx_inicio, idx_fim)
+
+        if caminho:
+            custo_str = f"{custo:.0f}" if custo != infinito else "INF"
+            caminho_str = " -> ".join([v.id for v in caminho])
+            report = f"  Custo: {custo_str}\n  Caminho: {caminho_str}"
+            return (titulo + "\n" + report, caminho)
+        else:
+            report = "  Não há caminho entre os vértices."
+            return (titulo + "\n" + report, None)
+            
+    except Exception as e:
+        report = f"  Ocorreu um erro inesperado: {e}"
+        return (titulo + "\n" + report, None)
