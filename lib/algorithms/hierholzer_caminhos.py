@@ -10,14 +10,14 @@ def _verificar_condicoes_eulerianas(grafo):
     """
     Verifica se o grafo atende às condições necessárias para a existência de um caminho euleriano.
     Condições:
-    - Não-direcionado: Todos os vértices possuem grau par ou no máximo dois vértices possuem grau ímpar.
-    - Direcionado: No máximo um vértice tem grau (d^{+}-d^{-}=1) e no máximo um vértice 
+    - Não-direcionado: todos os vértices possuem grau par ou no máximo dois vértices possuem grau ímpar.
+    - Direcionado: no máximo um vértice tem grau (d^{+}-d^{-}=1) e no máximo um vértice 
         tem grau (d^{-}-d^{+}=1). Todos os demais vértices tem o mesmo grau de entrada e de saída.
 
     Returns:
         tuple (bool, Vertice or None): 
             - bool: True se as condições forem atendidas, False caso contrário.
-            - Vertice or None: O vértice inicial de onde o caminho deve começar, ou None se for um ciclo.
+            - Vertice or None: o vértice inicial de onde o caminho deve começar, ou None.
     """
     vertice_inicial = None
 
@@ -35,7 +35,6 @@ def _verificar_condicoes_eulerianas(grafo):
             elif diferenca == -1:
                 d_neg_um.append(v)
             elif diferenca != 0:
-                print("1")
                 return False, None
 
         if (len(d_pos_um) == 0 and len(d_neg_um) == 0):
@@ -70,7 +69,6 @@ def hierholzer_caminhos(grafo):
 
     Args:
         grafo (Grafo): O objeto grafo.
-
     Returns:
         list: Lista de IDs de vértices em ordem que forma o caminho euleriano.
     """
