@@ -6,7 +6,7 @@ Descriçao: Contém funções que utilizam a biblioteca `graphviz` para gerar
 """
 from graphviz import Digraph, Graph
 from collections import defaultdict
-from lib.core.graph import Grafo
+from lib.core.graph import Grafo, Vertice
 
 def renderizar_grafo(grafo: Grafo):
     """
@@ -271,4 +271,53 @@ def renderizar_grafo_subjacente(digrafo):
         if aresta_ordenada not in arestas_adicionadas:
             dot.edge(v1_id, v2_id, style="solid", penwidth='2.0', constraint='true')
             arestas_adicionadas.add(aresta_ordenada)
+    return dot
+
+def renderizar_caminho_curto(grafo: Grafo, caminho: list[Vertice], nome_grafo="Caminho_Curto"):
+    """
+    Info: (Função de renderização) Cria uma representação visual de um grafo
+          destacando um caminho específico (ex: caminho mais curto).
+    E: grafo (Grafo) - A instância do grafo a ser visualizada.
+    E: caminho (list[Vertice]) - Uma lista ordenada de vértices que compõem o caminho.
+    E: nome_grafo (str) - Nome do grafo/imagem.
+    S: dot (Digraph) - O objeto `graphviz` da visualização.
+    """
+    dot = Digraph(comment=nome_grafo, format="png")
+    dot.graph_attr.update({
+        "layout": "sfdp", "pad": "0.2", "normalize": "true", "sep": "+1",
+        "rankdir": "TB", "splines": "true", "overlap": "scale", "K": "0.1"
+    })
+    if not caminho:
+        return renderizar_grafo(grafo)
+    caminho_ids = {str(v.id) for v in caminho}
+    caminho_arestas = set()
+    for i in range(len(caminho) - 1):
+        caminho_arestas.add((str(caminho[i].id), str(caminho[i+1].id)))
+    start_id = str(caminho[0].id)
+    end_id = str(caminho[-1].id)
+    for v in grafo.vertices:
+        v_id_str = str(v.id)
+        if v_id_str == start_id:
+            dot.node(v_id_str, style="filled", fillcolor="palegreen", penwidth="2.5", shape="doublecircle")
+        elif v_id_str == end_id:
+            dot.node(v_id_str, style="filled", fillcolor="tomato", penwidth="2.5", shape="doublecircle")
+        elif v_id_str in caminho_ids:
+            dot.node(v_id_str, style="filled", fillcolor="lightblue", penwidth="2.0")
+        else:
+            dot.node(v_id_str, style="solid", penwidth="1.0", color="gray")
+    for a in grafo.arestas:
+        v1_str, v2_str = str(a.v1.id), str(a.v2.id)
+        label = str(a.peso) if a.peso is not None else None
+        if (v1_str, v2_str) in caminho_arestas:
+            dot.edge(v1_str, v2_str,
+                     label=label,
+                     color="green",
+                     penwidth="3.0",
+                     fontcolor="red")
+        else:
+            dot.edge(v1_str, v2_str,
+                     label=label,
+                     color="gray",
+                     penwidth="1.0",
+                     fontcolor="gray")
     return dot

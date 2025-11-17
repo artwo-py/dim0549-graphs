@@ -1,5 +1,5 @@
 # Descrição
-Repositório destinado à implementação dos projetos práticos da disciplina DIM0549 - GRAFOS do Bacharelado em Tecnologia da Informação da UFRN
+Repositório destinado à implementação dos projetos práticos da disciplina DIM0549 - GRAFOS do Bacharelado em Tecnologia da Informação da UFRN.
 
 # Alunos
 - ARTHUR QUEIROZ PIRES DE FARIAS
@@ -21,4 +21,6 @@ Repositório destinado à implementação dos projetos práticos da disciplina D
 3. Executar o comando `python3 -m venv venv` para criar um ambiente virtual Python
 4. Executar o comando `. venv/bin/activate` para ativar a `venv`
 5. Executar o comando `pip install -r requirements.txt` para instalar as dependências
-6. Executar o comando `python3 main.py` para iniciar o programa
+6. Executar os seguintes comandos:
+   - `python3 unit_1.py` para iniciar o processamento para tarefas da unidade 1
+   - `python3 unit_2.py` para iniciar o processamento para tarefas da unidade 2
