@@ -6,8 +6,8 @@ Descriçao: Ponto de entrada da aplicação. Orquestra a leitura dos dados,
 """
 import os
 import time
-from lib.utils.file_handler import ler_diretorio 
-from lib.utils.formater import (
+from lib.utils.file_handler import ler_diretorio  # Leitura de arquivos de grafos
+from lib.utils.formater import ( # Geração do relatório textual completo
     formatar_caminho_floyd_warshall,
     gerar_relatorio_unidade_2 
 )
@@ -16,8 +16,10 @@ from lib.utils.renderer import (
     renderizar_agm, 
     renderizar_caminho_curto
 )
-from lib.algorithms.kruskal import kruskal
-from lib.algorithms.prim import prim 
+
+from lib.algorithms.kruskal import kruskal # Implementação do algoritmo de Kruskal
+from lib.algorithms.prim import prim # Implementação do algoritmo de Prim
+from lib.algorithms.dijkstra import dijkstra # Implementação do algoritmo de Dijkstra
 
 inicio_timer = time.time()
 directory = 'data/unit_2'
@@ -26,6 +28,14 @@ grafos = ler_diretorio(directory)
 
 arvores_geradoras = []
 
+for grafo in grafos:
+    agm_kruskal = kruskal(grafo)
+    arvores_geradoras.append(agm_kruskal)
+    agm_prim = prim(grafo)
+    arvores_geradoras.append(agm_prim)
+    agm_dijkstra = dijkstra(grafo)
+    arvores_geradoras.append(agm_dijkstra)
+    
 # --- 2. Renderização de Grafos Originais ---
 print("\n--- Renderizando Grafos e Dígrafos Originais ---")
 os.makedirs('render', exist_ok=True) 
