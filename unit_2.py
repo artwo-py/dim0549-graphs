@@ -17,6 +17,7 @@ from lib.algorithms.floyd_warshall import floyd_warshall, reconstruir_caminho # 
 from lib.algorithms.hierholzer_ciclos import hierholzer_ciclos
 from lib.algorithms.hierholzer_caminhos import hierholzer_caminhos
 from lib.algorithms.bellman_ford import formatar_caminho_bellman_ford
+from lib.algorithms.chu_liu_edmonds import chu_liu_edmonds
 
 from lib.utils.renderer import (
     renderizar_bfs, # Renderiza o percurso BFS
@@ -47,7 +48,12 @@ for grafo in grafos:
     arvores_geradoras.append(agm_kruskal)
     agm_prim = prim(grafo)
     arvores_geradoras.append(agm_prim)
-
+    if "CHU_LIU_EDMONDS" in grafo.nome_arquivo:
+        agm_chu, erro = chu_liu_edmonds(grafo, raiz="1")
+        if agm_chu:
+            arvores_geradoras.append(agm_chu)
+        else:
+            print(f"  Aviso: Erro no {grafo.nome_arquivo} usando Chu-Liu/Edmonds: {erro}")
 print("\n--- Gerando Relatório de Análise para Hierholzer (resultados.txt) ---")
 with open('resultados.txt', 'a', encoding='utf-8') as f:
     for grafo in grafos:
