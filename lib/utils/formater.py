@@ -5,6 +5,7 @@ Descriçao: Contém funções para gerar representações textuais das estrutura
 """
 import math
 from math import inf as infinito
+from lib.algorithms.chu_liu_edmonds import chu_liu_edmonds
 from lib.core.graph import Grafo
 from lib.algorithms.is_bipartite import is_bipartite
 from lib.algorithms.is_connected import is_connected
@@ -341,6 +342,34 @@ def formatar_hierholzer_resultado(grafo: Grafo):
         return f"\n==== RESULTADO HIERHOLZER ====\n  Erro ao processar: {e}"
         
     return "" 
+def formatar_arborescencia(arbo_grafo: Grafo, nome_algoritmo: str):
+    """
+    Info: (Função de relatórios) Formata o resultado de uma Arborescência Geradora Mínima.
+    E: arbo_grafo (Grafo) - O grafo resultante do algoritmo (direcionado).
+    E: nome_algoritmo (str) - Nome ("Chu-Liu/Edmonds")
+    S: str - Texto formatado.
+    """
+    titulo = f"\n\n==== RESULTADO {nome_algoritmo.upper()} ===="
+    output = [titulo]
+    if not arbo_grafo or not arbo_grafo.arestas:
+        output.append("  Arborescência vazia.")
+        return "\n".join(output)
+    custo_total = 0
+    arestas_str = []
+    arestas_ordenadas = sorted(
+        arbo_grafo.arestas,
+        key=lambda a: (str(a.v1.id), str(a.v2.id))
+    )
+
+    for aresta in arestas_ordenadas:
+        if aresta.peso is not None:
+            custo_total += aresta.peso
+        arestas_str.append(f"  {aresta.v1.id} -> {aresta.v2.id} (peso {aresta.peso})")
+
+    output.append(f"  Custo Total: {custo_total}")
+    output.append("  Arestas da Arborescência:")
+    output.extend(arestas_str)
+    return "\n".join(output)
 
 def gerar_relatorio_completo(grafo: Grafo):
     """
@@ -415,7 +444,12 @@ def gerar_relatorio_unidade_2(grafos: list):
                     f.write(f"\n==== RESULTADO PRIM ====\n  Erro: {e}")
                 report_fw, _ = formatar_caminho_floyd_warshall(grafo, "1", "15")
                 f.write(report_fw) # (7)
-            
+            elif 'CHU_LIU_EDMONDS' in grafo.nome_arquivo:
+                agm_chu, erro = chu_liu_edmonds(grafo, raiz="1")
+                if agm_chu:
+                    f.write(formatar_arborescencia(agm_chu, "Chu-Liu/Edmonds"))
+                else:
+                    f.write(f"\n==== RESULTADO CHU-LIU/EDMONDS ====\n  Erro: {erro}")
             elif 'HIERHOLZER' in grafo.nome_arquivo:
                 f.write(formatar_hierholzer_resultado(grafo)) # (8) - (9)          
             f.write("\n\n")
