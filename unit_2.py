@@ -10,6 +10,7 @@ from lib.utils.filereader import ler_diretorio # Leitura de arquivos de grafos
 from lib.utils.formater import gerar_relatorio_completo # Geração do relatório textual completo
 from lib.algorithms.kruskal import kruskal # Implementação do algoritmo de Kruskal
 from lib.algorithms.prim import prim # Implementação do algoritmo de Prim
+from lib.algorithms.dijkstra import dijkstra
 from lib.utils.renderer import (
     renderizar_bfs, # Renderiza o percurso BFS
     renderizar_dfs, # Renderiza o percurso DFS
@@ -29,6 +30,8 @@ for grafo in grafos:
     arvores_geradoras.append(agm_kruskal)
     agm_prim = prim(grafo)
     arvores_geradoras.append(agm_prim)
+    agm_dijkstra = dijkstra(grafo)
+    arvores_geradoras.append(agm_dijkstra)
 
 print("--- Renderizando Grafos e Dígrafos Originais ---")
 for grafo in grafos:
