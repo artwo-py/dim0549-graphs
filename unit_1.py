@@ -6,7 +6,7 @@ Descriçao: Ponto de entrada da aplicação. Orquestra a leitura dos dados,
 """
 import os
 import time
-from lib.utils.filereader import ler_diretorio # Leitura de arquivos de grafos
+from lib.utils.file_handler import ler_diretorio # Leitura de arquivos de grafos
 from lib.utils.formater import gerar_relatorio_completo # Geração do relatório textual completo
 from lib.algorithms.bfs import bfs # Implementação do algoritmo BFS
 from lib.algorithms.dfs import dfs # Implementação do algoritmo DFS (com ou sem classificação de arestas)

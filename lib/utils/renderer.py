@@ -311,7 +311,7 @@ def renderizar_caminho_curto(grafo: Grafo, caminho: list[Vertice], nome_grafo="C
         if (v1_str, v2_str) in caminho_arestas:
             dot.edge(v1_str, v2_str,
                      label=label,
-                     color="red",
+                     color="green",
                      penwidth="3.0",
                      fontcolor="red")
         else:

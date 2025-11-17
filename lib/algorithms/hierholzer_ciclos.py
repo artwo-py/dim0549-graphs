@@ -37,10 +37,8 @@ def _verificar_condicoes_eulerianas(grafo):
 def hierholzer_ciclos(grafo):
     """
     Implementa o algoritmo de Hierholzer para encontrar um ciclo euleriano.
-
     Args:
         grafo (Grafo): O objeto grafo.
-
     Returns:
         list: Lista de IDs de vértices em ordem que forma o ciclo euleriano.
     """
