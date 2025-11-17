@@ -98,21 +98,14 @@ class Grafo:
                 if (a.v1 == v1 and a.v2 == v2) or (a.v1 == v2 and a.v2 == v1):
                     aresta_existente = a
                     break
-
-        # Lógica de atualização
         if aresta_existente:
-            # Se a aresta existe E o novo peso é melhor (menor)
             if peso is not None and peso < aresta_existente.peso:
-                # --- DEBUG ---
                 print(f"  DEBUG: Atualizando peso de ({v1_id}, {v2_id}). Antigo: {aresta_existente.peso}, Novo: {peso}")
                 aresta_existente.peso = peso
-                # Atualiza a matriz também
                 self._adicionar_aresta_matriz_adj(v1, v2, peso)
             else:
-                # Aresta existe, mas o peso novo não é melhor. Não faz nada.
                 return
         else:
-            # Aresta é completamente nova
             nova_aresta = Aresta(v1, v2, peso)
             self.arestas.append(nova_aresta)
             self._adicionar_aresta_lista_adj(v1, v2)
@@ -228,16 +221,22 @@ class Grafo:
 
     def _adicionar_aresta_matriz_adj(self, v1, v2, w=None):
         """
-        Info: Adiciona a conexão entre dois vértices na matriz de adjacência.
+        Info: Adiciona ou ATUALIZA a conexão na matriz de adjacência,
+              garantindo que o MENOR peso seja armazenado.
         E: v1 (Vertice), v2 (Vertice) - Os objetos dos vértices para encontrar seus índices.
         S: None
         """
-
+        
+        peso = 1 if w is None else w
         idx1 = self.vertices.index(v1)
         idx2 = self.vertices.index(v2)
-        self.matriz_adj[idx1][idx2] = 1 if w is None else w
-        if not self.direcionado:
-            self.matriz_adj[idx2][idx1] = 1 if w is None else w
+        
+        peso_atual = self.matriz_adj[idx1][idx2]
+        
+        if peso_atual == self.vazio or peso < peso_atual:
+            self.matriz_adj[idx1][idx2] = peso
+            if not self.direcionado:
+                self.matriz_adj[idx2][idx1] = peso
 
     def _adicionar_aresta_matriz_inc(self, v1, v2):
         """
