@@ -290,7 +290,6 @@ def formatar_caminho_floyd_warshall(grafo: Grafo, id_inicio: str, id_fim: str):
     except Exception as e:
         report = f"  Ocorreu um erro inesperado: {e}"
         return (titulo + "\n" + report, None)
-    
 def formatar_agm_resultado(agm_grafo: Grafo, nome_algoritmo: str):
     """
     Info: (Função de relatórios) Formata o resultado de um algoritmo de AGM.

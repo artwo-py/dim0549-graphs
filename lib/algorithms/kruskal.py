@@ -54,11 +54,3 @@ def kruskal(grafo):
             continue
 
     return agm
-
-
-
-
-
-    
-
-
