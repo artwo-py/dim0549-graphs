@@ -5,6 +5,7 @@ Descriçao: Contém funções para converter e sincronizar as diferentes
 """
 import collections
 from lib.core.graph import Grafo, Aresta
+from math import inf as infinito
 
 def matriz_adj_para_lista_adj(grafo: Grafo):
     """
@@ -94,21 +95,29 @@ def matriz_inc_para_arestas(grafo: Grafo):
 
 def get_grafo_subjacente(digrafo: Grafo) -> Grafo:
     """
-    Tarefa: (18) Determinação do Grafo subjacente.
-    Info: Cria e retorna um novo grafo não-direcionado a partir de um dígrafo.
-          Se o grafo de entrada já for não-direcionado, retorna uma cópia dele.
-    E: digrafo (Grafo) - O grafo (potencialmente direcionado) de entrada.
-    S: Grafo - Um novo objeto Grafo não-direcionado.
+    Cria um grafo não-direcionado (subjacente) a partir de um dígrafo.
+    
+    A aresta entre u e v no grafo subjacente terá o *menor* peso
+    encontrado entre (u, v) e (v, u) no dígrafo.
     """
     if not digrafo.direcionado:
-        print("Aviso: O grafo de entrada já é não-direcionado. Retornando uma cópia.")
+        return digrafo 
     
     subjacente = Grafo(direcionado=False, nome_arquivo=f"{digrafo.nome_arquivo} (subjacente)")
     
     for vertice in digrafo.vertices:
         subjacente.adicionar_vertice(vertice.id)
         
+    pesos_minimos = {}
     for aresta in digrafo.arestas:
-        subjacente.adicionar_aresta(aresta.v1.id, aresta.v2.id, aresta.peso)
-        
+        v1_id = aresta.v1.id
+        v2_id = aresta.v2.id
+        peso = aresta.peso
+        par = frozenset([v1_id, v2_id])
+        if par not in pesos_minimos or peso < pesos_minimos[par]:
+            pesos_minimos[par] = peso
+    
+    for par, peso in pesos_minimos.items():
+        v1_id, v2_id = tuple(par)
+        subjacente.adicionar_aresta(v1_id, v2_id, peso)
     return subjacente

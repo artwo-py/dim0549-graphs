@@ -77,33 +77,47 @@ class Grafo:
     
     def adicionar_aresta(self, v1_id, v2_id, w=None):
         """
-        Tarefa: (1), (2), (16) Criação do Grafo a partir de arestas.
-        Info: Orquestra a adição de uma aresta entre dois vértices existentes, atualizando
-              a lista de arestas, a lista e a matriz de adjacência.
-        E: v1_id, v2_id (str/int) - IDs dos vértices a serem conectados.
-        w (int, opcional) - Peso da aresta.
-        S: None.
+        Adiciona ou ATUALIZA uma aresta.
+        Se a aresta existir, ela verifica se o novo peso 'w' é menor.
         """
         v1 = self.indice_vertices.get(str(v1_id))
         v2 = self.indice_vertices.get(str(v2_id))
-
         peso = w
 
         if not v1 or not v2:
             print(f"Alerta: Vértice não encontrado ao criar aresta ({v1_id}, {v2_id}).")
             return
         
+        aresta_existente = None
         for a in self.arestas:
-            if not self.direcionado:
-                if (a.v1 == v1 and a.v2 == v2) or (a.v1 == v2 and a.v2 == v1): return
+            if self.direcionado:
+                if a.v1 == v1 and a.v2 == v2:
+                    aresta_existente = a
+                    break
             else:
-                if a.v1 == v1 and a.v2 == v2: return
+                if (a.v1 == v1 and a.v2 == v2) or (a.v1 == v2 and a.v2 == v1):
+                    aresta_existente = a
+                    break
 
-        nova_aresta = Aresta(v1, v2, peso)
-        self.arestas.append(nova_aresta)
-        self._adicionar_aresta_lista_adj(v1, v2)
-        self._adicionar_aresta_matriz_adj(v1, v2, peso)
-        self._adicionar_aresta_matriz_inc(v1, v2)
+        # Lógica de atualização
+        if aresta_existente:
+            # Se a aresta existe E o novo peso é melhor (menor)
+            if peso is not None and peso < aresta_existente.peso:
+                # --- DEBUG ---
+                print(f"  DEBUG: Atualizando peso de ({v1_id}, {v2_id}). Antigo: {aresta_existente.peso}, Novo: {peso}")
+                aresta_existente.peso = peso
+                # Atualiza a matriz também
+                self._adicionar_aresta_matriz_adj(v1, v2, peso)
+            else:
+                # Aresta existe, mas o peso novo não é melhor. Não faz nada.
+                return
+        else:
+            # Aresta é completamente nova
+            nova_aresta = Aresta(v1, v2, peso)
+            self.arestas.append(nova_aresta)
+            self._adicionar_aresta_lista_adj(v1, v2)
+            self._adicionar_aresta_matriz_adj(v1, v2, peso)
+            self._adicionar_aresta_matriz_inc(v1, v2)
 
     def remover_aresta(self, v1_id, v2_id):
         v1 = self.indice_vertices.get(str(v1_id))
