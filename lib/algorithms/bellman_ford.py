@@ -47,14 +47,14 @@ def formatar_caminho_bellman_ford(grafo, id_inicio: str, id_fim: str):
     E: id_fim (str)
     S: (str, list[str] or None)
     """
-    titulo = f"\n==== (22) CAMINHO MAIS CURTO (BELLMAN-FORD {id_inicio} -> {id_fim}) ===="
+    titulo = f"\n==== CAMINHO MAIS CURTO (BELLMAN-FORD {id_inicio} -> {id_fim}) ===="
 
     if not grafo.ponderado:
         return titulo + "\n  Algoritmo não aplicável (grafo não ponderado).", None
     try:
         dist, pred, ciclo_neg = bellman_ford(grafo, id_inicio)
         report = ""
-        report += f"  Ciclo negativo? {ciclo_neg}\n"
+        report += f"  Ciclo negativo: {'Sim' if ciclo_neg else 'Não'}\n"
 
         if dist[id_fim] == infinito:
             report += f"  Não há caminho entre {id_inicio} e {id_fim}."

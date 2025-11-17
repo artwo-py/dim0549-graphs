@@ -5,6 +5,7 @@ Descriçao: Contém funções para gerar representações textuais das estrutura
 """
 import math
 from math import inf as infinito
+from lib.algorithms.bellman_ford import formatar_caminho_bellman_ford
 from lib.algorithms.chu_liu_edmonds import chu_liu_edmonds
 from lib.core.graph import Grafo
 from lib.algorithms.is_bipartite import is_bipartite
@@ -442,6 +443,8 @@ def gerar_relatorio_unidade_2(grafos: list):
                     f.write(formatar_agm_resultado(agm_p, "Prim")) # (2)
                 except Exception as e:
                     f.write(f"\n==== RESULTADO PRIM ====\n  Erro: {e}")
+                report_bf, _ = formatar_caminho_bellman_ford(grafo, "1", "15")
+                f.write(report_bf)# (6)
                 report_fw, _ = formatar_caminho_floyd_warshall(grafo, "1", "15")
                 f.write(report_fw) # (7)
             elif 'CHU_LIU_EDMONDS' in grafo.nome_arquivo:
