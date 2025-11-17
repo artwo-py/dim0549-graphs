@@ -16,6 +16,8 @@ from lib.algorithms.prim import prim # Implementação do algoritmo de Prim
 from lib.algorithms.floyd_warshall import floyd_warshall, reconstruir_caminho # Implementação do algoritmo de Floyd-Warshall
 from lib.algorithms.hierholzer_ciclos import hierholzer_ciclos
 from lib.algorithms.hierholzer_caminhos import hierholzer_caminhos
+from lib.algorithms.bellman_ford import formatar_caminho_bellman_ford
+
 from lib.utils.renderer import (
     renderizar_bfs, # Renderiza o percurso BFS
     renderizar_dfs, # Renderiza o percurso DFS
@@ -82,6 +84,17 @@ for grafo in grafos:
         os.makedirs('render/caminho_mais_curto', exist_ok=True) 
         output_path = f'render/caminho_mais_curto/FLOY_WARSHALL-{ID_INICIO}-{ID_FIM}'
         dot_caminho.render(output_path, view=False, cleanup=True)
-        
+        bf_string, caminho_bf = formatar_caminho_bellman_ford(grafo, ID_INICIO, ID_FIM)
+        if caminho_bf:
+            print("Renderizando: BELLMAN-FORD")
+            dot_bf = renderizar_caminho_curto(
+                grafo, caminho_bf,
+                nome_grafo=f"BELLMAN_FORD_{ID_INICIO}_{ID_FIM}"
+            )
+            dot_bf.render(
+                f"render/caminho_mais_curto/BELLMAN_FORD-{ID_INICIO}-{ID_FIM}",
+                view=False, cleanup=True
+            )
+
 print("\nTempo total: %.4f segundos" % (time.time() - inicio_timer))
 
