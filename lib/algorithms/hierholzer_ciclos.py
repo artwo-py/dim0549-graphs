@@ -47,15 +47,14 @@ def hierholzer_ciclos(grafo):
         #print("Ciclo euleriano não é possível: condições de grau não atendidas.")
         return None
 
-    # Se o grafo tem arestas, ele deve ser conectado
-    if grafo.num_arestas() > 0 and not is_connected(grafo):
+    if not is_connected(grafo):
         #print("Ciclo euleriano não é possível: grafo não é conectado.")
         return None
 
     if grafo.num_arestas() == 0:
         return []
 
-    vertice_inicial = next((v for v in grafo.vertices if (grafo.get_grau(v.id) if not grafo.direcionado else grafo.get_grau(v.id)[0] + grafo.get_grau(v.id)[1]) > 0), None)
+    vertice_inicial = next((v for v in grafo.vertices if (grafo.get_grau(v.id) if not grafo.direcionado else grafo.get_grau(v.id)[1]) > 0), None)
 
     circuito = [] 
     pilha = [vertice_inicial] 

@@ -38,7 +38,7 @@ def _verificar_condicoes_eulerianas(grafo):
                 return False, None
 
         if (len(d_pos_um) == 0 and len(d_neg_um) == 0):
-            vertice_inicial = next((v for v in grafo.vertices if grafo.get_grau(v.id)[0] + grafo.get_grau(v.id)[1] > 0), None)
+            vertice_inicial = next((v for v in grafo.vertices if grafo.get_grau(v.id)[1] > 0), None)
             return True, vertice_inicial
         elif (len(d_pos_um) == 1 and len(d_neg_um) == 1):
             vertice_inicial = d_pos_um[0]
