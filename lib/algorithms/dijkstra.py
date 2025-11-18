@@ -86,6 +86,71 @@ def dijkstra(grafo: Grafo, inicio_id=None):
                 peso = aresta_original.peso
                 spt.adicionar_aresta(pred_id, v_id, w=peso)
             else:
-                 spt.adicionar_aresta(pred_id, v_id)
+                 spt.adicionar_aresta(pred_id, v_id, 0)
 
-    return spt
+    return spt, distancias, predecessores
+
+
+
+def formatar_caminho_dijkstra(grafo, id_inicio: str, id_fim: str):
+    """
+    Executa Dijkstra (com a assinatura modificada), reconstrói o caminho 
+    de custo mínimo e formata o texto para o vértice final especificado.
+
+    E: grafo (Grafo)
+    E: id_inicio (str)
+    E: id_fim (str)
+    S: (str, list[Vertice] or None)
+    """
+    titulo = f"\n==== CAMINHO MAIS CURTO (DIJKSTRA {id_inicio} -> {id_fim}) ===="
+
+    if not grafo.ponderado:
+        return titulo + "\n  Algoritmo não aplicável (grafo não ponderado).", None
+    
+    try:
+        _, distancias_obj, predecessores_obj = dijkstra(grafo, id_inicio)
+
+        dist_id = {v.id: d for v, d in distancias_obj.items()}
+        pred_id = {v.id: p.id if p else None for v, p in predecessores_obj.items()}
+        
+        report = ""
+        
+        custo = dist_id.get(str(id_fim), INF) 
+        
+        if custo == INF:
+            report += f"  Não há caminho entre {id_inicio} e {id_fim}."
+            return titulo + "\n" + report, None
+
+        caminho_ids = []
+        atual = str(id_fim)
+
+        if atual not in pred_id:
+            report += f"  Vértice final '{id_fim}' não encontrado no grafo."
+            return titulo + "\n" + report, None
+
+        while atual is not None and atual != "":
+            caminho_ids.append(atual)
+            if atual == str(id_inicio):
+                break
+
+            if atual not in pred_id:
+                 break
+                 
+            atual = pred_id[atual]
+
+        caminho_ids.reverse()
+        
+        if not caminho_ids or caminho_ids[0] != str(id_inicio) or caminho_ids[-1] != str(id_fim):
+            report += f"  Não foi possível reconstruir um caminho válido de {id_inicio} para {id_fim}."
+            return titulo + "\n" + report, None
+            
+        report += f"  Custo: {custo}\n"
+        report += "  Caminho: " + " -> ".join(caminho_ids)
+        
+        vertices_map = {v.id: v for v in grafo.vertices}
+        caminho_vertices = [vertices_map[v_id] for v_id in caminho_ids]
+        
+        return titulo + "\n" + report, caminho_vertices
+        
+    except Exception as e:
+        return titulo + f"\n  Erro inesperado ao executar Dijkstra: {e}", None

@@ -19,7 +19,7 @@ from lib.utils.renderer import (
 
 from lib.algorithms.kruskal import kruskal # Implementação do algoritmo de Kruskal
 from lib.algorithms.prim import prim # Implementação do algoritmo de Prim
-from lib.algorithms.dijkstra import dijkstra # Implementação do algoritmo de Dijkstra
+from lib.algorithms.dijkstra import dijkstra, formatar_caminho_dijkstra # Implementação do algoritmo de Dijkstra
 from lib.algorithms.bellman_ford import formatar_caminho_bellman_ford
 from lib.algorithms.chu_liu_edmonds import chu_liu_edmonds
 
@@ -39,7 +39,8 @@ for grafo in grafos:
         try:
             grafos_agm.append(kruskal(grafo))
             grafos_agm.append(prim(grafo))
-            grafos_agm.append(dijkstra(grafo)) 
+            spt, _, _ = dijkstra(grafo)
+            grafos_agm.append(spt) 
         except Exception as e:
             print(f"  Erro ao gerar AGM para {grafo.nome_arquivo}: {e}")
     elif "CHU_LIU_EDMONDS" in grafo.nome_arquivo:
@@ -104,6 +105,18 @@ for grafo in grafos:
             )
             dot_bf.render(
                 f"render/caminho_mais_curto/BELLMAN_FORD-{ID_INICIO}-{ID_FIM}",
+                view=False, cleanup=True
+            )
+        
+        dijkstra_string, caminho_dijkstra = formatar_caminho_dijkstra(grafo, ID_INICIO, ID_FIM)
+        if caminho_dijkstra:
+            print("Renderizando: DIJKSTRA")
+            dot_dijkstra = renderizar_caminho_curto(
+                spt, caminho_dijkstra,
+                nome_grafo=f"DIJKSTRA_{ID_INICIO}_{ID_FIM}"
+            )
+            dot_dijkstra.render(
+                f"render/caminho_mais_curto/DIJKSTRA-{ID_INICIO}-{ID_FIM}",
                 view=False, cleanup=True
             )
 
