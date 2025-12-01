@@ -352,5 +352,36 @@ class Grafo:
                     return a
 
         return None
+    
+    def get_vizinhos(self, vertice_id):
+        """
+        Info: Retorna um dicionário dos vizinhos de um vértice e seus pesos.
+        E: vertice_id (str/int) - O ID do vértice.
+        S: dict - Dicionário onde as chaves são os IDs dos vizinhos e os valores são os pesos das arestas.
+        """
+        vertice_obj = self.indice_vertices.get(str(vertice_id))
+        if not vertice_obj:
+            return {}
+
+        vizinhos = {}
+        for vizinho in self.lista_adj.get(vertice_obj, []):
+            aresta = self.get_aresta(vertice_obj.id, vizinho.id)
+            peso = aresta.peso if aresta and aresta.peso is not None else 1
+            vizinhos[vizinho.id] = peso
+
+        return vizinhos
+    
+    def get_peso(self, v1_id, v2_id):
+        """
+        Info: Retorna o peso da aresta entre dois vértices, ou infinito se não houver conexão.
+        E: v1_id, v2_id (str/int): Id's dos vértices terminais da aresta 
+            sendo buscada
+        S: peso (float) ou infinito
+        """
+        aresta = self.get_aresta(v1_id, v2_id)
+        if aresta and aresta.peso is not None:
+            return aresta.peso
+        else:
+            return float('inf')
 
     
