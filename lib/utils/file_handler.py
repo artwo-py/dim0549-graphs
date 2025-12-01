@@ -5,6 +5,7 @@ Descriçao: Funcionalidades para leitura e tratamento com arquivos.
 import os
 import sys
 from lib.core.graph import Grafo
+import csv
 
 def ler_grafo(caminho_arquivo, direcionado=False, renomear=None, ponderado=False):
     """
@@ -43,6 +44,39 @@ def ler_grafo(caminho_arquivo, direcionado=False, renomear=None, ponderado=False
     except Exception as e:
         print(f"Erro ao ler o arquivo {caminho_arquivo}: {e}")
         return None
+
+def ler_grafo_csv(caminho_csv, renomear=None):
+    with open(caminho_csv, newline='', encoding='utf-8') as f:
+        reader = csv.reader(f)
+        linhas = list(reader)
+
+    cabecalhos = [h.strip() for h in linhas[0][1:]]  # ignora coluna vazia da esquerda
+
+    grafo = Grafo(direcionado=False, nome_arquivo=renomear or caminho_csv, ponderado=True)
+
+    # adiciona vértices
+    for v in cabecalhos:
+        grafo.adicionar_vertice(v)
+
+    # percorre a matriz
+    for i, linha in enumerate(linhas[1:]):
+        v1 = cabecalhos[i]
+        valores = linha[1:]  # ignora primeira coluna (nome da linha)
+
+        for j, valor in enumerate(valores):
+            if j <= i:
+                continue  # evita duplicar aresta (grafo não direcionado)
+
+            if valor.strip() == "" or valor.strip() == "0":
+                continue  # sem aresta
+
+            peso = float(valor)
+            v2 = cabecalhos[j]
+
+            grafo.adicionar_aresta(v1, v2, peso)
+
+    return grafo
+
 
 def ler_diretorio(diretorio):
     """
@@ -89,6 +123,13 @@ def ler_diretorio(diretorio):
                     direcionado=True,
                     ponderado=True,
                     renomear='DIGRAFO_CHU_LIU_EDMONDS'
+                )
+                if grafo:
+                    lista_grafos.append(grafo)
+            elif nome_lower.endswith('.csv'):
+                grafo = ler_grafo_csv(
+                    caminho,
+                    renomear='GRAFO_PCV'
                 )
                 if grafo:
                     lista_grafos.append(grafo)
