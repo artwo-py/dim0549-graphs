@@ -32,11 +32,19 @@ print(f"Número de arestas: {len(grafo.arestas)}")
 print(f"\n--- Unidade 3: Algoritmo do Vizinho Mais Próximo ---\n")
 ciclos = []
 custos = [] 
-for v in range(len(grafo.vertices)):
-    inicio = list(grafo.vertices)[v].id
-    ciclo, custo = nearest_neighbor(grafo, inicio)
-    ciclos.append(ciclo)
-    custos.append(custo)
+
+ciclos_melhorados = []
+custos_melhorados = []
+
+inicio = list(grafo.vertices)[0].id
+ciclo, custo = nearest_neighbor(grafo, inicio)
+ciclo_melhorado, custo_melhorado = two_opt(grafo, ciclo)
+
+ciclos.append(ciclo)
+custos.append(custo)
+
+ciclos_melhorados.append(ciclo_melhorado)
+custos_melhorados.append(custo_melhorado)
 
 print("Ciclos Hamiltonianos encontrados:")
 
@@ -45,5 +53,11 @@ for ciclo in ciclos:
 
 for custo in custos:
     print(f"Custo total do ciclo: {custo}") 
+
+print("\nCiclos Hamiltonianos melhorados com 2-opt:")
+for ciclo_melhorado in ciclos_melhorados:
+    print(ciclo_melhorado)
+for custo_melhorado in custos_melhorados:
+    print(f"Custo total do ciclo melhorado: {custo_melhorado}")
 
 print("\nTempo total: %.4f segundos" % (time.time() - inicio_timer))

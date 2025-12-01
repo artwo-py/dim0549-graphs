@@ -1,3 +1,5 @@
+from lib.algorithms.local_searches import two_opt
+
 def nearest_neighbor(grafo, inicio):
     """Implementa o algoritmo do vizinho mais próximo para encontrar um ciclo hamiltoniano aproximado.
 
@@ -32,7 +34,6 @@ def nearest_neighbor(grafo, inicio):
         custo_total += menor_custo
         atual = proximo
 
-    # Retorna ao ponto de início para completar o ciclo
     if inicio in grafo.get_vizinhos(atual):
         custo_total += grafo.get_peso(atual, inicio)
         ciclo.append(inicio)

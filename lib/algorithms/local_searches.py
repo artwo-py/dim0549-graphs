@@ -27,7 +27,7 @@ def two_opt(grafo, ciclo):
                     melhor_ciclo = novo_ciclo
                     melhor_custo = novo_custo
                     melhoria = True
-                    break  # reinicia a busca
+                    break 
             if melhoria:
                 break
 
