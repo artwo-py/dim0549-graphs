@@ -13,6 +13,8 @@ Funções:   A classe Grafo inclui métodos para manipulação (adicionar vérti
 """
 import collections
 from math import inf as infinito
+from lib.utils.converter import get_decimal
+from decimal import Decimal
 
 class Vertice:
     """Info: Representa um vértice (ou nó) em um grafo."""
@@ -380,8 +382,8 @@ class Grafo:
         """
         aresta = self.get_aresta(v1_id, v2_id)
         if aresta and aresta.peso is not None:
-            return aresta.peso
+            return get_decimal(aresta.peso)
         else:
-            return float('inf')
+            return Decimal('Infinity')
 
     

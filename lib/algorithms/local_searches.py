@@ -1,5 +1,5 @@
 def two_opt(grafo, ciclo):
-    """Melhora um ciclo usando a heurística 2-opt."""
+    """Busca melhoria de um ciclo usando a heurística 2-opt."""
     melhoria = True
     melhor_ciclo = ciclo[:]
 

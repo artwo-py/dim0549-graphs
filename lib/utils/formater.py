@@ -372,6 +372,54 @@ def formatar_arborescencia(arbo_grafo: Grafo, nome_algoritmo: str):
     output.extend(arestas_str)
     return "\n".join(output)
 
+def formatar_vmp(vmp_ciclo: dict, nome_algoritmo: str, it=None):
+    """
+    Info: (Função de relatórios) Formata o resultado do algoritmo de inserção do
+        vizinho mais próximo para o PCV.
+    E: vmp_ciclo (list) - O ciclo resultante do algoritmo.
+    E: nome_algoritmo (str) - Nome ("Vizinho Mais Próximo + Busca Local")
+    S: str - Texto formatado.
+    """
+    titulo = f"\n\n==== RESULTADO {nome_algoritmo.upper()} ===="
+    output = [titulo]
+    if not vmp_ciclo or len(vmp_ciclo) == 0:
+        output.append("  Grafo vazio.")
+        return "\n".join(output)
+    
+    custo_total = list(vmp_ciclo.values())[0]
+
+    output.append(f"  Custo Total: {custo_total}")
+    output.append("  Rota encontrada:")
+
+    rota = list(vmp_ciclo.keys())[0]
+    rota_formatada = " -> ".join(map(str, rota))
+    output.append(f"  {rota_formatada}\n")
+    return "\n".join(output)
+
+def formatar_vmp_melhorado(vmp_ciclo: dict, nome_algoritmo: str):
+    """
+    Info: (Função de relatórios) Formata o resultado do algoritmo de inserção do
+        vizinho mais próximo para o PCV.
+    E: vmp_ciclo (list) - O ciclo resultante do algoritmo.
+    E: nome_algoritmo (str) - Nome ("Vizinho Mais Próximo + Busca Local")
+    S: str - Texto formatado.
+    """
+    output = []
+    if not vmp_ciclo or len(vmp_ciclo) == 0:
+        output.append("  Grafo vazio.")
+        return "\n".join(output)
+    
+    custo_total = list(vmp_ciclo.values())[0]
+
+    output.append(f"\n  Custo Total após busca local: {custo_total}")
+    output.append("  Rota encontrada após busca local:")
+
+    rota = list(vmp_ciclo.keys())[0]
+    rota_formatada = " -> ".join(map(str, rota))
+    output.append(f"  {rota_formatada}")
+    return "\n".join(output)
+
+
 def gerar_relatorio_completo(grafo: Grafo):
     """
     Info: (Função de relatórios) Agrega todos os resultados de análise em
@@ -409,6 +457,25 @@ def gerar_relatorio_completo(grafo: Grafo):
             "\n==== (19) e (20) BUSCAS BFS E DFS ====\nINFO: As buscas são executadas e seus resultados (com classificação completa de arestas para DFS) são renderizados visualmente.",
         ]
     return "\n".join(header + report_body)
+
+def gerar_relatorio_unidade_3(ciclos: list, ciclos_melhorados):
+    """
+    Info: (Função de relatórios) Agrega todos os resultados da unidade 3
+          em um relatório textual completo (resultados.txt).
+          Esta função executa os algoritmos específicos para cada grafo
+          e formata seus resultados.
+    E: ciclos (list[Grafo]) - A lista de todos os ciclos carregados.
+    E: ciclos_melhorados (list[Grafo]) - A lista de todos os ciclos melhorados (via busca local) carregados.
+    S: None (escreve diretamente em "resultados.txt")
+    """
+    with open("resultados.txt", "w", encoding='utf-8') as f:        
+        for i in range(len(ciclos)):
+            # f.write(f"Arquivo: {grafo.nome_arquivo}\n")
+            
+            f.write(formatar_vmp(ciclos[i], f"Vizinho Mais Próximo + Busca Local - Instância {i+1}"))
+            f.write(formatar_vmp_melhorado(ciclos_melhorados[i], f"Vizinho Mais Próximo + Busca Local Melhorado - Instância {i+1}"))
+            f.write("*********************************************************************\n")
+            f.write("\n")
 
 def gerar_relatorio_unidade_2(grafos: list):
     """

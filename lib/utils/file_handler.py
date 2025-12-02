@@ -6,7 +6,7 @@ import os
 import sys
 from lib.core.graph import Grafo
 import csv
-
+from lib.utils.converter import get_decimal
 def ler_grafo(caminho_arquivo, direcionado=False, renomear=None, ponderado=False):
     """
     Lê um arquivo de definição de grafo e cria o objeto Grafo.
@@ -23,7 +23,7 @@ def ler_grafo(caminho_arquivo, direcionado=False, renomear=None, ponderado=False
                 partes = [p.strip() for p in primeira_linha.replace('(', '').replace(')', '').replace('{', '').replace('}', '').split(',')]
                 if len(partes) >= 2 and partes[0] and partes[1]:
                     v1_id, v2_id = partes[0], partes[1]
-                    peso = int(partes[2]) if len(partes) > 2 else None
+                    peso = get_decimal(partes[2]) if len(partes) > 2 else None
                     grafo.adicionar_vertice(v1_id)
                     grafo.adicionar_vertice(v2_id)
                     grafo.adicionar_aresta(v1_id, v2_id, peso)
@@ -33,7 +33,7 @@ def ler_grafo(caminho_arquivo, direcionado=False, renomear=None, ponderado=False
                     continue
                 
                 v1_id, v2_id = partes[0], partes[1]
-                peso = int(partes[2]) if len(partes) > 2 else None
+                peso = get_decimal(partes[2]) if len(partes) > 2 else None
 
                 grafo.adicionar_vertice(v1_id)
                 grafo.adicionar_vertice(v2_id)
@@ -45,40 +45,49 @@ def ler_grafo(caminho_arquivo, direcionado=False, renomear=None, ponderado=False
         print(f"Erro ao ler o arquivo {caminho_arquivo}: {e}")
         return None
 
-def ler_grafo_csv(caminho_csv, renomear=None):
+def ler_grafo_csv(caminho_csv, renomear=None, range=None, subconjunto=None):
     with open(caminho_csv, newline='', encoding='utf-8') as f:
         reader = csv.reader(f)
         linhas = list(reader)
 
     cabecalhos = [h.strip() for h in linhas[0][1:]]  # ignora coluna vazia da esquerda
 
+    if subconjunto is None:
+        indices = list(range(len(cabecalhos)))
+    else:
+        indices = [i - 1 for i in subconjunto]  # CSV começa a contar em 1
+
+    vertices_escolhidos = [cabecalhos[i] for i in indices]
+
     grafo = Grafo(direcionado=False, nome_arquivo=renomear or caminho_csv, ponderado=True)
 
     # adiciona vértices
-    for v in cabecalhos:
+    for v in vertices_escolhidos:
         grafo.adicionar_vertice(v)
 
-    # percorre a matriz
-    for i, linha in enumerate(linhas[1:]):
+    # percorre a matriz de adjacência
+    for i_pos, i in enumerate(indices):      
         v1 = cabecalhos[i]
-        valores = linha[1:]  # ignora primeira coluna (nome da linha)
 
-        for j, valor in enumerate(valores):
+        linha = linhas[i + 1]                  # pega linha original do CSV
+        valores = linha[1:]                    # ignora coluna vazia da esquerda   
+
+        for j_pos, j in enumerate(indices):
             if j <= i:
-                continue  # evita duplicar aresta (grafo não direcionado)
+                continue  # evita duplicação de arestas em grafos não direcionados/otimiza processamento de matriz
 
-            if valor.strip() == "" or valor.strip() == "0":
-                continue  # sem aresta
+            valor = valores[j]
+            if valor.strip() in ("", "0"):
+                continue
 
             peso = float(valor)
             v2 = cabecalhos[j]
-
             grafo.adicionar_aresta(v1, v2, peso)
 
     return grafo
 
 
-def ler_diretorio(diretorio):
+def ler_diretorio(diretorio, destinos=None, it=0):
     """
     Lê todos os arquivos de grafos e digrafos de um diretório,
     processando cada um e limpando o arquivo de resultados no início.
@@ -127,10 +136,14 @@ def ler_diretorio(diretorio):
                 if grafo:
                     lista_grafos.append(grafo)
             elif nome_lower.endswith('.csv'):
+                categoria = "DISTANCIA" if "distancia" in nome_lower else "TEMPO"
+                
                 grafo = ler_grafo_csv(
                     caminho,
-                    renomear='GRAFO_PCV'
+                    renomear=f'PCV_{categoria}-{it+1}',
+                    subconjunto=destinos
                 )
                 if grafo:
+                    print(f"Arquivo CSV processado: {nome_arquivo} como {grafo.nome_arquivo}")
                     lista_grafos.append(grafo)
     return lista_grafos
