@@ -419,15 +419,53 @@ def formatar_vmp_melhorado(vmp_ciclo: dict, nome_algoritmo: str):
     output.append(f"  {rota_formatada}")
     return "\n".join(output)
 
+def gerar_relatorio_genetico(dados_estatisticos: list):
+    """
+    Info: (Função de relatórios) Gera o relatório estatístico (resultados_genetico.txt)
+          contendo melhor custo, média e tempo médio das 20 execuções do Genético + Shift.
+    E: dados_estatisticos (list[dict]) - Lista contendo métricas de cada instância processada.
+    S: None (escreve em "resultados_genetico.txt")
+    """
+    with open("resultados_genetico.txt", "w", encoding='utf-8') as f:
+        for i, dados in enumerate(dados_estatisticos):
+            f.write(f"\n==== RESULTADO GENÉTICO + SHIFT - INSTÂNCIA {i+1} ====\n")
+            f.write(f"  Melhor Custo (em 20 execuções): {dados['melhor_custo']}\n")
+            f.write(f"  Custo Médio: {dados['media_custo']:.2f}\n")
+            f.write(f"  Tempo Médio de Execução: {dados['media_tempo']:.4f} segundos\n")
+            f.write("  Melhor Rota encontrada:\n")
+            
+            rota_formatada = " -> ".join(map(str, dados['melhor_rota']))
+            f.write(f"  {rota_formatada}\n")
+            f.write("*********************************************************************\n")
+
+def gerar_relatorio_unidade_3(ciclos: list, ciclos_melhorados):
+    """
+    Info: (Função de relatórios) Agrega todos os resultados da unidade 3
+          em um relatório textual completo (resultados.txt).
+          Esta função executa os algoritmos específicos para cada grafo
+          e formata seus resultados.
+    E: ciclos (list[Grafo]) - A lista de todos os ciclos carregados.
+    E: ciclos_melhorados (list[Grafo]) - A lista de todos os ciclos melhorados (via busca local) carregados.
+    S: None (escreve diretamente em "resultados.txt")
+    """
+    with open("resultados.txt", "w", encoding='utf-8') as f:        
+        for i in range(len(ciclos)):
+            # f.write(f"Arquivo: {grafo.nome_arquivo}\n")
+            
+            f.write(formatar_vmp(ciclos[i], f"Vizinho Mais Próximo + Busca Local - Instância {i+1}"))
+            f.write(formatar_vmp_melhorado(ciclos_melhorados[i], f"Vizinho Mais Próximo + Busca Local Melhorado - Instância {i+1}"))
+            f.write("*********************************************************************\n")
+            f.write("\n")
+
 
 def gerar_relatorio_completo(grafo: Grafo):
     """
-    Info: (Função de relatórios) Agrega todos os resultados de análise em
-          um relatório textual completo, formatando-o de forma diferente
-          dependendo se o objeto é um Grafo (não-direcionado) ou Dígrafo.
-    E: grafo (Grafo) - A instância do grafo a ser analisada.
-    S: str - O relatório completo.
-    """
+        Info: (Função de relatórios) Agrega todos os resultados de análise em
+        um relatório textual completo, formatando-o de forma diferente
+        dependendo se o objeto é um Grafo (não-direcionado) ou Dígrafo.
+        E: grafo (Grafo) - A instância do grafo a ser analisada.
+            S: str - O relatório completo.
+        """
     header = [
         "*********************************************************************",
         f"Arquivo: {grafo.nome_arquivo}",
@@ -457,25 +495,6 @@ def gerar_relatorio_completo(grafo: Grafo):
             "\n==== (19) e (20) BUSCAS BFS E DFS ====\nINFO: As buscas são executadas e seus resultados (com classificação completa de arestas para DFS) são renderizados visualmente.",
         ]
     return "\n".join(header + report_body)
-
-def gerar_relatorio_unidade_3(ciclos: list, ciclos_melhorados):
-    """
-    Info: (Função de relatórios) Agrega todos os resultados da unidade 3
-          em um relatório textual completo (resultados.txt).
-          Esta função executa os algoritmos específicos para cada grafo
-          e formata seus resultados.
-    E: ciclos (list[Grafo]) - A lista de todos os ciclos carregados.
-    E: ciclos_melhorados (list[Grafo]) - A lista de todos os ciclos melhorados (via busca local) carregados.
-    S: None (escreve diretamente em "resultados.txt")
-    """
-    with open("resultados.txt", "w", encoding='utf-8') as f:        
-        for i in range(len(ciclos)):
-            # f.write(f"Arquivo: {grafo.nome_arquivo}\n")
-            
-            f.write(formatar_vmp(ciclos[i], f"Vizinho Mais Próximo + Busca Local - Instância {i+1}"))
-            f.write(formatar_vmp_melhorado(ciclos_melhorados[i], f"Vizinho Mais Próximo + Busca Local Melhorado - Instância {i+1}"))
-            f.write("*********************************************************************\n")
-            f.write("\n")
 
 def gerar_relatorio_unidade_2(grafos: list):
     """
