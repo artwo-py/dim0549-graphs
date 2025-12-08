@@ -14,6 +14,8 @@ Repositório destinado à implementação dos projetos práticos da disciplina D
 # Requisitos
 - Python 3.8 ou superior
 - [Graphviz](https://graphviz.org/download/)
+- Numpy
+- Numba
 
 # Instruções de execução
 1. Clonar o repositório
