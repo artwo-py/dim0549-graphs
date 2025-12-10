@@ -1,0 +1,96 @@
+
+==== RESULTADO GENÉTICO + SHIFT - INSTÂNCIA 1 ====
+  Melhor Custo (em 20 execuções): 2012.8999977111816
+  Custo Médio: 2241.20
+  Tempo Médio de Execução: 0.2458 segundos
+  Melhor Rota encontrada:
+  6 -> 27 -> 41 -> 44 -> 28 -> 15 -> 18 -> 45 -> 46 -> 14 -> 43 -> 29 -> 24 -> 13 -> 47 -> 37 -> 38 -> 20 -> 19 -> 34 -> 16 -> 32 -> 26 -> 42 -> 35 -> 39 -> 33 -> 17 -> 7 -> 31 -> 25 -> 36 -> 40 -> 48 -> 22 -> 12 -> 10 -> 23 -> 4 -> 3 -> 2 -> 5 -> 11 -> 1 -> 8 -> 9 -> 21 -> 30 -> 6
+*********************************************************************
+
+==== RESULTADO GENÉTICO + SHIFT - INSTÂNCIA 2 ====
+  Melhor Custo (em 20 execuções): 2049.0
+  Custo Médio: 2214.75
+  Tempo Médio de Execução: 0.0203 segundos
+  Melhor Rota encontrada:
+  36 -> 31 -> 7 -> 20 -> 33 -> 39 -> 35 -> 42 -> 26 -> 32 -> 16 -> 34 -> 19 -> 17 -> 25 -> 40 -> 48 -> 38 -> 37 -> 47 -> 13 -> 24 -> 29 -> 43 -> 14 -> 46 -> 45 -> 18 -> 15 -> 28 -> 44 -> 27 -> 6 -> 30 -> 41 -> 4 -> 3 -> 2 -> 5 -> 11 -> 10 -> 8 -> 9 -> 12 -> 1 -> 23 -> 21 -> 22 -> 36
+*********************************************************************
+
+==== RESULTADO GENÉTICO + SHIFT - INSTÂNCIA 3 ====
+  Melhor Custo (em 20 execuções): 1714.1999959945679
+  Custo Médio: 1850.59
+  Tempo Médio de Execução: 0.0108 segundos
+  Melhor Rota encontrada:
+  28 -> 27 -> 6 -> 30 -> 21 -> 8 -> 9 -> 10 -> 11 -> 5 -> 2 -> 23 -> 4 -> 3 -> 1 -> 12 -> 22 -> 36 -> 25 -> 31 -> 17 -> 7 -> 19 -> 20 -> 33 -> 16 -> 34 -> 32 -> 26 -> 35 -> 13 -> 24 -> 29 -> 14 -> 18 -> 15 -> 28
+*********************************************************************
+
+==== RESULTADO GENÉTICO + SHIFT - INSTÂNCIA 4 ====
+  Melhor Custo (em 20 execuções): 1664.0
+  Custo Médio: 1817.75
+  Tempo Médio de Execução: 0.0097 segundos
+  Melhor Rota encontrada:
+  34 -> 19 -> 7 -> 17 -> 25 -> 31 -> 36 -> 22 -> 21 -> 8 -> 9 -> 12 -> 10 -> 11 -> 5 -> 2 -> 1 -> 23 -> 3 -> 4 -> 30 -> 6 -> 27 -> 28 -> 15 -> 18 -> 14 -> 29 -> 24 -> 13 -> 20 -> 33 -> 35 -> 26 -> 32 -> 16 -> 34
+*********************************************************************
+
+==== RESULTADO GENÉTICO + SHIFT - INSTÂNCIA 5 ====
+  Melhor Custo (em 20 execuções): 1320.9999980926514
+  Custo Médio: 1394.71
+  Tempo Médio de Execução: 0.0052 segundos
+  Melhor Rota encontrada:
+  9 -> 8 -> 21 -> 22 -> 17 -> 7 -> 19 -> 16 -> 20 -> 13 -> 24 -> 5 -> 14 -> 18 -> 15 -> 6 -> 4 -> 3 -> 23 -> 1 -> 2 -> 11 -> 10 -> 12 -> 9
+*********************************************************************
+
+==== RESULTADO GENÉTICO + SHIFT - INSTÂNCIA 6 ====
+  Melhor Custo (em 20 execuções): 1223.0
+  Custo Médio: 1282.05
+  Tempo Médio de Execução: 0.0053 segundos
+  Melhor Rota encontrada:
+  14 -> 5 -> 24 -> 13 -> 20 -> 16 -> 19 -> 7 -> 17 -> 22 -> 21 -> 8 -> 9 -> 12 -> 10 -> 11 -> 1 -> 2 -> 3 -> 4 -> 23 -> 6 -> 15 -> 18 -> 14
+*********************************************************************
+
+==== RESULTADO GENÉTICO + SHIFT - INSTÂNCIA 7 ====
+  Melhor Custo (em 20 execuções): 672.6999988555908
+  Custo Médio: 676.19
+  Tempo Médio de Execução: 0.0028 segundos
+  Melhor Rota encontrada:
+  3 -> 4 -> 6 -> 1 -> 8 -> 9 -> 10 -> 12 -> 7 -> 5 -> 11 -> 2 -> 3
+*********************************************************************
+
+==== RESULTADO GENÉTICO + SHIFT - INSTÂNCIA 8 ====
+  Melhor Custo (em 20 execuções): 606.0
+  Custo Médio: 607.70
+  Tempo Médio de Execução: 0.0029 segundos
+  Melhor Rota encontrada:
+  10 -> 11 -> 5 -> 7 -> 12 -> 9 -> 8 -> 1 -> 2 -> 6 -> 4 -> 3 -> 10
+*********************************************************************
+
+==== RESULTADO GENÉTICO + SHIFT - INSTÂNCIA 9 ====
+  Melhor Custo (em 20 execuções): 438.29999923706055
+  Custo Médio: 438.30
+  Tempo Médio de Execução: 0.0021 segundos
+  Melhor Rota encontrada:
+  1 -> 11 -> 10 -> 12 -> 7 -> 9 -> 8 -> 1
+*********************************************************************
+
+==== RESULTADO GENÉTICO + SHIFT - INSTÂNCIA 10 ====
+  Melhor Custo (em 20 execuções): 364.0
+  Custo Médio: 364.00
+  Tempo Médio de Execução: 0.0021 segundos
+  Melhor Rota encontrada:
+  1 -> 11 -> 10 -> 12 -> 7 -> 9 -> 8 -> 1
+*********************************************************************
+
+==== RESULTADO GENÉTICO + SHIFT - INSTÂNCIA 11 ====
+  Melhor Custo (em 20 execuções): 344.9000053405762
+  Custo Médio: 344.90
+  Tempo Médio de Execução: 0.0021 segundos
+  Melhor Rota encontrada:
+  2 -> 5 -> 4 -> 6 -> 3 -> 1 -> 2
+*********************************************************************
+
+==== RESULTADO GENÉTICO + SHIFT - INSTÂNCIA 12 ====
+  Melhor Custo (em 20 execuções): 305.0
+  Custo Médio: 305.00
+  Tempo Médio de Execução: 0.0021 segundos
+  Melhor Rota encontrada:
+  3 -> 2 -> 5 -> 1 -> 6 -> 4 -> 3
+*********************************************************************
