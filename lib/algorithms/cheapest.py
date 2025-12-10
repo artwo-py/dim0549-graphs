@@ -13,12 +13,16 @@ def cheapest_insertion(grafo : Grafo, v_inicial):
         ciclo: Uma lista contendo os vértices no ciclo.
 
     """
-    distancias = grafo.matriz_adj
 
-    nao_visitados = grafo.vertices
+    nao_visitados = list(grafo.vertices)
+
+    if v_inicial is None:
+        v_inicial = nao_visitados[0]
+
     nao_visitados.remove(v_inicial)
 
-    v_prox = min(nao_visitados, key=lambda v:distancias[v_inicial][v])
+    v_prox = min(nao_visitados, 
+                 key=lambda v: grafo.get_peso(v_inicial, v) if grafo.get_peso(v_inicial, v) is not None else INF)
 
     nao_visitados.remove(v_prox)
 
@@ -36,7 +40,14 @@ def cheapest_insertion(grafo : Grafo, v_inicial):
                 u = circuito[i]
                 w = circuito[(i+1) % len(circuito)]
 
-                custo_marginal = distancias[u][v] + distancias[v][w] - distancias[u][w]
+                peso_uv = grafo.get_peso(u, v)
+                peso_vw = grafo.get_peso(v, w)
+                peso_uw = grafo.get_peso(u, w)
+
+                if peso_uv is None or peso_vw is None or peso_uw is None:
+                    custo_marginal = INF
+                else:
+                    custo_marginal = peso_uv + peso_vw - peso_uw
 
                 if custo_marginal < min_custo_marginal:
                     min_custo_marginal = custo_marginal
