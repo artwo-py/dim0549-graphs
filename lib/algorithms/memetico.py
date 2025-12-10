@@ -1,6 +1,6 @@
 import random
 from decimal import Decimal
-from lib.algorithms.local_searches import two_opt, shift, swap
+from lib.algorithms.local_searches import two_opt
 
 try:
     import numpy as np
@@ -10,12 +10,10 @@ try:
 except ImportError: 
     HAS_NUMBA = False
 
-#  FUNÇÕES ACELERADAS (JIT / NUMBA)
 if HAS_NUMBA:
     #funcoes memetico em jit
     @jit(nopython=True)
     def jit_criar_individuo(num_vertices):
-        """Cria um indivíduo aleatório (rota) como array NumPy."""
         rota_genes = np.arange(num_vertices, dtype=np.int32)
         np.random.shuffle(rota_genes)
         rota = np.empty(num_vertices + 1, dtype=np.int32)
@@ -25,7 +23,6 @@ if HAS_NUMBA:
 
     @jit(nopython=True)
     def jit_selecao_torneio(matriz_adj, populacao, k=3):
-        """Seleção por torneio: retorna o índice do melhor competidor"""
         pop_size = len(populacao)
         melhor_indice = -1
         menor_custo = np.inf
@@ -90,14 +87,15 @@ if HAS_NUMBA:
     @jit(nopython=True)
     def memetico_acelerado(matriz_adj, pop_size=50, geracoes=15, taxa_mutacao=0.1, frequencia_bl=0.1):
         """
-        Tarefa: Execução otimizada de algoritmo memético.
-        Info: Implementação de alta performance compilada (JIT). Utiliza Ordered Crossover,
-              seleção por torneio e busca local 2-opt, inversao.
+        Tarefa: execução otimizada de algoritmo memético.
+        Info: implementação de alta performance compilada (JIT). Utiliza ordered crossover,
+              seleção por torneio e busca local 2-opt, inversao
               
         E: matriz_adj (np.array) - Matriz de adjacência (pesos) do grafo.
            pop_size (int) - Tamanho da população.
            geracoes (int) - Número de iterações do ciclo evolutivo.
            taxa_mutacao (float) - Probabilidade de mutação por indivíduo.
+           frequencia_bl (float) - Probabilidade de aplicar busca local
            
         S: (np.array, float) - Uma tupla contendo:
                                - Array de índices representando a melhor rota encontrada.
@@ -147,7 +145,6 @@ if HAS_NUMBA:
 
             populacao = nova_populacao
 
-        # Retorna o melhor global encontrado após todas as gerações
         return melhor_rota_global, melhor_custo_global
 
 def criar_individuo(vertices_id):
@@ -177,7 +174,7 @@ def crossover_ox(pai1, pai2):
     pos_atual = (fim + 1) % tamanho
     pos_p2 = (fim + 1) % tamanho
 
-    while None in filho_genes: # preenche os genes restantes na ordem de P2
+    while None in filho_genes:
         gene = genes_p2[pos_p2]
         if gene not in filho_genes:
             filho_genes[pos_atual] = gene
@@ -196,7 +193,7 @@ def memetico(grafo, geracoes: int=100, tam_populacao: int=50,
                   taxa_mutacao: float =0.1, frequencia_bl: float=0.1):
     """
     Tarefa: (4) Implementa um algoritmo memético com 2-OPT.
-    Info: Utiliza representação de rotas por listas de IDs, crossover ordenado e seleção por torneio.
+    Info: utiliza representação de rotas por listas de IDs, crossover ordenado e seleção por torneio.
 
     E: grafo (Grafo) - O objeto Grafo contendo vértices e arestas.
        geracoes (int) - Número de gerações a evoluir.
