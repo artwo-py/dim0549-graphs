@@ -1,3 +1,7 @@
+def swap(grafo):
+    """"""
+
+
 def two_opt(grafo, ciclo):
     """Busca melhoria de um ciclo usando a heurística 2-opt."""
     melhoria = True
