@@ -5,9 +5,9 @@ Descriçao: Ponto de entrada da aplicação.
 import time
 import numpy as np
 from lib.utils.file_handler import ler_diretorio
-from lib.utils.formater import gerar_relatorio_unidade_3, gerar_relatorio_genetico
-from lib.algorithms.local_searches import two_opt, shift, HAS_NUMBA as JIT_LOCAL
+from lib.utils.formater import gerar_relatorio_unidade_3, gerar_relatorio_genetico, gerar_relatorio_memetico
 
+from lib.algorithms.local_searches import two_opt, shift, HAS_NUMBA as JIT_LOCAL
 if JIT_LOCAL:
     from lib.algorithms.local_searches import two_opt_acelerado
 from lib.algorithms.nearest import nearest_neighbor, HAS_NUMBA as JIT_NEAREST
@@ -16,8 +16,11 @@ if JIT_NEAREST:
 from lib.algorithms.genetic import algoritmo_genetico, HAS_NUMBA as JIT_GENETIC
 if JIT_GENETIC:
     from lib.algorithms.genetic import executar_ga_acelerado
+from lib.algorithms.memetico import memetico, HAS_NUMBA as JIT_MEMETIC
+if JIT_MEMETIC:
+    from lib.algorithms.memetico import memetico_acelerado
 
-MODO_ACELERADO = JIT_LOCAL and JIT_NEAREST and JIT_GENETIC
+MODO_ACELERADO = JIT_LOCAL and JIT_NEAREST and JIT_GENETIC and JIT_MEMETIC
 
 inicio_timer = time.time()
 directory = 'data/unit_3'
@@ -120,6 +123,52 @@ for i, grafo in enumerate(grafos):
     })
 
 gerar_relatorio_genetico(estatisticas_genetico)
+
+print(f"\n\n--- Algoritmo Memético (20 execuções por grafo) ---")
+estatisticas_memetico_2opt = []
+for i, grafo in enumerate(grafos):
+    print(f"\nProcessando Memético Instância {i+1}/{len(grafos)} ({grafo.nome_arquivo})...")
+    
+    melhor_global = {'custo': float('inf'), 'rota': []}
+    soma_custos, soma_tempos = 0, 0
+
+    if JIT_MEMETIC:
+        ids = [v.id for v in grafo.vertices]
+        mapa = {id_v: idx for idx, id_v in enumerate(ids)}
+        n = len(ids)
+        matriz_np = np.full((n, n), np.inf, dtype=np.float32)
+        for v in grafo.vertices:
+            idx1 = mapa[v.id]
+            for viz, peso in grafo.get_vizinhos(v.id).items():
+                matriz_np[idx1, mapa[viz]] = float(peso)
+
+    for execucao in range(1, 21):
+        t_ini = time.time()
+
+        if JIT_MEMETIC:
+            indices, custo = memetico_acelerado(matriz_np)
+            ciclo_final = [ids[idx] for idx in indices]
+        else:
+            ciclo_final, custo = memetico(grafo)
+            
+        duracao = time.time() - t_ini
+        soma_custos += custo
+        soma_tempos += duracao
+        
+        print(f"    > Execução {execucao:02d}/20 | Custo Final: {custo:.2f} | Tempo: {duracao:.4f}s")
+        
+        if custo < melhor_global['custo']:
+            melhor_global['custo'] = custo
+            melhor_global['rota'] = ciclo_final
+
+    estatisticas_memetico_2opt.append({
+        'melhor_custo': melhor_global['custo'],
+        'melhor_rota': melhor_global['rota'],
+        'media_custo': soma_custos / 20,
+        'media_tempo': soma_tempos / 20
+    })
+
+gerar_relatorio_memetico(estatisticas_memetico_2opt)
 
 print("\nProcessamento concluído.")
 print("\nTempo total: %.4f segundos" % (time.time() - inicio_timer))

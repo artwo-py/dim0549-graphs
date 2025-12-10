@@ -419,6 +419,24 @@ def formatar_vmp_melhorado(vmp_ciclo: dict, nome_algoritmo: str):
     output.append(f"  {rota_formatada}")
     return "\n".join(output)
 
+def gerar_relatorio_memetico(dados_estatisticos):
+    """
+    Info: (Função de relatórios) Gera o relatório estatístico
+          contendo melhor custo, média e tempo médio das 20 execuções.
+    E: dados_estatisticos (list[dict]) - Lista contendo métricas de cada instância processada.
+    S: None
+    """
+    with open("resultados_memetico.txt", "w", encoding='utf-8') as f:
+        for i, dados in enumerate(dados_estatisticos):
+            f.write(f"\n==== RESULTADO MEMÉTICO - INSTÂNCIA {i+1} ====\n")
+            f.write(f"  Melhor Custo (em 20 execuções): {dados['melhor_custo']}\n")
+            f.write(f"  Custo Médio: {dados['media_custo']:.2f}\n")
+            f.write("  Melhor Rota encontrada:\n")
+            rota_formatada = " -> ".join(map(str, dados['melhor_rota']))
+            f.write(f"  {rota_formatada}\n")
+            f.write("*********************************************************************\n")
+
+
 def gerar_relatorio_genetico(dados_estatisticos: list):
     """
     Info: (Função de relatórios) Gera o relatório estatístico (resultados_genetico.txt)
