@@ -456,22 +456,27 @@ def gerar_relatorio_genetico(dados_estatisticos: list):
             f.write(f"  {rota_formatada}\n")
             f.write("*********************************************************************\n")
 
-def gerar_relatorio_unidade_3(ciclos: list, ciclos_melhorados):
+def gerar_relatorio_unidade_3(ciclos_nn: list, ciclos_nn_melhorados: list, ciclos_ci: list, ciclos_ci_melhorados: list):
     """
     Info: (Função de relatórios) Agrega todos os resultados da unidade 3
           em um relatório textual completo (resultados.txt).
-          Esta função executa os algoritmos específicos para cada grafo
-          e formata seus resultados.
-    E: ciclos (list[Grafo]) - A lista de todos os ciclos carregados.
-    E: ciclos_melhorados (list[Grafo]) - A lista de todos os ciclos melhorados (via busca local) carregados.
+    E: ciclos_nn (list[dict]) - NN antes da busca local.
+    E: ciclos_nn_melhorados (list[dict]) - NN após a busca local.
+    E: ciclos_ci (list[dict]) - CI antes da busca local.
+    E: ciclos_ci_melhorados (list[dict]) - CI após a busca local.
     S: None (escreve diretamente em "resultados.txt")
     """
-    with open("resultados.txt", "w", encoding='utf-8') as f:        
-        for i in range(len(ciclos)):
-            # f.write(f"Arquivo: {grafo.nome_arquivo}\n")
-            
-            f.write(formatar_vmp(ciclos[i], f"Vizinho Mais Próximo + Busca Local - Instância {i+1}"))
-            f.write(formatar_vmp_melhorado(ciclos_melhorados[i], f"Vizinho Mais Próximo + Busca Local Melhorado - Instância {i+1}"))
+    with open("resultados.txt", "w", encoding='utf-8') as f:
+        for i in range(len(ciclos_nn)):
+
+            # --- Resultados Vizinho Mais Próximo ---
+            f.write(formatar_vmp(ciclos_nn[i], f"Vizinho Mais Próximo - Instância {i+1}"))
+            f.write(formatar_vmp_melhorado(ciclos_nn_melhorados[i], f"Vizinho Mais Próximo + 2-opt - Instância {i+1}"))
+            f.write("---------------------------------------------------------------------\n")
+
+            # --- Resultados Inserção Mais Barata ---
+            f.write(formatar_vmp(ciclos_ci[i], f"Inserção Mais Barata - Instância {i+1}"))
+            f.write(formatar_vmp_melhorado(ciclos_ci_melhorados[i], f"Inserção Mais Barata + swap - Instância {i+1}"))
             f.write("*********************************************************************\n")
             f.write("\n")
 
