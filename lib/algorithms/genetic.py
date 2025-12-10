@@ -4,15 +4,158 @@ from lib.algorithms.local_searches import shift
 try:
     import numpy as np
     from numba import jit
-    from lib.algorithms.local_searches import jit_custo_caminho, jit_shift_search
+    from lib.algorithms.local_searches import jit_custo_caminho
     HAS_NUMBA = True    
 except ImportError: 
     HAS_NUMBA = False
 
-# --- FUNÇÕES ACELERADAS (JIT - COMPILAÇÃO TOTAL) ---
+# Implementação original, lenta, interpretada e com o objeto Graph e seus derivados
+def gerar_populacao(grafo, tam_populacao):
+    """
+    (1) Geração da População Inicial.
+    Info: Cria indivíduos com permutações aleatórias dos vértices.
+    E: grafo (Grafo), tam_populacao (int)
+    S: list - Lista de ciclos (listas de IDs).
+    """
+    vertices = [v.id for v in grafo.vertices]
+    populacao = []
+    for _ in range(tam_populacao):
+        rota = vertices[:]
+        random.shuffle(rota)
+        populacao.append(rota + [rota[0]])
+    return populacao
+
+def avaliar_fitness(grafo, populacao):
+    """
+    (2) Avaliação de Fitness.
+    Info: Calcula o custo de cada cromossomo e ordena a população pelo melhor (menor custo).
+    E: grafo (Grafo), populacao (list)
+    S: list - População ordenada por fitness.
+    """
+    def calcular_custo(ciclo):
+        soma = 0
+        for i in range(len(ciclo) - 1):
+            soma += grafo.get_peso(ciclo[i], ciclo[i+1])
+        return soma
+    
+    populacao.sort(key=calcular_custo)
+    return populacao
+
+def selecao_torneio(grafo, populacao, k=3):
+    """
+    (3.1) Seleção (Torneio).
+    Info: Seleciona um pai comparando k indivíduos aleatórios.
+    """
+    competidores = random.sample(populacao, k)
+    def custo(c):
+        soma = 0
+        for i in range(len(c) - 1):
+            soma += grafo.get_peso(c[i], c[i+1])
+        return soma
+    return min(competidores, key=custo)
+
+def cruzamento_ox(pai1, pai2):
+    """
+    (3.2) Cruzamento (Ordered Crossover - OX1).
+    Info: Preserva ordem relativa e garante integridade do ciclo.
+    """
+    genes_p1 = pai1[:-1]
+    genes_p2 = pai2[:-1]
+    tamanho = len(genes_p1)
+
+    inicio = random.randint(0, tamanho - 1)
+    fim = random.randint(inicio, tamanho - 1)
+
+    filho = [None] * tamanho
+    filho[inicio:fim+1] = genes_p1[inicio:fim+1]
+
+    pos_atual = (fim + 1) % tamanho
+    pos_p2 = (fim + 1) % tamanho
+
+    while None in filho:
+        gene = genes_p2[pos_p2]
+        if gene not in filho:
+            filho[pos_atual] = gene
+            pos_atual = (pos_atual + 1) % tamanho
+        pos_p2 = (pos_p2 + 1) % tamanho
+
+    return filho + [filho[0]]
+
+def aplicar_mutacao(individuo, taxa_mutacao):
+    """
+    (3.3) Mutação (Swap).
+    Info: Troca dois genes de lugar com base na taxa/probabilidade.
+    """
+    if random.random() < taxa_mutacao and len(individuo) > 3:
+        idx1, idx2 = random.sample(range(1, len(individuo) - 1), 2)
+        individuo[idx1], individuo[idx2] = individuo[idx2], individuo[idx1]
+    return individuo
+
+def criar_nova_geracao(grafo, populacao, taxa_mutacao):
+    """
+    (3) Nova Geração.
+    Info: Orquestra Seleção, Cruzamento e Mutação para criar novos indivíduos.
+    """
+    tam_pop = len(populacao)
+    nova_populacao = []
+    
+    # Elitismo
+    nova_populacao.append(populacao[0])
+    
+    while len(nova_populacao) < tam_pop:
+        pai1 = selecao_torneio(grafo, populacao)
+        pai2 = selecao_torneio(grafo, populacao)
+        
+        filho = cruzamento_ox(pai1, pai2)
+        filho = aplicar_mutacao(filho, taxa_mutacao)
+        
+        nova_populacao.append(filho)
+        
+    return nova_populacao
+
+def algoritmo_genetico(grafo, geracoes=100, tam_populacao=50, taxa_mutacao=0.1):
+    """
+    Tarefa 2: Orquestrador do Algoritmo Genético (Padrão).
+    Info: Executa o ciclo evolutivo.
+    """
+    # 1 - Início
+    populacao = gerar_populacao(grafo, tam_populacao)
+    
+    # 5 - Teste (Loop de Gerações)
+    for _ in range(geracoes):
+        # 2 - Fitness
+        populacao = avaliar_fitness(grafo, populacao)
+        
+        # 3 - Nova Geração & 4 - Renovar
+        populacao = criar_nova_geracao(grafo, populacao, taxa_mutacao)
+    
+    populacao = avaliar_fitness(grafo, populacao)
+    melhor_solucao = populacao[0]
+    
+    custo_final = 0
+    for i in range(len(melhor_solucao) - 1):
+        custo_final += grafo.get_peso(melhor_solucao[i], melhor_solucao[i+1])
+        
+    return melhor_solucao, custo_final
+
+# Implementação acelerada com numba, rápida, compilada e com matriz de adj direta float32
 if HAS_NUMBA:
+    
+    @jit(nopython=True)
+    def jit_selecao_torneio(populacao, fitness, top_half):
+        """
+        (3.1) Seleção JIT.
+        Info: Seleciona índice de um pai via torneio simplificado na metade superior.
+        """
+        idx = np.random.randint(0, top_half)
+        return populacao[idx]
+
     @jit(nopython=True)
     def jit_crossover_ox(pai1, pai2):
+        """
+        (3.2) Cruzamento OX1 JIT.
+        Info: Implementação vetorial do Ordered Crossover.
+        """
         tamanho = len(pai1) - 1
         filho = np.full(tamanho + 1, -1, dtype=np.int32)
         
@@ -46,140 +189,75 @@ if HAS_NUMBA:
         return filho
 
     @jit(nopython=True)
-    def executar_ga_acelerado(matriz_adj, pop_size=50, geracoes=100, taxa_mutacao=0.2):
+    def jit_mutacao(filho, taxa_mutacao):
         """
-        Tarefa: (3*) Execução otimizada de Algoritmo Genético.
-        Info: Implementação de alta performance compilada (JIT). Utiliza Ordered Crossover (OX1),
-              seleção por torneio, mutação Swap e aplica busca local Shift no melhor indivíduo.
-              
-        E: matriz_adj (np.array) - Matriz de adjacência (pesos) do grafo.
-           pop_size (int) - Tamanho da população.
-           geracoes (int) - Número de iterações do ciclo evolutivo.
-           taxa_mutacao (float) - Probabilidade de mutação por indivíduo.
-           
-        S: (np.array, float) - Uma tupla contendo:
-                               - Array de índices representando a melhor rota encontrada.
-                               - Custo total (fitness) dessa rota.
+        (3.3) Mutação Swap JIT.
+        Info: Realiza a troca de genes se a probabilidade for atendida.
+        """
+        n = len(filho)
+        if np.random.random() < taxa_mutacao:
+            idx_a = np.random.randint(1, n - 1)
+            idx_b = np.random.randint(1, n - 1)
+            while idx_a == idx_b:
+                idx_b = np.random.randint(1, n - 1)
+                
+            temp = filho[idx_a]
+            filho[idx_a] = filho[idx_b]
+            filho[idx_b] = temp
+        return filho
+
+    @jit(nopython=True)
+    def jit_algoritmo_genetico(matriz_adj, pop_size=50, geracoes=100, taxa_mutacao=0.2):
+        """
+        Tarefa: Orquestrador do Algoritmo Genético (Acelerado JIT).
+        Info: Implementa o ciclo (1) a (5) inteiramente compilado para a CPU.
         """
         n_cidades = matriz_adj.shape[0]
         
+        # Geração da População Inicial
         populacao = np.zeros((pop_size, n_cidades + 1), dtype=np.int32)
         base = np.arange(n_cidades, dtype=np.int32)
-        
         for i in range(pop_size):
             np.random.shuffle(base)
             populacao[i, :n_cidades] = base
             populacao[i, n_cidades] = base[0]
             
+        # Teste: Loop de Gerações
         for _ in range(geracoes):
+            
+            #Fitness: Avaliar cada cromossomo
             fitness = np.zeros(pop_size, dtype=np.float32)
             for i in range(pop_size):
                 fitness[i] = jit_custo_caminho(populacao[i], matriz_adj)
             
+            # Ordenação para Elitismo e Seleção
             idx_sorted = np.argsort(fitness)
             populacao = populacao[idx_sorted]
             
+            # Nova Geração (Preparo)
             nova_pop = np.empty_like(populacao)
             nova_pop[0] = populacao[0] # Elitismo
             
-            # Crossover e Mutação
             top_half = pop_size // 2
             
+            # Loop de Reprodução
             for k in range(1, pop_size):
-                idx_p1 = np.random.randint(0, top_half)
-                idx_p2 = np.random.randint(0, top_half)
+                # Seleção
+                pai1 = jit_selecao_torneio(populacao, fitness, top_half)
+                pai2 = jit_selecao_torneio(populacao, fitness, top_half)
                 
-                filho = jit_crossover_ox(populacao[idx_p1], populacao[idx_p2])
+                # Cruzamento
+                filho = jit_crossover_ox(pai1, pai2)
                 
-                # Mutação (Swap simples)
-                if np.random.random() < taxa_mutacao:
-                    idx_a = np.random.randint(1, n_cidades - 1)
-                    idx_b = np.random.randint(1, n_cidades - 1)
-                    while idx_a == idx_b:
-                        idx_b = np.random.randint(1, n_cidades - 1)
-                        
-                    temp = filho[idx_a]
-                    filho[idx_a] = filho[idx_b]
-                    filho[idx_b] = temp
-                    
+                # Mutação
+                filho = jit_mutacao(filho, taxa_mutacao)
+                
                 nova_pop[k] = filho
             
+            # Renovar População
             populacao = nova_pop
 
         melhor_ind = populacao[0]
-        melhor_ind, custo_final = jit_shift_search(melhor_ind, matriz_adj)
+        custo_final = jit_custo_caminho(melhor_ind, matriz_adj)
         
         return melhor_ind, custo_final
-
-# --- FUNÇÕES PADRÃO (Python Puro - Lento) ---
-def algoritmo_genetico(grafo, geracoes=100, tam_populacao=50, taxa_mutacao=0.1):
-    """
-    Tarefa: (3) Execução padrão de Algoritmo Genético para o PCV.
-    Info: Utiliza representação de rotas por listas de IDs, crossover ordenado (OX1) e seleção por torneio.
-          Esta versão é flexível mas menos performática que a acelerada.
-
-    E: grafo (Grafo) - O objeto Grafo contendo vértices e arestas.
-       geracoes (int) - Número de gerações a evoluir.
-       tam_populacao (int) - Quantidade de indivíduos na população.
-       taxa_mutacao (float) - Probabilidade de mutação (0.0 a 1.0).
-
-    S: (list, float) - Uma tupla contendo:
-                       - Lista com os IDs dos vértices da melhor rota.
-                       - Custo total calculado dessa rota.
-    """
-    vertices = [v.id for v in grafo.vertices]
-    def criar_individuo():
-        rota = vertices[:]
-        random.shuffle(rota)
-        return rota + [rota[0]]
-    def calcular_fitness(ciclo):
-        soma = 0
-        for i in range(len(ciclo) - 1):
-            soma += grafo.get_peso(ciclo[i], ciclo[i+1])
-        return soma
-    populacao = [criar_individuo() for _ in range(tam_populacao)]
-    for _ in range(geracoes):
-        populacao.sort(key=calcular_fitness)
-        nova_populacao = [populacao[0]]
-        while len(nova_populacao) < tam_populacao:
-            pai1 = selecao_torneio(grafo, populacao)
-            pai2 = selecao_torneio(grafo, populacao)
-            filho = crossover_ox(pai1, pai2)
-            if random.random() < taxa_mutacao:
-                mutacao_troca(filho)
-            nova_populacao.append(filho)
-        populacao = nova_populacao
-    melhor_solucao = min(populacao, key=calcular_fitness)
-    return melhor_solucao, calcular_fitness(melhor_solucao)
-
-def selecao_torneio(grafo, populacao, k=3):
-    competidores = random.sample(populacao, k)
-    def custo(c):
-        soma = 0
-        for i in range(len(c) - 1):
-            soma += grafo.get_peso(c[i], c[i+1])
-        return soma
-    return min(competidores, key=custo)
-
-def crossover_ox(pai1, pai2):
-    genes_p1 = pai1[:-1]
-    genes_p2 = pai2[:-1]
-    tamanho = len(genes_p1)
-    inicio = random.randint(0, tamanho - 1)
-    fim = random.randint(inicio, tamanho - 1)
-    filho_genes = [None] * tamanho
-    filho_genes[inicio:fim+1] = genes_p1[inicio:fim+1]
-    pos_atual = (fim + 1) % tamanho
-    pos_p2 = (fim + 1) % tamanho
-    while None in filho_genes:
-        gene = genes_p2[pos_p2]
-        if gene not in filho_genes:
-            filho_genes[pos_atual] = gene
-            pos_atual = (pos_atual + 1) % tamanho
-        pos_p2 = (pos_p2 + 1) % tamanho
-    return filho_genes + [filho_genes[0]]
-
-def mutacao_troca(ciclo):
-    if len(ciclo) > 3:
-        idx1, idx2 = random.sample(range(1, len(ciclo) - 1), 2)
-        ciclo[idx1], ciclo[idx2] = ciclo[idx2], ciclo[idx1]
