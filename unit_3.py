@@ -7,7 +7,7 @@ import numpy as np
 from lib.utils.file_handler import ler_diretorio
 from lib.utils.formater import gerar_relatorio_unidade_3, gerar_relatorio_genetico, gerar_relatorio_memetico
 
-from lib.algorithms.local_searches import two_opt, shift, HAS_NUMBA as JIT_LOCAL
+from lib.algorithms.local_searches import swap, two_opt, shift, HAS_NUMBA as JIT_LOCAL
 if JIT_LOCAL:
     from lib.algorithms.local_searches import two_opt_acelerado
 from lib.algorithms.nearest import nearest_neighbor, HAS_NUMBA as JIT_NEAREST
@@ -19,6 +19,7 @@ if JIT_GENETIC:
 from lib.algorithms.memetico import memetico, HAS_NUMBA as JIT_MEMETIC
 if JIT_MEMETIC:
     from lib.algorithms.memetico import memetico_acelerado
+from lib.algorithms.cheapest import cheapest_insertion
 
 MODO_ACELERADO = JIT_LOCAL and JIT_NEAREST and JIT_GENETIC and JIT_MEMETIC
 
@@ -70,9 +71,38 @@ for i, grafo in enumerate(grafos):
     rota_melhorada_dict[tuple(ciclo_melhorado)] = custo_melhorado
     rotas_melhoradas.append(rota_melhorada_dict)
 
-gerar_relatorio_unidade_3(rotas, rotas_melhoradas)
 
-# --- 2: Algoritmo Genético + Shift ---
+# --- 2: Inserção Mais Barata + Swap ---
+ciclos_ci, custos_ci, rotas_ci = [], [], []
+ciclos_ci_melhorados, custos_ci_melhorados, rotas_ci_melhoradas = [], [], []
+
+print(f"\n--- Algoritmo de Inserção Mais Barata + Swap ---\n")
+print("--> Usando a versão Decimal/Padrão")
+
+print(f"Processando {len(grafos)} grafos...\n")
+
+for i, grafo in enumerate(grafos):
+    t_inicio_grafo = time.time()
+    rota_dict, rota_melhorada_dict = {}, {}
+    inicio = grafo.vertices[0]
+
+    ciclo, custo = cheapest_insertion(grafo, inicio)
+
+    ciclo_melhorado, custo_melhorado = swap(grafo, ciclo)
+
+    duracao = time.time() - t_inicio_grafo
+    print(f" > Grafo {i+1:02d} ({grafo.nome_arquivo}) | CI: {custo:.2f} -> Swap: {custo_melhorado:.2f} | Tempo: {duracao:.4f}s")
+
+    ciclos_ci.append(ciclo); custos_ci.append(custo)
+    rota_dict[tuple(ciclo)] = custo; rotas_ci.append(rota_dict)
+
+    ciclos_ci_melhorados.append(ciclo_melhorado); custos_ci_melhorados.append(custo_melhorado)
+    rota_melhorada_dict[tuple(ciclo_melhorado)] = custo_melhorado
+    rotas_ci_melhoradas.append(rota_melhorada_dict)
+
+gerar_relatorio_unidade_3(rotas, rotas_melhoradas, rotas_ci, rotas_ci_melhoradas)
+
+# --- 3: Algoritmo Genético + Shift ---
 print(f"\n--- Algoritmo Genético + Shift (20 execuções por grafo) ---\n")
 if JIT_GENETIC: 
     print("--> MODO ACELERADO (JIT) ATIVADO")

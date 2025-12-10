@@ -1,3 +1,6 @@
+from lib.core.graph import Grafo
+
+
 try:
     import numpy as np
     from numba import jit
@@ -181,3 +184,76 @@ def shift(grafo, ciclo):
             if melhoria: break
 
     return melhor_ciclo, melhor_custo
+
+
+def swap(grafo: Grafo, ciclo_inicial):
+    """Busca melhoria de um ciclo usando a heurística Vertex Swap (troca de dois vértices)."""
+    
+    def custo_total(c):
+        soma = 0
+        for i in range(len(c) - 1):
+            soma += grafo.get_peso(c[i], c[i+1])
+        return soma
+    
+    ciclo_atual = ciclo_inicial[:] 
+    custo_atual = custo_total(ciclo_atual)
+    n = len(ciclo_atual) - 1 # núm. vértices únicos (0 a tam_ciclo_orig-1)
+    
+    melhoria_encontrada = True
+
+    while melhoria_encontrada:
+        melhoria_encontrada = False
+        melhor_delta_custo = 0.0
+        melhor_i, melhor_j = -1, -1
+
+        # i vai de 0 até (tam_ciclo_orig - 2) e j vai de i+1 até (tam_ciclo_orig - 1).
+        for i in range(0, n - 1): 
+            for j in range(i + 1, n):
+
+                v_i = ciclo_atual[i]
+                v_j = ciclo_atual[j]
+                
+                v_i_anterior = ciclo_atual[(i - 1 + n) % n]
+                v_i_posterior = ciclo_atual[(i + 1) % n]
+                v_j_anterior = ciclo_atual[(j - 1 + n) % n]
+                v_j_posterior = ciclo_atual[(j + 1) % n]
+                
+                delta_custo = 0.0
+                
+                if j == i + 1:  #adjacentes são 3 arestas ( - A - B - )
+                    custo_removido = (
+                        grafo.get_peso(v_i_anterior, v_i) + 
+                        grafo.get_peso(v_i, v_j) + 
+                        grafo.get_peso(v_j, v_j_posterior)
+                    )
+                    custo_adicionado = (
+                        grafo.get_peso(v_i_anterior, v_j) + 
+                        grafo.get_peso(v_j, v_i) + 
+                        grafo.get_peso(v_i, v_j_posterior)
+                    )
+
+                else:   # separados são 4 arestas ( - A - ? - B - )
+                    custo_removido = (
+                        grafo.get_peso(v_i_anterior, v_i) + grafo.get_peso(v_i, v_i_posterior) + 
+                        grafo.get_peso(v_j_anterior, v_j) + grafo.get_peso(v_j, v_j_posterior)
+                    )
+                    custo_adicionado = (
+                        grafo.get_peso(v_i_anterior, v_j) + grafo.get_peso(v_j, v_i_posterior) + 
+                        grafo.get_peso(v_j_anterior, v_i) + grafo.get_peso(v_i, v_j_posterior)
+                    )
+
+                delta_custo = custo_adicionado - custo_removido
+
+                if delta_custo < melhor_delta_custo:
+                    melhor_delta_custo = delta_custo
+                    melhor_i = i
+                    melhor_j = j
+                    melhoria_encontrada = True
+        
+        if melhoria_encontrada:
+            ciclo_atual[melhor_i], ciclo_atual[melhor_j] = ciclo_atual[melhor_j], ciclo_atual[melhor_i]
+            custo_atual += melhor_delta_custo
+            if melhor_i == 0 or melhor_j == 0:
+                ciclo_atual[n] = ciclo_atual[0]
+            
+    return ciclo_atual, custo_atual

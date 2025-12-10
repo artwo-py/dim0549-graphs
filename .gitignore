@@ -7,3 +7,5 @@ venv
 **/render/
 .idea/**
 resultados.txt
+resultados_genetico.txt
+resultados_memetico.txt
