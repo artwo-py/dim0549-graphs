@@ -24,5 +24,6 @@ Repositório destinado à implementação dos projetos práticos da disciplina D
 4. Executar o comando `. venv/bin/activate` para ativar a `venv`
 5. Executar o comando `pip install -r requirements.txt` para instalar as dependências
 6. Executar os seguintes comandos:
-   - `python3 unit_1.py` para iniciar o processamento para tarefas da unidade 1
-   - `python3 unit_2.py` para iniciar o processamento para tarefas da unidade 2
+   - `python unit_1.py` para iniciar o processamento para tarefas da unidade 1
+   - `python unit_2.py` para iniciar o processamento para tarefas da unidade 2
+   - `python unit_3.py` para iniciar o processamento para tarefas da unidade 3
