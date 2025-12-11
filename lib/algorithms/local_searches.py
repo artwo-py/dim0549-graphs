@@ -345,8 +345,8 @@ def swap(grafo: Grafo, ciclo_inicial):
         melhor_delta_custo = 0.0
         melhor_i, melhor_j = -1, -1
 
-        # i vai de 0 até (tam_ciclo_orig - 2) e j vai de i+1 até (tam_ciclo_orig - 1).
-        for i in range(0, n - 1): 
+        # i vai de 1 até (tam_ciclo_orig - 2) e j vai de i+1 até (tam_ciclo_orig - 1).
+        for i in range(1, n - 1): 
             for j in range(i + 1, n):
 
                 v_i = ciclo_atual[i]
@@ -392,7 +392,5 @@ def swap(grafo: Grafo, ciclo_inicial):
         if melhoria_encontrada:
             ciclo_atual[melhor_i], ciclo_atual[melhor_j] = ciclo_atual[melhor_j], ciclo_atual[melhor_i]
             custo_atual += melhor_delta_custo
-            if melhor_i == 0 or melhor_j == 0:
-                ciclo_atual[n] = ciclo_atual[0]
             
     return ciclo_atual, custo_atual
