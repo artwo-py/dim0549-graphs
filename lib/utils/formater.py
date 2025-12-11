@@ -374,11 +374,7 @@ def formatar_arborescencia(arbo_grafo: Grafo, nome_algoritmo: str):
 
 def formatar_vmp(vmp_ciclo: dict, nome_algoritmo: str, it=None):
     """
-    Info: (Função de relatórios) Formata o resultado do algoritmo de inserção do
-        vizinho mais próximo para o PCV.
-    E: vmp_ciclo (list) - O ciclo resultante do algoritmo.
-    E: nome_algoritmo (str) - Nome ("Vizinho Mais Próximo + Busca Local")
-    S: str - Texto formatado.
+    Info: (Função de relatórios) Formata o resultado do algoritmo construtivo.
     """
     titulo = f"\n\n==== RESULTADO {nome_algoritmo.upper()} ===="
     output = [titulo]
@@ -398,11 +394,7 @@ def formatar_vmp(vmp_ciclo: dict, nome_algoritmo: str, it=None):
 
 def formatar_vmp_melhorado(vmp_ciclo: dict, nome_algoritmo: str):
     """
-    Info: (Função de relatórios) Formata o resultado do algoritmo de inserção do
-        vizinho mais próximo para o PCV.
-    E: vmp_ciclo (list) - O ciclo resultante do algoritmo.
-    E: nome_algoritmo (str) - Nome ("Vizinho Mais Próximo + Busca Local")
-    S: str - Texto formatado.
+    Info: (Função de relatórios) Formata o resultado após busca local.
     """
     output = []
     if not vmp_ciclo or len(vmp_ciclo) == 0:
@@ -419,34 +411,50 @@ def formatar_vmp_melhorado(vmp_ciclo: dict, nome_algoritmo: str):
     output.append(f"  {rota_formatada}")
     return "\n".join(output)
 
-def gerar_relatorio_memetico(dados_estatisticos):
+def gerar_relatorio_memetico(dados_completos: list):
     """
-    Info: (Função de relatórios) Gera o relatório estatístico
-          contendo melhor custo, média e tempo médio das 20 execuções.
-    E: dados_estatisticos (list[dict]) - Lista contendo métricas de cada instância processada.
+    Info: (Função de relatórios) Gera o relatório 'resultados_memetico.txt'
+          consolidando os resultados das 3 variantes meméticas.
+    E: dados_completos (list) - Lista de dicionários com resultados por variante.
     S: None
     """
     with open("resultados_memetico.txt", "w", encoding='utf-8') as f:
-        for i, dados in enumerate(dados_estatisticos):
-            f.write(f"\n==== RESULTADO MEMÉTICO - INSTÂNCIA {i+1} ====\n")
+        # Ordena para agrupar por variante
+        dados_ordenados = sorted(dados_completos, key=lambda x: (x['variante'], x['instancia']))
+        
+        variante_atual = None
+        
+        for dados in dados_ordenados:
+            if dados['variante'] != variante_atual:
+                variante_atual = dados['variante']
+                f.write(f"\n\n{'='*60}\n")
+                f.write(f"=== RESULTADOS: {variante_atual.upper()} ===\n")
+                f.write(f"{'='*60}\n")
+            
+            f.write(f"\n---- INSTÂNCIA {dados['instancia']} ----\n")
             f.write(f"  Melhor Custo (em 20 execuções): {dados['melhor_custo']}\n")
             f.write(f"  Custo Médio: {dados['media_custo']:.2f}\n")
+            f.write(f"  Tempo Médio: {dados['media_tempo']:.4f}s\n")
             f.write("  Melhor Rota encontrada:\n")
-            rota_formatada = " -> ".join(map(str, dados['melhor_rota']))
-            f.write(f"  {rota_formatada}\n")
-            f.write("*********************************************************************\n")
+            rota_str = " -> ".join(map(str, dados['melhor_rota']))
+            f.write(f"  {rota_str}\n")
+            f.write(f"{'-'*60}\n")
 
 
 def gerar_relatorio_genetico(dados_estatisticos: list):
     """
     Info: (Função de relatórios) Gera o relatório estatístico (resultados_genetico.txt)
-          contendo melhor custo, média e tempo médio das 20 execuções do Genético + Shift.
+          contendo melhor custo, média e tempo médio das 20 execuções do Genético Puro.
     E: dados_estatisticos (list[dict]) - Lista contendo métricas de cada instância processada.
     S: None (escreve em "resultados_genetico.txt")
     """
     with open("resultados_genetico.txt", "w", encoding='utf-8') as f:
-        for i, dados in enumerate(dados_estatisticos):
-            f.write(f"\n==== RESULTADO GENÉTICO + SHIFT - INSTÂNCIA {i+1} ====\n")
+        f.write(f"{'='*60}\n")
+        f.write(f"=== RESULTADOS: GENÉTICO PURO ===\n")
+        f.write(f"{'='*60}\n")
+        
+        for dados in dados_estatisticos:
+            f.write(f"\n---- INSTÂNCIA {dados['instancia']} ----\n")
             f.write(f"  Melhor Custo (em 20 execuções): {dados['melhor_custo']}\n")
             f.write(f"  Custo Médio: {dados['media_custo']:.2f}\n")
             f.write(f"  Tempo Médio de Execução: {dados['media_tempo']:.4f} segundos\n")
@@ -454,31 +462,26 @@ def gerar_relatorio_genetico(dados_estatisticos: list):
             
             rota_formatada = " -> ".join(map(str, dados['melhor_rota']))
             f.write(f"  {rota_formatada}\n")
-            f.write("*********************************************************************\n")
+            f.write(f"{'-'*60}\n")
 
 def gerar_relatorio_unidade_3(ciclos_nn: list, ciclos_nn_melhorados: list, ciclos_ci: list, ciclos_ci_melhorados: list):
     """
-    Info: (Função de relatórios) Agrega todos os resultados da unidade 3
+    Info: (Função de relatórios) Agrega todos os resultados da unidade 3 (Heurísticas Construtivas)
           em um relatório textual completo (resultados.txt).
-    E: ciclos_nn (list[dict]) - NN antes da busca local.
-    E: ciclos_nn_melhorados (list[dict]) - NN após a busca local.
-    E: ciclos_ci (list[dict]) - CI antes da busca local.
-    E: ciclos_ci_melhorados (list[dict]) - CI após a busca local.
     S: None (escreve diretamente em "resultados.txt")
     """
     with open("resultados.txt", "w", encoding='utf-8') as f:
         for i in range(len(ciclos_nn)):
 
             # --- Resultados Vizinho Mais Próximo ---
-            f.write(formatar_vmp(ciclos_nn[i], f"Vizinho Mais Próximo - Instância {i+1}"))
-            f.write(formatar_vmp_melhorado(ciclos_nn_melhorados[i], f"Vizinho Mais Próximo + 2-opt - Instância {i+1}"))
-            f.write("---------------------------------------------------------------------\n")
+            f.write(formatar_vmp(ciclos_nn[i], f"VIZINHO MAIS PRÓXIMO - INSTÂNCIA {i+1}"))
+            f.write(formatar_vmp_melhorado(ciclos_nn_melhorados[i], f"Vizinho Mais Próximo + 2-opt"))
+            f.write("\n" + "-"*70 + "\n")
 
             # --- Resultados Inserção Mais Barata ---
-            f.write(formatar_vmp(ciclos_ci[i], f"Inserção Mais Barata - Instância {i+1}"))
-            f.write(formatar_vmp_melhorado(ciclos_ci_melhorados[i], f"Inserção Mais Barata + swap - Instância {i+1}"))
-            f.write("*********************************************************************\n")
-            f.write("\n")
+            f.write(formatar_vmp(ciclos_ci[i], f"INSERÇÃO MAIS BARATA - INSTÂNCIA {i+1}"))
+            f.write(formatar_vmp_melhorado(ciclos_ci_melhorados[i], f"Inserção Mais Barata + Swap"))
+            f.write("\n" + "*"*70 + "\n\n")
 
 
 def gerar_relatorio_completo(grafo: Grafo):
